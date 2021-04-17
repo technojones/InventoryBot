@@ -1,0 +1,28 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+Search Material, Planet. Optional, player.
+
+if mat = empty, return error
+if planet = empty, return global
+	if global empty, return "see CX"
+if planet != empty, return planet
+	if planet empty, return global or "see CX" if global empty
+if player specified,
+	if planet = empty, return all entries for player
+=======
+=======
+>>>>>>> 2092e380f0e4bea62eb116f6535e9af85421e109
+Search Material, Planet. Optional, player.
+
+if mat = empty, return error
+if planet = empty, return global
+	if global empty, return "see CX"
+if planet != empty, return planet
+	if planet empty, return global or "see CX" if global empty
+if player specified,
+	if planet = empty, return all entries for player
+<<<<<<< HEAD
+>>>>>>> 2092e380f0e4bea62eb116f6535e9af85421e109
+=======
+>>>>>>> 2092e380f0e4bea62eb116f6535e9af85421e109
+	if planet != empty, return price for player and planet. If no such player/planet combo exist, return global or see cx.

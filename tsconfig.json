@@ -1,0 +1,17 @@
+{
+   "compilerOptions": {
+      "lib": ["es2020"],
+      "target": "es2020",
+      "module": "commonJS",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "allowJs": true,
+      "outDir": "./dist",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true
+   },
+    "include": [
+    "./src/**/*",
+    ]
+}

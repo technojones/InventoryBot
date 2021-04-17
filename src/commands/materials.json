@@ -1,0 +1,2403 @@
+[
+	{
+	  "Ticker": "AAR",
+	  "Name": "antennaArray",
+	  "Category": "electronic devices",
+	  "Weight": 0.7666666666666667,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "ABH",
+	  "Name": "advancedBulkhead",
+	  "Category": "construction prefabs",
+	  "Weight": 0.6,
+	  "Volume": 0.9
+	},
+	{
+	  "Ticker": "ACS",
+	  "Name": "automatedCoolingSystem",
+	  "Category": "electronic systems",
+	  "Weight": 0.3,
+	  "Volume": 0.2
+	},
+	{
+	  "Ticker": "ADE",
+	  "Name": "advancedDeckElements",
+	  "Category": "construction prefabs",
+	  "Weight": 0.4,
+	  "Volume": 1.5
+	},
+	{
+	  "Ticker": "ADR",
+	  "Name": "autoDoc",
+	  "Category": "medical equipment",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "ADS",
+	  "Name": "audioDistributionSystem",
+	  "Category": "electronic systems",
+	  "Weight": 0.7,
+	  "Volume": 2
+	},
+	{
+	  "Ticker": "AEF",
+	  "Name": "aerostatFoundation",
+	  "Category": "construction parts",
+	  "Weight": 2,
+	  "Volume": 5
+	},
+	{
+	  "Ticker": "AEN",
+	  "Name": "advancedEngine",
+	  "Category": "ship engines",
+	  "Weight": 14,
+	  "Volume": 7
+	},
+	{
+	  "Ticker": "AFP",
+	  "Name": "advancedFuelPump",
+	  "Category": "ship engines",
+	  "Weight": 1,
+	  "Volume": 0.26666666666666666
+	},
+	{
+	  "Ticker": "AFR",
+	  "Name": "advancedFuelRod",
+	  "Category": "ship engines",
+	  "Weight": 0.4,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "AGS",
+	  "Name": "advancedHighgSeats",
+	  "Category": "ship parts",
+	  "Weight": 30,
+	  "Volume": 5
+	},
+	{
+	  "Ticker": "AHP",
+	  "Name": "advancedHullPlate",
+	  "Category": "ship parts",
+	  "Weight": 20,
+	  "Volume": 10
+	},
+	{
+	  "Ticker": "AIR",
+	  "Name": "airScrubber",
+	  "Category": "construction parts",
+	  "Weight": 1.7,
+	  "Volume": 3
+	},
+	{
+	  "Ticker": "AL",
+	  "Name": "aluminium",
+	  "Category": "metals",
+	  "Weight": 2.7,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "ALE",
+	  "Name": "technicianLuxuryDrink",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "ALG",
+	  "Name": "proteinAlgae",
+	  "Category": "agricultural products",
+	  "Weight": 0.7,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "ALO",
+	  "Name": "aluminiumOre",
+	  "Category": "ores",
+	  "Weight": 1.3666666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "AMM",
+	  "Name": "ammonia",
+	  "Category": "gases",
+	  "Weight": 0.8666666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "ANZ",
+	  "Name": "advancedNozzle",
+	  "Category": "ship engines",
+	  "Weight": 6,
+	  "Volume": 3
+	},
+	{
+	  "Ticker": "APT",
+	  "Name": "advancedHeatShield",
+	  "Category": "ship shields",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.3
+	},
+	{
+	  "Ticker": "AR",
+	  "Name": "argon",
+	  "Category": "gases",
+	  "Weight": 1.8,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "ARP",
+	  "Name": "advancedRadiationShielding",
+	  "Category": "ship shields",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.2
+	},
+	{
+	  "Ticker": "ASE",
+	  "Name": "advancedStructuralElements",
+	  "Category": "construction prefabs",
+	  "Weight": 0.5,
+	  "Volume": 0.6
+	},
+	{
+	  "Ticker": "AST",
+	  "Name": "aluminiumTitaniumAlloy",
+	  "Category": "alloys",
+	  "Weight": 4.966666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "ATA",
+	  "Name": "advancedWindow",
+	  "Category": "construction prefabs",
+	  "Weight": 0.3,
+	  "Volume": 0.4
+	},
+	{
+	  "Ticker": "ATP",
+	  "Name": "advancedThermalProtectionMaterial",
+	  "Category": "ship parts",
+	  "Weight": 2.9,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "AU",
+	  "Name": "gold",
+	  "Category": "metals",
+	  "Weight": 19.333333333333332,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "AUO",
+	  "Name": "goldOre",
+	  "Category": "ores",
+	  "Weight": 3.8666666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "AWF",
+	  "Name": "waterFilter",
+	  "Category": "electronic devices",
+	  "Weight": 0.8,
+	  "Volume": 1.2
+	},
+	{
+	  "Ticker": "AWH",
+	  "Name": "advancedWhippleShielding",
+	  "Category": "ship shields",
+	  "Weight": 0.13333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BAC",
+	  "Name": "bacteria",
+	  "Category": "chemicals",
+	  "Weight": 0.16666666666666666,
+	  "Volume": 0.16666666666666666
+	},
+	{
+	  "Ticker": "BAI",
+	  "Name": "basicAiFramework",
+	  "Category": "software components",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "BBH",
+	  "Name": "basicBulkhead",
+	  "Category": "construction prefabs",
+	  "Weight": 0.5,
+	  "Volume": 0.8
+	},
+	{
+	  "Ticker": "BCO",
+	  "Name": "copperConnectors",
+	  "Category": "electronic pieces",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "BDE",
+	  "Name": "basicDeckElements",
+	  "Category": "construction prefabs",
+	  "Weight": 0.1,
+	  "Volume": 1.5
+	},
+	{
+	  "Ticker": "BE",
+	  "Name": "beryllium",
+	  "Category": "elements",
+	  "Weight": 1.8333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BEA",
+	  "Name": "proteinBeans",
+	  "Category": "agricultural products",
+	  "Weight": 0.8,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BER",
+	  "Name": "beryl",
+	  "Category": "minerals",
+	  "Weight": 1.9333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BFP",
+	  "Name": "basicFuelPump",
+	  "Category": "ship engines",
+	  "Weight": 0.8,
+	  "Volume": 0.2
+	},
+	{
+	  "Ticker": "BFR",
+	  "Name": "basicFuelRod",
+	  "Category": "ship engines",
+	  "Weight": 0.3,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "BGC",
+	  "Name": "blueGoldConnectors",
+	  "Category": "electronic pieces",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "BGO",
+	  "Name": "goldIronAlloy",
+	  "Category": "alloys",
+	  "Weight": 19.333333333333332,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BGS",
+	  "Name": "basicHighgSeats",
+	  "Category": "ship parts",
+	  "Weight": 20,
+	  "Volume": 3
+	},
+	{
+	  "Ticker": "BHP",
+	  "Name": "basicHullPlate",
+	  "Category": "ship parts",
+	  "Weight": 10,
+	  "Volume": 10
+	},
+	{
+	  "Ticker": "BID",
+	  "Name": "fullBodyInteractionDevice",
+	  "Category": "electronic devices",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "BL",
+	  "Name": "breathableLiquid",
+	  "Category": "chemicals",
+	  "Weight": 1.1333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BLE",
+	  "Name": "bleach",
+	  "Category": "chemicals",
+	  "Weight": 0.5,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "BMF",
+	  "Name": "mainFrameBlank",
+	  "Category": "electronic devices",
+	  "Weight": 0.8,
+	  "Volume": 1.2
+	},
+	{
+	  "Ticker": "BND",
+	  "Name": "bandages",
+	  "Category": "medical equipment",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "BOR",
+	  "Name": "boronCrystals",
+	  "Category": "minerals",
+	  "Weight": 1.8,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BOS",
+	  "Name": "borosilicate",
+	  "Category": "alloys",
+	  "Weight": 1.5,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BPT",
+	  "Name": "basicHeatShield",
+	  "Category": "ship shields",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.3
+	},
+	{
+	  "Ticker": "BR1",
+	  "Name": "commandBridge1",
+	  "Category": "unit prefabs",
+	  "Weight": 180,
+	  "Volume": 300
+	},
+	{
+	  "Ticker": "BR2",
+	  "Name": "commandBridge2",
+	  "Category": "unit prefabs",
+	  "Weight": 280,
+	  "Volume": 400
+	},
+	{
+	  "Ticker": "BRM",
+	  "Name": "bioreactiveMineral",
+	  "Category": "minerals",
+	  "Weight": 2.5,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BRO",
+	  "Name": "copperAluminiumAlloy",
+	  "Category": "alloys",
+	  "Weight": 8.733333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BRP",
+	  "Name": "basicRadiationShielding",
+	  "Category": "ship shields",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.2
+	},
+	{
+	  "Ticker": "BRS",
+	  "Name": "commandBridgeShort",
+	  "Category": "unit prefabs",
+	  "Weight": 150,
+	  "Volume": 200
+	},
+	{
+	  "Ticker": "BSC",
+	  "Name": "bodyScanner",
+	  "Category": "electronic devices",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "BSE",
+	  "Name": "basicStructuralElements",
+	  "Category": "construction prefabs",
+	  "Weight": 0.3,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "BTA",
+	  "Name": "basicWindow",
+	  "Category": "construction prefabs",
+	  "Weight": 0.3,
+	  "Volume": 0.4
+	},
+	{
+	  "Ticker": "BTS",
+	  "Name": "tungstenResource",
+	  "Category": "liquids",
+	  "Weight": 1.0333333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BWH",
+	  "Name": "basicWhippleShielding",
+	  "Category": "ship shields",
+	  "Weight": 0.1,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "BWS",
+	  "Name": "workstationBlank",
+	  "Category": "electronic devices",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "C",
+	  "Name": "carbon",
+	  "Category": "elements",
+	  "Weight": 2.2666666666666666,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CA",
+	  "Name": "calcium",
+	  "Category": "elements",
+	  "Weight": 1.5333333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CAF",
+	  "Name": "caffeinatedBeans",
+	  "Category": "agricultural products",
+	  "Weight": 0.8666666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CAP",
+	  "Name": "capacitor",
+	  "Category": "electronic pieces",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "CBL",
+	  "Name": "largeCapacitorBank",
+	  "Category": "energy systems",
+	  "Weight": 5.4,
+	  "Volume": 2.4
+	},
+	{
+	  "Ticker": "CBM",
+	  "Name": "mediumCapacitorBank",
+	  "Category": "energy systems",
+	  "Weight": 3.6,
+	  "Volume": 1.6
+	},
+	{
+	  "Ticker": "CBS",
+	  "Name": "smallCapacitorBank",
+	  "Category": "energy systems",
+	  "Weight": 1.8,
+	  "Volume": 0.8
+	},
+	{
+	  "Ticker": "CC",
+	  "Name": "climateController",
+	  "Category": "electronic systems",
+	  "Weight": 0.5,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CCD",
+	  "Name": "crowdControlDrone",
+	  "Category": "drones",
+	  "Weight": 0.3,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "CD",
+	  "Name": "touchScreen",
+	  "Category": "electronic parts",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "CF",
+	  "Name": "ceramicFabric",
+	  "Category": "textiles",
+	  "Weight": 2.8333333333333335,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CHA",
+	  "Name": "combustionChamber",
+	  "Category": "ship engines",
+	  "Weight": 1.2,
+	  "Volume": 0.7
+	},
+	{
+	  "Ticker": "CL",
+	  "Name": "chlorine",
+	  "Category": "elements",
+	  "Weight": 3.2,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CLI",
+	  "Name": "caliche",
+	  "Category": "minerals",
+	  "Weight": 2.433333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CMK",
+	  "Name": "coreModuleKit",
+	  "Category": "construction materials",
+	  "Weight": 4.566666666666666,
+	  "Volume": 33.2
+	},
+	{
+	  "Ticker": "COF",
+	  "Name": "pioneerLuxuryDrink",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "COM",
+	  "Name": "communicationSystem",
+	  "Category": "electronic systems",
+	  "Weight": 0.5,
+	  "Volume": 1.5
+	},
+	{
+	  "Ticker": "COT",
+	  "Name": "cottonProcessed",
+	  "Category": "textiles",
+	  "Weight": 0.7666666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CQL",
+	  "Name": "crewQuarters",
+	  "Category": "unit prefabs",
+	  "Weight": 75,
+	  "Volume": 150
+	},
+	{
+	  "Ticker": "CQM",
+	  "Name": "crewQuartersMed",
+	  "Category": "unit prefabs",
+	  "Weight": 50,
+	  "Volume": 100
+	},
+	{
+	  "Ticker": "CQS",
+	  "Name": "crewQuartersSmall",
+	  "Category": "unit prefabs",
+	  "Weight": 25,
+	  "Volume": 50
+	},
+	{
+	  "Ticker": "CQT",
+	  "Name": "crewQuartersTiny",
+	  "Category": "unit prefabs",
+	  "Weight": 12.5,
+	  "Volume": 25
+	},
+	{
+	  "Ticker": "CRU",
+	  "Name": "cryoUnit",
+	  "Category": "electronic systems",
+	  "Weight": 2.2,
+	  "Volume": 2
+	},
+	{
+	  "Ticker": "CST",
+	  "Name": "cryogenicFluid",
+	  "Category": "chemicals",
+	  "Weight": 1.1333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CTF",
+	  "Name": "ceramicTungstenFabric",
+	  "Category": "textiles",
+	  "Weight": 4.333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CU",
+	  "Name": "copper",
+	  "Category": "metals",
+	  "Weight": 8.933333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "CUO",
+	  "Name": "copperOre",
+	  "Category": "ores",
+	  "Weight": 4,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "DA",
+	  "Name": "dataAnalyzer",
+	  "Category": "software tools",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "DCH",
+	  "Name": "droneChassis",
+	  "Category": "drones",
+	  "Weight": 0.2,
+	  "Volume": 0.03333333333333333
+	},
+	{
+	  "Ticker": "DCL",
+	  "Name": "largeDeviceCover",
+	  "Category": "plastics",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.8
+	},
+	{
+	  "Ticker": "DCM",
+	  "Name": "mediumDeviceCover",
+	  "Category": "plastics",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.4
+	},
+	{
+	  "Ticker": "DCS",
+	  "Name": "smallDeviceCover",
+	  "Category": "plastics",
+	  "Weight": 0,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "DD",
+	  "Name": "distributedDatabase",
+	  "Category": "software tools",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "DDT",
+	  "Name": "pesticides",
+	  "Category": "chemicals",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "DEC",
+	  "Name": "decorativeElements",
+	  "Category": "construction parts",
+	  "Weight": 0.5,
+	  "Volume": 2
+	},
+	{
+	  "Ticker": "DIS",
+	  "Name": "twoDimensionalDisplay",
+	  "Category": "electronic parts",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.03333333333333333
+	},
+	{
+	  "Ticker": "DOU",
+	  "Name": "droneOperationsUnit",
+	  "Category": "unit prefabs",
+	  "Weight": 5,
+	  "Volume": 4
+	},
+	{
+	  "Ticker": "DRF",
+	  "Name": "droneFrame",
+	  "Category": "drones",
+	  "Weight": 0.1,
+	  "Volume": 0.03333333333333333
+	},
+	{
+	  "Ticker": "DV",
+	  "Name": "dataVisualizer",
+	  "Category": "software tools",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "DW",
+	  "Name": "drinkingWater",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "EDC",
+	  "Name": "entertainmentDataCore",
+	  "Category": "software tools",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "EES",
+	  "Name": "enrichedEinsteinium",
+	  "Category": "chemicals",
+	  "Weight": 9.2,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "ENG",
+	  "Name": "standardEngine",
+	  "Category": "ship engines",
+	  "Weight": 8,
+	  "Volume": 4
+	},
+	{
+	  "Ticker": "EPO",
+	  "Name": "epoxy",
+	  "Category": "construction materials",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.03333333333333333
+	},
+	{
+	  "Ticker": "ES",
+	  "Name": "einsteinium",
+	  "Category": "elements",
+	  "Weight": 0.8666666666666667,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "ETC",
+	  "Name": "enrichedTechnetium",
+	  "Category": "chemicals",
+	  "Weight": 4.1,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "EXO",
+	  "Name": "settlerClothing",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.1,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "F",
+	  "Name": "fluorine",
+	  "Category": "gases",
+	  "Weight": 1.7,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "FAL",
+	  "Name": "aluminiumIronAlloy",
+	  "Category": "alloys",
+	  "Weight": 3.2333333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "FAN",
+	  "Name": "coolingFan",
+	  "Category": "electronic parts",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "FC",
+	  "Name": "flowControl",
+	  "Category": "construction parts",
+	  "Weight": 0.5,
+	  "Volume": 0.26666666666666666
+	},
+	{
+	  "Ticker": "FE",
+	  "Name": "iron",
+	  "Category": "metals",
+	  "Weight": 7.866666666666666,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "FEO",
+	  "Name": "ironOre",
+	  "Category": "ores",
+	  "Weight": 5.9,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "FET",
+	  "Name": "ironTitaniumAlloy",
+	  "Category": "alloys",
+	  "Weight": 6.833333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "FF",
+	  "Name": "ftlFuel",
+	  "Category": "fuels",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "FFC",
+	  "Name": "ftlFieldController",
+	  "Category": "electronic systems",
+	  "Weight": 50,
+	  "Volume": 16
+	},
+	{
+	  "Ticker": "FIM",
+	  "Name": "engineerFood",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.5666666666666667,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "FIR",
+	  "Name": "fissionReactor",
+	  "Category": "ship engines",
+	  "Weight": 7,
+	  "Volume": 4.9
+	},
+	{
+	  "Ticker": "FLO",
+	  "Name": "floatingTank",
+	  "Category": "construction parts",
+	  "Weight": 1,
+	  "Volume": 2
+	},
+	{
+	  "Ticker": "FLP",
+	  "Name": "fluidPiping",
+	  "Category": "construction parts",
+	  "Weight": 0.3,
+	  "Volume": 2
+	},
+	{
+	  "Ticker": "FLX",
+	  "Name": "flux",
+	  "Category": "chemicals",
+	  "Weight": 0.26666666666666666,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "FOD",
+	  "Name": "allPurposeFodder",
+	  "Category": "agricultural products",
+	  "Weight": 1.2,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "FSE",
+	  "Name": "fuelSavingEngine",
+	  "Category": "ship engines",
+	  "Weight": 6,
+	  "Volume": 3
+	},
+	{
+	  "Ticker": "FUN",
+	  "Name": "entertainmentUnit",
+	  "Category": "unit prefabs",
+	  "Weight": 5,
+	  "Volume": 4
+	},
+	{
+	  "Ticker": "GAL",
+	  "Name": "galerite",
+	  "Category": "minerals",
+	  "Weight": 2.5,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "GC",
+	  "Name": "gasContainer",
+	  "Category": "construction parts",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "GCH",
+	  "Name": "glassCombustionChamber",
+	  "Category": "ship engines",
+	  "Weight": 1,
+	  "Volume": 0.6
+	},
+	{
+	  "Ticker": "GEN",
+	  "Name": "glassEngine",
+	  "Category": "ship engines",
+	  "Weight": 5,
+	  "Volume": 3
+	},
+	{
+	  "Ticker": "GIN",
+	  "Name": "engineerLuxuryDrink",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "GL",
+	  "Name": "translucentMaterial",
+	  "Category": "construction materials",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "GNZ",
+	  "Name": "glassNozzle",
+	  "Category": "ship engines",
+	  "Weight": 1.5,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "GRA",
+	  "Name": "grapes",
+	  "Category": "agricultural products",
+	  "Weight": 1.1,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "GRN",
+	  "Name": "carbohydrateGrains",
+	  "Category": "agricultural products",
+	  "Weight": 0.9,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "GV",
+	  "Name": "gasVent",
+	  "Category": "construction parts",
+	  "Weight": 0.26666666666666666,
+	  "Volume": 0.16666666666666666
+	},
+	{
+	  "Ticker": "H",
+	  "Name": "hydrogen",
+	  "Category": "gases",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "H2O",
+	  "Name": "water",
+	  "Category": "liquids",
+	  "Weight": 0.2,
+	  "Volume": 0.2
+	},
+	{
+	  "Ticker": "HAB",
+	  "Name": "habitatUnit",
+	  "Category": "unit prefabs",
+	  "Weight": 10,
+	  "Volume": 8
+	},
+	{
+	  "Ticker": "HAL",
+	  "Name": "halite",
+	  "Category": "minerals",
+	  "Weight": 2.1666666666666665,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "HCC",
+	  "Name": "redGoldConnectors",
+	  "Category": "electronic pieces",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "HCP",
+	  "Name": "hydrocarbonPlants",
+	  "Category": "agricultural products",
+	  "Weight": 0.8,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "HD",
+	  "Name": "holographicDisplay",
+	  "Category": "electronic devices",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 2
+	},
+	{
+	  "Ticker": "HE",
+	  "Name": "helium",
+	  "Category": "gases",
+	  "Weight": 0.13333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "HE3",
+	  "Name": "helium3",
+	  "Category": "gases",
+	  "Weight": 0.13333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "HER",
+	  "Name": "herbs",
+	  "Category": "agricultural products",
+	  "Weight": 0.4,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "HEX",
+	  "Name": "heliotropeExtract",
+	  "Category": "liquids",
+	  "Weight": 1.1,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "HHP",
+	  "Name": "hardenedHullPlate",
+	  "Category": "ship parts",
+	  "Weight": 15,
+	  "Volume": 10
+	},
+	{
+	  "Ticker": "HMS",
+	  "Name": "technicianClothing",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "HNZ",
+	  "Name": "hyperthrustNozzle",
+	  "Category": "ship engines",
+	  "Weight": 6,
+	  "Volume": 12
+	},
+	{
+	  "Ticker": "HOG",
+	  "Name": "holographicGlasses",
+	  "Category": "electronic devices",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "HOP",
+	  "Name": "antibacterialTreeFlowers",
+	  "Category": "agricultural products",
+	  "Weight": 0.3333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "HPC",
+	  "Name": "touchDeviceBlank",
+	  "Category": "electronic devices",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "HPR",
+	  "Name": "highPowerReactor",
+	  "Category": "ship engines",
+	  "Weight": 18,
+	  "Volume": 15
+	},
+	{
+	  "Ticker": "HSE",
+	  "Name": "hardenedStructuralElements",
+	  "Category": "construction prefabs",
+	  "Weight": 3.1,
+	  "Volume": 0.7
+	},
+	{
+	  "Ticker": "HSS",
+	  "Name": "engineerClothing",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "HTE",
+	  "Name": "hyperthrustEngine",
+	  "Category": "ship engines",
+	  "Weight": 20,
+	  "Volume": 10
+	},
+	{
+	  "Ticker": "HYR",
+	  "Name": "hyperPowerReactor",
+	  "Category": "ship engines",
+	  "Weight": 35,
+	  "Volume": 25
+	},
+	{
+	  "Ticker": "I",
+	  "Name": "iodine",
+	  "Category": "elements",
+	  "Weight": 4.933333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "IDC",
+	  "Name": "informationDataCore",
+	  "Category": "software systems",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "IMM",
+	  "Name": "informationManagementSystem",
+	  "Category": "software systems",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "IND",
+	  "Name": "indigo",
+	  "Category": "chemicals",
+	  "Weight": 0.2,
+	  "Volume": 0.2
+	},
+	{
+	  "Ticker": "INS",
+	  "Name": "insuFoam",
+	  "Category": "construction materials",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "JUI",
+	  "Name": "sedativeSubstance",
+	  "Category": "chemicals",
+	  "Weight": 1.2,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "KOM",
+	  "Name": "settlerLuxuryDrink",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "KV",
+	  "Name": "kevlar",
+	  "Category": "textiles",
+	  "Weight": 1.6333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "LBH",
+	  "Name": "lightweightBulkhead",
+	  "Category": "construction prefabs",
+	  "Weight": 0.2,
+	  "Volume": 0.6
+	},
+	{
+	  "Ticker": "LC",
+	  "Name": "scientistClothing",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "LCB",
+	  "Name": "largeCargoBay",
+	  "Category": "ship kits",
+	  "Weight": 200,
+	  "Volume": 200
+	},
+	{
+	  "Ticker": "LCR",
+	  "Name": "liquidCrystals",
+	  "Category": "chemicals",
+	  "Weight": 0.16666666666666666,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "LD",
+	  "Name": "localDatabase",
+	  "Category": "software components",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "LDE",
+	  "Name": "lightweightDeckElements",
+	  "Category": "construction prefabs",
+	  "Weight": 0.1,
+	  "Volume": 1.2
+	},
+	{
+	  "Ticker": "LDI",
+	  "Name": "laserDiode",
+	  "Category": "electronic pieces",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "LES",
+	  "Name": "liquidEinsteinium",
+	  "Category": "liquids",
+	  "Weight": 8.833333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "LFE",
+	  "Name": "largeEmitter",
+	  "Category": "ship engines",
+	  "Weight": 0.4,
+	  "Volume": 1.6
+	},
+	{
+	  "Ticker": "LFL",
+	  "Name": "largeFtlTank",
+	  "Category": "ship kits",
+	  "Weight": 60,
+	  "Volume": 10
+	},
+	{
+	  "Ticker": "LFP",
+	  "Name": "lowHeatFuelPump",
+	  "Category": "ship engines",
+	  "Weight": 0.5,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "LHP",
+	  "Name": "lightweightHullPlate",
+	  "Category": "ship parts",
+	  "Weight": 5,
+	  "Volume": 10
+	},
+	{
+	  "Ticker": "LI",
+	  "Name": "lithium",
+	  "Category": "metals",
+	  "Weight": 0.5666666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "LIO",
+	  "Name": "lithiumOre",
+	  "Category": "ores",
+	  "Weight": 2.7333333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "LIS",
+	  "Name": "lifeSupportSystem",
+	  "Category": "electronic systems",
+	  "Weight": 5.6,
+	  "Volume": 7
+	},
+	{
+	  "Ticker": "LIT",
+	  "Name": "neonLightingSystem",
+	  "Category": "construction parts",
+	  "Weight": 1,
+	  "Volume": 2
+	},
+	{
+	  "Ticker": "LOG",
+	  "Name": "logisticsSystem",
+	  "Category": "electronic systems",
+	  "Weight": 0.5,
+	  "Volume": 1.5
+	},
+	{
+	  "Ticker": "LSE",
+	  "Name": "lightweightStructuralElements",
+	  "Category": "construction prefabs",
+	  "Weight": 0.3,
+	  "Volume": 1.2
+	},
+	{
+	  "Ticker": "LSL",
+	  "Name": "largeStlTank",
+	  "Category": "ship kits",
+	  "Weight": 125,
+	  "Volume": 100
+	},
+	{
+	  "Ticker": "LST",
+	  "Name": "limestone",
+	  "Category": "minerals",
+	  "Weight": 2.7333333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "LTA",
+	  "Name": "lightweightWindow",
+	  "Category": "construction prefabs",
+	  "Weight": 0.3,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "LU",
+	  "Name": "laboratoryUnit",
+	  "Category": "unit prefabs",
+	  "Weight": 8,
+	  "Volume": 6
+	},
+	{
+	  "Ticker": "MAG",
+	  "Name": "magnetite",
+	  "Category": "minerals",
+	  "Weight": 5.166666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "MAI",
+	  "Name": "carbohydrateMaize",
+	  "Category": "agricultural products",
+	  "Weight": 1.3,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "MB",
+	  "Name": "motherBoard",
+	  "Category": "electronic parts",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "MCB",
+	  "Name": "mediumCargoBay",
+	  "Category": "ship kits",
+	  "Weight": 100,
+	  "Volume": 100
+	},
+	{
+	  "Ticker": "MCG",
+	  "Name": "mineralConstructionGranulate",
+	  "Category": "construction materials",
+	  "Weight": 0.23333333333333334,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "MEA",
+	  "Name": "scientistFood",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.6,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "MED",
+	  "Name": "technicianHealth",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.3,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "MFE",
+	  "Name": "mediumEmitter",
+	  "Category": "ship engines",
+	  "Weight": 0.2,
+	  "Volume": 0.8
+	},
+	{
+	  "Ticker": "MFK",
+	  "Name": "fastenerKitMedium",
+	  "Category": "electronic pieces",
+	  "Weight": 0.1,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "MFL",
+	  "Name": "mediumFtlTank",
+	  "Category": "ship kits",
+	  "Weight": 24,
+	  "Volume": 4
+	},
+	{
+	  "Ticker": "MG",
+	  "Name": "magnesium",
+	  "Category": "elements",
+	  "Weight": 0.26666666666666666,
+	  "Volume": 0.16666666666666666
+	},
+	{
+	  "Ticker": "MGC",
+	  "Name": "magneticFloor",
+	  "Category": "construction parts",
+	  "Weight": 0.6,
+	  "Volume": 0.9
+	},
+	{
+	  "Ticker": "MGS",
+	  "Name": "magnesite",
+	  "Category": "minerals",
+	  "Weight": 1.7333333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "MHL",
+	  "Name": "metalHalideLamp",
+	  "Category": "construction parts",
+	  "Weight": 0.1,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "MHP",
+	  "Name": "microHeadphones",
+	  "Category": "electronic devices",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "MLI",
+	  "Name": "machineLearningInterface",
+	  "Category": "software components",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "MPC",
+	  "Name": "microProcessor",
+	  "Category": "electronic parts",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "MSL",
+	  "Name": "mediumStlTank",
+	  "Category": "ship kits",
+	  "Weight": 50,
+	  "Volume": 50
+	},
+	{
+	  "Ticker": "MTC",
+	  "Name": "megaTubeCoating",
+	  "Category": "construction materials",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "MTP",
+	  "Name": "meat",
+	  "Category": "agricultural products",
+	  "Weight": 0.7,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "MUS",
+	  "Name": "mushrooms",
+	  "Category": "agricultural products",
+	  "Weight": 0.8,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "MWF",
+	  "Name": "waferMedium",
+	  "Category": "electronic pieces",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "N",
+	  "Name": "nitrogen",
+	  "Category": "gases",
+	  "Weight": 0.8,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "NA",
+	  "Name": "sodium",
+	  "Category": "elements",
+	  "Weight": 0.9666666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "NCS",
+	  "Name": "nanoCarbonSheeting",
+	  "Category": "construction materials",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "NE",
+	  "Name": "neon",
+	  "Category": "gases",
+	  "Weight": 0.9,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "NF",
+	  "Name": "networkingFramework",
+	  "Category": "software components",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "NFI",
+	  "Name": "nanoFiber",
+	  "Category": "construction materials",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "NG",
+	  "Name": "nanoGlass",
+	  "Category": "construction materials",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "NL",
+	  "Name": "nylon",
+	  "Category": "textiles",
+	  "Weight": 1.1333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "NN",
+	  "Name": "neuralNetwork",
+	  "Category": "software tools",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "NOZ",
+	  "Name": "basicNozzle",
+	  "Category": "ship engines",
+	  "Weight": 3,
+	  "Volume": 1.5
+	},
+	{
+	  "Ticker": "NR",
+	  "Name": "nanoResin",
+	  "Category": "chemicals",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "NS",
+	  "Name": "nutrientSolution",
+	  "Category": "chemicals",
+	  "Weight": 0.6,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "NST",
+	  "Name": "scientistLuxuryHealth",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "NUT",
+	  "Name": "fattyNuts",
+	  "Category": "agricultural products",
+	  "Weight": 0.9,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "NV1",
+	  "Name": "navigation1",
+	  "Category": "ship parts",
+	  "Weight": 4.2,
+	  "Volume": 2
+	},
+	{
+	  "Ticker": "NV2",
+	  "Name": "navigation2",
+	  "Category": "ship parts",
+	  "Weight": 6.7,
+	  "Volume": 3
+	},
+	{
+	  "Ticker": "O",
+	  "Name": "oxygen",
+	  "Category": "gases",
+	  "Weight": 1.1333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "OFF",
+	  "Name": "officeSupplies",
+	  "Category": "utility",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.2
+	},
+	{
+	  "Ticker": "OLF",
+	  "Name": "olfactorySubstances",
+	  "Category": "chemicals",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "OS",
+	  "Name": "operatingSystem",
+	  "Category": "software tools",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "OVE",
+	  "Name": "pioneerClothing",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.03333333333333333
+	},
+	{
+	  "Ticker": "PCB",
+	  "Name": "printedCircuitBoard",
+	  "Category": "electronic parts",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "PDA",
+	  "Name": "engineerTools",
+	  "Category": "consumables (basic)",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "PE",
+	  "Name": "polyEthylene",
+	  "Category": "plastics",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "PFE",
+	  "Name": "premiumFertilizer",
+	  "Category": "chemicals",
+	  "Weight": 0.9,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "PG",
+	  "Name": "polymerGranulate",
+	  "Category": "plastics",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "PIB",
+	  "Name": "pineberries",
+	  "Category": "agricultural products",
+	  "Weight": 0.3,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "PK",
+	  "Name": "painkillers",
+	  "Category": "medical equipment",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "POW",
+	  "Name": "powerCell",
+	  "Category": "energy systems",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "PPA",
+	  "Name": "proteinPaste",
+	  "Category": "agricultural products",
+	  "Weight": 2,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "PSH",
+	  "Name": "pressureShielding",
+	  "Category": "construction parts",
+	  "Weight": 4.2,
+	  "Volume": 0.8
+	},
+	{
+	  "Ticker": "PSL",
+	  "Name": "largePlasticsBoard",
+	  "Category": "plastics",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.8
+	},
+	{
+	  "Ticker": "PSM",
+	  "Name": "mediumPlasticsBoard",
+	  "Category": "plastics",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.4
+	},
+	{
+	  "Ticker": "PSS",
+	  "Name": "smallPlasticsBoard",
+	  "Category": "plastics",
+	  "Weight": 0,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "PT",
+	  "Name": "settlerTools",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.26666666666666666,
+	  "Volume": 0.2
+	},
+	{
+	  "Ticker": "PWO",
+	  "Name": "pioneerLuxuryClothing",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "QCR",
+	  "Name": "quickChargeReactor",
+	  "Category": "ship engines",
+	  "Weight": 14,
+	  "Volume": 10
+	},
+	{
+	  "Ticker": "RAD",
+	  "Name": "radioDevice",
+	  "Category": "electronic devices",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "RAG",
+	  "Name": "radioisotopeGenerator",
+	  "Category": "ship engines",
+	  "Weight": 5,
+	  "Volume": 3.4
+	},
+	{
+	  "Ticker": "RAM",
+	  "Name": "memoryBank",
+	  "Category": "electronic parts",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "RAT",
+	  "Name": "rations",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.2,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "RBH",
+	  "Name": "reinforcedBulkhead",
+	  "Category": "construction prefabs",
+	  "Weight": 2.4,
+	  "Volume": 0.9
+	},
+	{
+	  "Ticker": "RCO",
+	  "Name": "cottonRaw",
+	  "Category": "agricultural products",
+	  "Weight": 0.9333333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "RCS",
+	  "Name": "reactorControlSystem",
+	  "Category": "ship engines",
+	  "Weight": 0.6666666666666666,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "RCT",
+	  "Name": "standardReactor",
+	  "Category": "ship engines",
+	  "Weight": 7,
+	  "Volume": 4
+	},
+	{
+	  "Ticker": "RDE",
+	  "Name": "reinforcedDeckElements",
+	  "Category": "construction prefabs",
+	  "Weight": 1.4,
+	  "Volume": 1.5
+	},
+	{
+	  "Ticker": "RDL",
+	  "Name": "largeShipRepairDroneUnit",
+	  "Category": "unit prefabs",
+	  "Weight": 150,
+	  "Volume": 30
+	},
+	{
+	  "Ticker": "RDS",
+	  "Name": "smallShipRepairDroneUnit",
+	  "Category": "unit prefabs",
+	  "Weight": 50,
+	  "Volume": 10
+	},
+	{
+	  "Ticker": "REA",
+	  "Name": "chemicalReagents",
+	  "Category": "chemicals",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "RED",
+	  "Name": "rescueDrone",
+	  "Category": "drones",
+	  "Weight": 0.3,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "REP",
+	  "Name": "settlerLuxuryTools",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "RG",
+	  "Name": "reinforcedTranslucentMaterial",
+	  "Category": "construction materials",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "RGO",
+	  "Name": "goldCopperAlloy",
+	  "Category": "alloys",
+	  "Weight": 19.333333333333332,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "RHP",
+	  "Name": "reinforcedHullPlate",
+	  "Category": "ship parts",
+	  "Weight": 12,
+	  "Volume": 10
+	},
+	{
+	  "Ticker": "ROM",
+	  "Name": "nonVolatileMemory",
+	  "Category": "electronic parts",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "RSE",
+	  "Name": "reinforcedStructuralElements",
+	  "Category": "construction prefabs",
+	  "Weight": 1.9,
+	  "Volume": 0.7
+	},
+	{
+	  "Ticker": "RSH",
+	  "Name": "radiationShielding",
+	  "Category": "construction parts",
+	  "Weight": 3.7,
+	  "Volume": 0.8
+	},
+	{
+	  "Ticker": "RSI",
+	  "Name": "silkRaw",
+	  "Category": "agricultural products",
+	  "Weight": 1.1,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "RTA",
+	  "Name": "reinforcedWindow",
+	  "Category": "construction prefabs",
+	  "Weight": 1.5,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "S",
+	  "Name": "sulfur",
+	  "Category": "elements",
+	  "Weight": 0.5333333333333333,
+	  "Volume": 0.26666666666666666
+	},
+	{
+	  "Ticker": "SA",
+	  "Name": "searchAlgorithm",
+	  "Category": "software components",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "SAL",
+	  "Name": "sortingAlgorithm",
+	  "Category": "software components",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "SAR",
+	  "Name": "sensorArray",
+	  "Category": "electronic devices",
+	  "Weight": 1.7,
+	  "Volume": 2
+	},
+	{
+	  "Ticker": "SC",
+	  "Name": "technicianLuxuryHealth",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "SCB",
+	  "Name": "smallCargoBay",
+	  "Category": "ship kits",
+	  "Weight": 50,
+	  "Volume": 50
+	},
+	{
+	  "Ticker": "SCN",
+	  "Name": "technicianTools",
+	  "Category": "consumables (basic)",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "SCR",
+	  "Name": "sulfurCrystals",
+	  "Category": "minerals",
+	  "Weight": 2.033333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "SDR",
+	  "Name": "surgicalDrone",
+	  "Category": "drones",
+	  "Weight": 0.3,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "SEA",
+	  "Name": "sealant",
+	  "Category": "construction materials",
+	  "Weight": 0.16666666666666666,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "SEN",
+	  "Name": "sensor",
+	  "Category": "electronic parts",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "SEQ",
+	  "Name": "surgicalEquipment",
+	  "Category": "medical equipment",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "SF",
+	  "Name": "stlFuel",
+	  "Category": "fuels",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "SFE",
+	  "Name": "smallEmitter",
+	  "Category": "ship engines",
+	  "Weight": 0.1,
+	  "Volume": 0.4
+	},
+	{
+	  "Ticker": "SFK",
+	  "Name": "fastenerKitSmall",
+	  "Category": "electronic pieces",
+	  "Weight": 0.03333333333333333,
+	  "Volume": 0.03333333333333333
+	},
+	{
+	  "Ticker": "SFL",
+	  "Name": "smallFtlTank",
+	  "Category": "ship kits",
+	  "Weight": 9,
+	  "Volume": 1.5
+	},
+	{
+	  "Ticker": "SI",
+	  "Name": "silicon",
+	  "Category": "metals",
+	  "Weight": 2.3333333333333335,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "SIL",
+	  "Name": "silkProcessed",
+	  "Category": "textiles",
+	  "Weight": 1.2,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "SIO",
+	  "Name": "siliconOre",
+	  "Category": "ores",
+	  "Weight": 1.8,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "SNM",
+	  "Name": "universeMap",
+	  "Category": "software systems",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "SOI",
+	  "Name": "artificialSoil",
+	  "Category": "chemicals",
+	  "Weight": 0.9,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "SOL",
+	  "Name": "solarCell",
+	  "Category": "energy systems",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "SP",
+	  "Name": "solarPanel",
+	  "Category": "energy systems",
+	  "Weight": 0.16666666666666666,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "SRD",
+	  "Name": "shipRepairDrone",
+	  "Category": "drones",
+	  "Weight": 0.3,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "SRP",
+	  "Name": "specializedRadiationShielding",
+	  "Category": "ship shields",
+	  "Weight": 0.1,
+	  "Volume": 0.2
+	},
+	{
+	  "Ticker": "SSC",
+	  "Name": "structuralSpacecraftComponent",
+	  "Category": "ship parts",
+	  "Weight": 1,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "SSL",
+	  "Name": "smallStlTank",
+	  "Category": "ship kits",
+	  "Weight": 20,
+	  "Volume": 20
+	},
+	{
+	  "Ticker": "STL",
+	  "Name": "steel",
+	  "Category": "metals",
+	  "Weight": 7.833333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "STR",
+	  "Name": "medicalStretcher",
+	  "Category": "medical equipment",
+	  "Weight": 0,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "STS",
+	  "Name": "stabilitySupportSystem",
+	  "Category": "electronic systems",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "SU",
+	  "Name": "surgeryUnit",
+	  "Category": "unit prefabs",
+	  "Weight": 6,
+	  "Volume": 5
+	},
+	{
+	  "Ticker": "SUD",
+	  "Name": "surveillanceDrone",
+	  "Category": "drones",
+	  "Weight": 0.3,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "SUN",
+	  "Name": "safetyUniform",
+	  "Category": "utility",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "SWF",
+	  "Name": "waferSmall",
+	  "Category": "electronic pieces",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "TA",
+	  "Name": "tantalum",
+	  "Category": "elements",
+	  "Weight": 16.633333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TAC",
+	  "Name": "targetingComputer",
+	  "Category": "electronic systems",
+	  "Weight": 0.16666666666666666,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TAI",
+	  "Name": "tantalite",
+	  "Category": "minerals",
+	  "Weight": 7.933333333333334,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TC",
+	  "Name": "technetium",
+	  "Category": "elements",
+	  "Weight": 11.8,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TCB",
+	  "Name": "tinyCargoBay",
+	  "Category": "ship kits",
+	  "Weight": 20,
+	  "Volume": 20
+	},
+	{
+	  "Ticker": "TCL",
+	  "Name": "tclAcid",
+	  "Category": "chemicals",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "TCO",
+	  "Name": "technetiumOxide",
+	  "Category": "minerals",
+	  "Weight": 9.8,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TCS",
+	  "Name": "technetiumStabilizers",
+	  "Category": "construction parts",
+	  "Weight": 3.4,
+	  "Volume": 1.2
+	},
+	{
+	  "Ticker": "TCU",
+	  "Name": "traumaCareUnit",
+	  "Category": "unit prefabs",
+	  "Weight": 5,
+	  "Volume": 4
+	},
+	{
+	  "Ticker": "THF",
+	  "Name": "thermoFluid",
+	  "Category": "chemicals",
+	  "Weight": 0.6,
+	  "Volume": 0.3333333333333333
+	},
+	{
+	  "Ticker": "THP",
+	  "Name": "basicThermalProtectionMaterial",
+	  "Category": "ship parts",
+	  "Weight": 2.2,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TI",
+	  "Name": "titanium",
+	  "Category": "metals",
+	  "Weight": 4.5,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TIO",
+	  "Name": "titaniumOre",
+	  "Category": "ores",
+	  "Weight": 1.5666666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TK",
+	  "Name": "technoKevlar",
+	  "Category": "textiles",
+	  "Weight": 1.9,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TPU",
+	  "Name": "tensorProcessingUnit",
+	  "Category": "electronic parts",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "TRA",
+	  "Name": "audioTransmitter",
+	  "Category": "electronic parts",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "TRN",
+	  "Name": "transistor",
+	  "Category": "electronic pieces",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "TRU",
+	  "Name": "truss",
+	  "Category": "construction parts",
+	  "Weight": 0.1,
+	  "Volume": 1.5
+	},
+	{
+	  "Ticker": "TS",
+	  "Name": "tectosilisite",
+	  "Category": "minerals",
+	  "Weight": 2.4,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "TSH",
+	  "Name": "thermalShielding",
+	  "Category": "construction parts",
+	  "Weight": 2.4,
+	  "Volume": 1.5
+	},
+	{
+	  "Ticker": "TUB",
+	  "Name": "testTubes",
+	  "Category": "medical equipment",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "UTS",
+	  "Name": "universalToolset",
+	  "Category": "utility",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.06666666666666667
+	},
+	{
+	  "Ticker": "VCB",
+	  "Name": "highVolumeCargoBay",
+	  "Category": "ship kits",
+	  "Weight": 200,
+	  "Volume": 200
+	},
+	{
+	  "Ticker": "VEG",
+	  "Name": "fattyVegetables",
+	  "Category": "agricultural products",
+	  "Weight": 1.1,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "VG",
+	  "Name": "engineerLuxuryHealth",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0.2,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "VIT",
+	  "Name": "vitaEssence",
+	  "Category": "agricultural products",
+	  "Weight": 0.9,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "VSC",
+	  "Name": "verySmallCargoBay",
+	  "Category": "ship kits",
+	  "Weight": 35,
+	  "Volume": 35
+	},
+	{
+	  "Ticker": "W",
+	  "Name": "wolfram",
+	  "Category": "metals",
+	  "Weight": 7.533333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "WAI",
+	  "Name": "weakArtificalIntelligence",
+	  "Category": "software systems",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "WAL",
+	  "Name": "tungstenAluminiumAlloy",
+	  "Category": "alloys",
+	  "Weight": 6.266666666666667,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "WCB",
+	  "Name": "highLoadCargoBay",
+	  "Category": "ship kits",
+	  "Weight": 200,
+	  "Volume": 200
+	},
+	{
+	  "Ticker": "WIN",
+	  "Name": "scientistLuxuryDrink",
+	  "Category": "consumables (luxury)",
+	  "Weight": 0.1,
+	  "Volume": 0.1
+	},
+	{
+	  "Ticker": "WM",
+	  "Name": "windowManager",
+	  "Category": "software components",
+	  "Weight": 0,
+	  "Volume": 0
+	},
+	{
+	  "Ticker": "WOR",
+	  "Name": "handcraftWorkshopUnit",
+	  "Category": "unit prefabs",
+	  "Weight": 5,
+	  "Volume": 5
+	},
+	{
+	  "Ticker": "WR",
+	  "Name": "waterRecycler",
+	  "Category": "electronic systems",
+	  "Weight": 6.4,
+	  "Volume": 5
+	},
+	{
+	  "Ticker": "WS",
+	  "Name": "scientistTools",
+	  "Category": "consumables (basic)",
+	  "Weight": 0.06666666666666667,
+	  "Volume": 0.5
+	},
+	{
+	  "Ticker": "ZIR",
+	  "Name": "zircon",
+	  "Category": "minerals",
+	  "Weight": 4.833333333333333,
+	  "Volume": 1
+	},
+	{
+	  "Ticker": "ZR",
+	  "Name": "zirconium",
+	  "Category": "elements",
+	  "Weight": 6.533333333333333,
+	  "Volume": 1
+	}
+  ]
