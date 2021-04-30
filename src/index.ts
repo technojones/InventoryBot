@@ -36,9 +36,6 @@ createConnection().then(con => {
 // Connect to Discord
 client.once('ready', () => {
 	console.log('Discord Connected');
-	client.commands.forEach(command => {
-		console.log(command.name);
-	});
 });
 
 // Discord Message handler
@@ -46,28 +43,27 @@ client.on('message', async message => {
 	// if (message.content.startsWith('$')) market.getInfo(message, message.content.slice(1).trim());
 
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
-	const splitString = message.content.slice(prefix.length).trim().split('\n');
+	const splitString: string[] = message.content.slice(prefix.length).trim().split('\n');
 
 
-	let args;
+	let args: string[][]= [];
 	let commandName;
 	if(splitString.length > 1) {
 		// if it's a multiline argument...
 		args = splitString.map(x => x.trim().split(/ +/));
-		commandName = args[0].shift().toLowerCase();
 	}
 	else {
-		args = splitString[0].trim().split(/ +/);
-		commandName = args.shift().toLowerCase();
+		args[0] = splitString[0].trim().split(/ +/);
 	}
+	commandName = args[0].shift().toLowerCase();
 
 	const command:Command = client.commands.get(commandName)
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	if (!command) return;
 
-	let userSearch = await connection.manager.getRepository(User).findOne({where: {id: message.author.id}, relations: ["corp"]});
-	console.log(userSearch);
+	let userSearch = await connection.manager.getRepository(User).findOne({where: {id: message.author.id}, relations: ["corp", "fioData"]});
+	// console.log(userSearch);
 	if(!userSearch) {
 		userSearch = new User();
 		userSearch.id = message.author.id;

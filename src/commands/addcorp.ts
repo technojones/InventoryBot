@@ -10,7 +10,7 @@ export default class AddCorp implements Command {
     permissions: UserRole = UserRole.LEAD;
     description: string = 'Adds a corporation to the database';
     usage: string = 'No arguments needed. Use this command on an unregistered corp to add it to the database and enable adding users by lead users.';
-    execute: Execute = async function(message: Message, args: string | string[], con: Connection, user: User, corp: Corp) {
+    execute: Execute = async function(message: Message, args: string[][], con: Connection, user: User, corp: Corp) {
         if(message.channel.type === 'dm'){
             return message.channel.send('I can\'t create a corp from a DM channel, please try again in a discord server');
         }

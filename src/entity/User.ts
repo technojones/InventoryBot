@@ -1,5 +1,6 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, ConnectionOptionsReader } from "typeorm";
+import { Entity, PrimaryColumn, Column, ManyToOne, ConnectionOptionsReader, OneToMany, OneToOne, JoinTable, JoinColumn } from "typeorm";
 import { Corp } from './Corp';
+import { FIOData } from "./FIOData";
 
 export enum UserRole {
     ADMIN = 10,
@@ -17,6 +18,9 @@ export class User {
     @Column()
     name: string;
 
+    @Column()
+    companyCode: string;
+
     @Column({
         type: "enum",
         enum: UserRole,
@@ -30,7 +34,10 @@ export class User {
     @Column({ nullable: true })
     FIOAPIKey?: string;
 
-    @ManyToOne(type => Corp)
-        corp: Corp;
+    @ManyToOne(type => Corp, { eager: true })
+    corp: Corp;
 
+    @OneToOne(type => FIOData, fioData => fioData.user, {eager: true, cascade: true})
+    @JoinColumn()
+    fioData: FIOData;
 }

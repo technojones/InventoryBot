@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, JoinColumn } from "typeorm";
 import { User } from "./User";
 
 @Entity()
@@ -21,6 +21,6 @@ export class FIOData {
     @Column({ type: 'datetime' })
     storageTS: Date;
 
-    @ManyToOne(type => User)
+    @OneToOne(() => User, user => user.fioData)
     user: User;
 }

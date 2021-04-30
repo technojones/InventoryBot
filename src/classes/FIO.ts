@@ -1,7 +1,6 @@
 import { Message } from 'discord.js';
 import * as https from 'https';
 import { Connection } from 'typeorm';
-import matLookup = require('../commands/materials.json');
 import { FIOData } from '../entity/FIOData';
 import { User } from '../entity/User';
 
@@ -9,9 +8,11 @@ import { sitesPayload } from '../types/sites';
 import { warehousePayload } from '../types/warehouses';
 import { storagePayload } from '../types/storage';
 import { Corp } from '../entity/Corp';
+import Users from './Users';
+import { Material } from '../entity/Material';
 
 // tslint:disable-next-line: no-var-requires
-const users = require('../users.js');
+// const users = require('../users.js');
 
 
 function roundOff(num: number, places?: number): number {
@@ -81,9 +82,11 @@ function updateFIODatabase(connection, userid, storage, sites, siteTS, wars) {
 }
 
 export class FIO {
-    private con;
+    private con: Connection;
+    private users;
     constructor(con: Connection) {
         this.con = con;
+        this.users = new Users(con);
     }
     private get(path: string, token?: string) {
             const tokenHeader = token ? { 'Authorization': token } : {};
@@ -111,8 +114,8 @@ export class FIO {
                     // console.log(str);
                 });
                 res.on('end', () => {
-                    console.log(res.statusCode);
-                    console.log(str);
+                    // console.log(res.statusCode);
+                    // console.log(str);
                     if(res.statusCode === 200) {
 						let json;
 						try {
@@ -162,8 +165,8 @@ export class FIO {
                     // console.log(str);
                 });
                 res.on('end', () => {
-                    console.log(res.statusCode);
-                    console.log(str);
+                    // console.log(res.statusCode);
+                    // console.log(str);
                     if(res.statusCode === 200) {
 						resolve(str);
 					}
@@ -193,6 +196,12 @@ export class FIO {
     public getMarket(ticker) {
         return this.get(`/exchange/${ticker}`);
     };
+    public getMaterials() {
+        return this.get(`/material/allmaterials`);
+    };
+    public getAllPlanets() {
+        return this.get(`/planet/allplanets`);
+    };
 
     public getAPIKey = function(username:string, password:string): Promise<string> {
         const options = {
@@ -209,7 +218,7 @@ export class FIO {
         return this.post(options, data);
     };
 
-    public getCXInfo(message, arg) {
+    public async getCXInfo(message, arg) {
 		let cx = null;
 		let ticker = null;
 		if(arg.includes('.')) {
@@ -219,7 +228,7 @@ export class FIO {
 		else {
 			ticker = arg;
 		}
-		if(!matLookup.find(element => element.Ticker.toLowerCase() === ticker.toLowerCase())) {
+		if(!await this.con.manager.getRepository(Material).findOne({where: {ticker: ticker.toLowerCase()}})) {
 			message.channel.send('No valid material found.');
 		}
 		else {
@@ -239,10 +248,13 @@ export class FIO {
 		}
 	};
 
-    private assembleStorageData(storage, siteData, warData) {
+    private assembleStorageData(storage: storagePayload, siteData, warData) {
         const assembled = {};
         const warAssembled = {};
-        storage.forEach(storageItem => {
+        if(!Array.isArray(storage)) {
+            storage = [storage];
+        }
+       storage.forEach(storageItem =>{
             if(siteData[storageItem.AddressableId]) {
                 const siteStorage = {};
                 storageItem.StorageItems.forEach(storageMaterial =>{
@@ -319,7 +331,7 @@ export class FIO {
     public async updateFIOData(fioArray: FIOData[]) {
         return Promise.allSettled(fioArray.map(item => {
             return new Promise(async (resolve: (item: FIOData) => void, reject: (error: string, item: FIOData) => void) => {
-                const user = item.user;
+                const user = await this.con.manager.getRepository(User).findOne({where: { fioData: item}})
                 const token = user.FIOAPIKey;
 
                 let assembled = {};
@@ -376,17 +388,107 @@ export class FIO {
         }));
     }
 
+    public async updateUserData(users: User[]) {
+        return Promise.allSettled(users.map(user => {
+            return new Promise(async (resolve: (user: User) => void, reject: (error: string, user: User) => void) => {
+                let item: FIOData;
+                if(user.fioData === null) {
+                    item = new FIOData();
+                    item.siteData = {};
+                    item.warData = {};
+                    item.storageData = {};
+                    item.user = user;
+                    user.fioData = item;
+                }
+                else {
+                    item = user.fioData;
+                    if((Date.now() - item.storageTS.valueOf()) > (1000 * 60 * 60 * 1)) {
+                        resolve(user);
+                    }
+                }
+
+                const token = user.FIOAPIKey;
+
+                let assembled = {};
+
+                let storage: storagePayload;
+                let siteResult: sitesPayload;
+                let warResult: warehousePayload;
+
+                // get storage data
+                await this.get('/storage/' + user.name, token).then(storageResult => {
+                    storage = storageResult;
+                }).catch(reason => {
+                    console.log(reason);
+                    reject('Error retriving storage data', user);
+                });
+
+                // if the site data is out of date, get new site data as well
+                if(!item.siteTS || (Date.now() - item.siteTS.valueOf()) > (1000 * 60 * 60 * 24)) {
+                    const siteAndWarRequests = Promise.all([this.get('/sites/' + user.name, token),
+                        this.get('/sites/warehouses/' + user.name, token)]);
+
+                    await siteAndWarRequests.then(siteAndWarResult => {
+                        siteResult = siteAndWarResult[0];
+                        warResult = siteAndWarResult[1];
+
+                        // now that we have the site results, we can process the data.
+                        siteResult.Sites.forEach(siteItem => {
+                            item.siteData[siteItem.SiteId] = siteItem.PlanetIdentifier;
+                        });
+                        warResult.forEach(warItem => {
+                            item.warData[warItem.StoreId] = warItem.LocationNaturalId;
+                        });
+                        item.siteTS = new Date(Date.now());
+                    }).catch(e => {
+                        console.log(e);
+                        reject('Error retriving new site data', user);
+                    });
+                }
+
+                assembled = this.assembleStorageData(storage, item.siteData, item.warData);
+
+                item.storageData = assembled;
+                item.storageTS = new Date(Date.now());
+                user.fioData = item;
+
+                try {
+                    this.con.manager.getRepository(User).save(user);
+                }
+                catch(e) {
+                    reject(e, user);
+                }
+                resolve(user);
+
+            });
+        }));
+    }
+
     /**
      * Feed this function a corp to do a full refresh of all FIO data
      * @param fioArray: FIOData[]
      * @returns Promise[]
      */
 
-    public async refreshFIOData(corp: Corp) {
-        const fioArray = this.con.manager.getRepository(FIOData).find({ where: { user: { corp } }, relations: ["user", "corp"]});
-        return Promise.allSettled(fioArray.map(item => {
+    public async refreshCorpData(corp: Corp) {
+        // console.log(await this.con.manager.getRepository(FIOData).find({ where: { user: {id: user.id} }, relations: ['user', 'user.corp'] }))
+        let users = await this.users.belongingToCorp(corp);
+        users = this.users.hasFIO(users);
+        // console.log(fioArray);
+        return Promise.allSettled(users.map(user => {
             return new Promise(async (resolve: (item: FIOData) => void, reject: (error: string, item: FIOData) => void) => {
-                const user = item.user;
+                let item: FIOData;
+                if(user.fioData === null) {
+                    item = new FIOData();
+                    item.siteData = {};
+                    item.warData = {};
+                    item.storageData = {};
+                    item.user = user;
+                    user.fioData = item;
+                }
+                else {
+                    item = user.fioData;
+                }
                 const token = user.FIOAPIKey;
 
                 let assembled = {};
@@ -400,7 +502,7 @@ export class FIO {
                     this.get('/sites/warehouses/' + user.name, token),
                     this.get('/storage/' + user.name, token)]);
 
-                siteAndWarRequests.then(siteAndWarResult => {
+                await siteAndWarRequests.then(siteAndWarResult => {
                     siteResult = siteAndWarResult[0];
                     warResult = siteAndWarResult[1];
                     storage = siteAndWarResult[2];
@@ -409,21 +511,22 @@ export class FIO {
                     siteResult.Sites.forEach(siteItem => {
                         item.siteData[siteItem.SiteId] = siteItem.PlanetIdentifier;
                     });
-                    warResult.forEach(function(warItem) {
+                    warResult.forEach(warItem => {
                         item.warData[warItem.StoreId] = warItem.LocationNaturalId;
                     });
                     item.siteTS = new Date(Date.now());
+
+                    assembled = this.assembleStorageData(storage, item.siteData, item.warData);
+
                 }).catch(e => {
                     console.log(e);
                     reject('Error retriving new FIO data', item);
                 });
-
-                assembled = this.assembleStorageData(storage, item.siteData, item.warData);
-
                 item.storageData = assembled;
                 item.storageTS = new Date(Date.now());
 
                 try {
+                    this.con.manager.getRepository(User).save(user);
                     await this.con.manager.getRepository(FIOData).save(item);
                 }
                 catch(e) {
@@ -438,8 +541,17 @@ export class FIO {
     public fetchUserData(user: User) {
             return new Promise(async (resolve: (item: FIOData) => void, reject: (e: string, item: FIOData) => void) => {
                 const token = user.FIOAPIKey;
-                const item = new FIOData();
-                item.user = user;
+                let item: FIOData;
+
+                if(user.fioData != null) {
+                    item = user.fioData;
+                }
+                else {
+                    item = new FIOData();
+                }
+
+                item.siteData = {};
+                item.warData = {};
                 let assembled = {};
 
                 let storage: storagePayload;
@@ -451,11 +563,10 @@ export class FIO {
                     this.get('/sites/warehouses/' + user.name, token),
                     this.get('/storage/' + user.name, token)]);
 
-                siteAndWarRequests.then(siteAndWarResult => {
+                await siteAndWarRequests.then(siteAndWarResult => {
                     siteResult = siteAndWarResult[0];
                     warResult = siteAndWarResult[1];
                     storage = siteAndWarResult[2];
-
                     // now that we have the site results, we can process the data.
                     siteResult.Sites.forEach(siteItem => {
                         item.siteData[siteItem.SiteId] = siteItem.PlanetIdentifier;
@@ -468,14 +579,16 @@ export class FIO {
                     console.log(e);
                     reject('Error retriving new FIO data', item);
                 });
-
+                // console.log(storage);
                 assembled = this.assembleStorageData(storage, item.siteData, item.warData);
 
                 item.storageData = assembled;
                 item.storageTS = new Date(Date.now());
 
                 try {
+                    user.fioData = item;
                     await this.con.manager.getRepository(FIOData).save(item);
+                    await this.con.manager.getRepository(User).save(user);
                 }
                 catch(e) {
                     reject(e, item);
