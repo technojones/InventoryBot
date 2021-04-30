@@ -77,9 +77,11 @@ client.on('message', async message => {
 	}
 	else {
 		corpSearch = await connection.manager.getRepository(Corp).findOne({where: {id: message.guild.id}});
-		if(userSearch.corp.id !== corpSearch.id) {
-			userSearch.role = UserRole.PUBLIC;
-			console.log('corp mismatch, applying public role')
+		if(!corpSearch || userSearch.corp.id !== corpSearch.id) {
+			if((corpSearch && command.name !== 'addcorp') && (userSearch.role !== UserRole.ADMIN)) {
+				userSearch.role = UserRole.PUBLIC;
+				console.log('corp mismatch, applying public role');
+			}
 		}
 	}
 

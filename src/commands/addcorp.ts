@@ -23,6 +23,7 @@ export default class AddCorp implements Command {
             newCorp.name = message.guild.name;
             try {
                 con.manager.getRepository(Corp).save(newCorp);
+                message.channel.send('Corporation added successfully');
             }
             catch(e) {
                 console.log({
@@ -40,6 +41,7 @@ export default class AddCorp implements Command {
                 user.corp = newCorp;
                 try {
                     con.manager.getRepository(User).save(user);
+                    message.channel.send('You have successfully been added to the new corporation');
                 }
                 catch(e) {
                     console.log({

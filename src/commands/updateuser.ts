@@ -53,7 +53,7 @@ export default class UpdateUser implements Command {
 								resolve();
 							})
 							.catch(() => {
-								message.channel.send('Timeout reached.');
+								dmMessage.channel.send('Timeout reached.');
 								reject();
 							});
 					});
@@ -71,7 +71,7 @@ export default class UpdateUser implements Command {
 								resolve();
 							})
 							.catch(() => {
-								message.channel.send('Timeout reached.');
+								dmMessage.channel.send('Timeout reached.');
 								reject();
 							});
 					});
@@ -175,6 +175,11 @@ export default class UpdateUser implements Command {
 						if(result === true) {
 							await con.manager.getRepository(User).save(messageUser);
 						}
+					}
+					else {
+						await con.manager.getRepository(User).save(messageUser);
+						discordUser.send('You have been successfully updated!')
+						result = true;
 					}
 				}
 				catch(e) {

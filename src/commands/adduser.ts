@@ -61,7 +61,7 @@ export default class AddUser implements Command {
 								resolve();
 							})
 							.catch(() => {
-								message.channel.send('Timeout reached.');
+								dmMessage.channel.send('Timeout reached.');
 								reject();
 							});
 					});
@@ -79,7 +79,7 @@ export default class AddUser implements Command {
 								resolve();
 							})
 							.catch(() => {
-								message.channel.send('Timeout reached.');
+								dmMessage.channel.send('Timeout reached.');
 								reject();
 							});
 					});
@@ -166,7 +166,7 @@ export default class AddUser implements Command {
 			do {
 				try {
 					await stepOne();
-					// await stepTwo();
+					await stepTwo();
 					// await stepThree();
 					await askFIO();
 					if(newUser.hasFIO) {
@@ -176,6 +176,12 @@ export default class AddUser implements Command {
 							await con.manager.getRepository(User).save(newUser);
 						}
 					}
+					else {
+						await con.manager.getRepository(User).save(newUser);
+						messageUser.send('You have been successfully registered! If you ever need to update any of your information please use the !updateuser command')
+						result = true;
+					}
+					
 				}
 				catch(e) {
 					console.log(e);
