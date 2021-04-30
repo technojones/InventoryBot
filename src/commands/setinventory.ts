@@ -24,15 +24,12 @@ export default class SetInventory implements Command {
 			// get the current time for a timestamp
 			const ts = new Date(Date.now());
 
-			const firstLine = args[0];
-
 			// identify all the first line arguments
-			const firstLineArgs: queryValue = await functions.idArgs(args[0]);;
-			console.log(firstLineArgs);
+			const firstLineArgs: queryValue = await functions.idArgs(args[0]);
 			let planet;
 			// If planet is a friendly name, return the designation
 			if (firstLineArgs.planet) {
-				planet = firstLineArgs.planet;
+				planet = firstLineArgs.planet[0];
 			}
 			else {
 				// if no planet was found, return an error
@@ -43,14 +40,12 @@ export default class SetInventory implements Command {
 			const messageContents = [];
 			const promise = args.map((item, index) => {
 				return new Promise(async (resolve: (messageLine: string) => void, reject: (errorMessage: string) => void) => {
-					const queryValues: queryValue = {};
 					// identify the values that have been passed. Will return objects for Planets and Materials.
-					await functions.asyncForEach(item, async (value) => {
-						const identified = await functions.id(value);
-						if(identified.type) {
-							queryValues[identified.type] = identified.value;
-						}
-					});
+					const queryValues:queryValue = await functions.idArgs(item);
+
+					if(!queryValues.number && user.hasFIO) {
+						queryValues.number = [0];
+					}
 
 					if (!queryValues.material) {
 						reject(`**ERROR!** in line ${index + 1}: improperly formatted or missing material (${item})`);
@@ -59,19 +54,25 @@ export default class SetInventory implements Command {
 						reject(`**ERROR!** in line ${index + 1}: improperly formatted or missing quantity (${item})`);
 					}
 					else {
-						let found = await connection.manager.getRepository(Inventory).findOne({where : {material: queryValues.material, user, planet }});
+						const found = await connection.manager.getRepository(Inventory).findOne({where : {material: queryValues.material[0], user, planet}});
 						if(!found) {
-							found = new Inventory();
-							found.material = queryValues.material[0];
-							found.planet = planet;
-							found.quantity = queryValues.number[0];
-							found.timestamp = ts;
-							found.user = user;
-							const result = await connection.manager.getRepository(Inventory).save(found);
-							if(result) {
-								resolve('`' + `Added ${result.quantity} ${result.material.ticker} on ${result.planet.name}` + '`');
+							const newInv = new Inventory();
+							newInv.material = queryValues.material[0];
+							newInv.planet = planet;
+							newInv.quantity = queryValues.number[0];
+							newInv.timestamp = ts;
+							newInv.user = user;
+							try {
+								const result = await connection.manager.getRepository(Inventory).save(newInv);
+								if(result) {
+									resolve('`' + `Added ${result.quantity} ${result.material.ticker} on ${result.planet.name}` + '`');
+								}
+								else {
+									reject('There was an issue updating the database');
+								}
 							}
-							else {
+							catch(e) {
+								console.log(e);
 								reject('There was an issue updating the database');
 							}
 						}
@@ -79,11 +80,17 @@ export default class SetInventory implements Command {
 							const oldQuantity = found.quantity;
 							found.quantity = queryValues.number[0];
 							found.timestamp = ts;
-							const result = await connection.manager.getRepository(Inventory).save(found);
-							if(result) {
-								resolve('`' + `Updated ${result.quantity} ${result.material.ticker} on ${result.planet.name} (prev: ${oldQuantity}` + ')`');
+							try {
+								const result = await connection.manager.getRepository(Inventory).save(found);
+								if(result) {
+									resolve('`' + `Updated ${result.quantity} ${result.material.ticker} on ${result.planet.name} (prev: ${oldQuantity}` + ')`');
+								}
+								else {
+									reject('There was an issue updating the database');
+								}
 							}
-							else {
+							catch(e) {
+								console.log(e);
 								reject('There was an issue updating the database');
 							}
 						}

@@ -20,7 +20,7 @@ export abstract class MaterialList {
     @Column({default: false})
     isPrivate?: boolean;
 
-    @ManyToOne(type => User)
+    @ManyToOne(type => User, {eager: true})
     user: User;
 
 }

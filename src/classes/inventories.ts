@@ -44,12 +44,17 @@ export default class Inventories {
             const results: Promise<[Inventory[], Price[]]> = Promise.all([getConnection().getRepository(Inventory).find({where: queryObject,
                 relations: ['user', 'user.corp'],
                 order: {
-                    planet: 'ASC'
+                    planet: 'ASC',
+                    user: 'ASC',
+                    material: 'ASC'
+
                 }}),
                 getConnection().getRepository(Price).find({where: queryObject,
                     relations:['user', 'user.corp'],
                     order: {
-                        planet: 'ASC'
+                        planet: 'ASC',
+                        user: 'ASC',
+                        material: 'ASC'
                     }})]);
 
             results.then(([inv, prc]) => {

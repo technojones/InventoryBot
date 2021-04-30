@@ -16,10 +16,9 @@ export default class Test implements Command {
     execute: Execute = async (message:Message, args, connection, user, corp) => {
         const inv = new Inventories();
         const f = new Functions(connection);
-
-        const queryValues:queryValue = await f.idArgs(args[0]);
-
-        inv.queryInvWithPrice(queryValues,corp);
-
+        // console.log(message.mentions.roles.first().);
+        message.mentions.roles.first().members.forEach(member => {
+            console.log(member);
+        });
     };
 }
