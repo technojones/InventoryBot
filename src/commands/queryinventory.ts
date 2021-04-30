@@ -20,10 +20,15 @@ function FIOUserFilter(arr, query) {
 export default class QueryInventory implements Command {
     permissions: UserRole = UserRole.USER;
 	name: string= 'queryinventory';
-	description: string = 'Use this Command to query inventory';
+	description: string = `Use this Command to query inventory.
+        You can provide any combination of materials, planets, and usernames, and multiple of each if desired. If nothing is specified, it will return all of your inventory listings.
+        For the users that use FIO, it will return their information from FIO. FIO data is indicated with a '▫️'.
+        If there is an issue with the FIO data, there will be a '🔸' instead. This generally means that the user has indicated they have inventory but FIO has no data. You can generally treat this information as manually entered, and the timestamps reflect when the data was entered.
+        Each entry will have a timestamp. For FIO data, that timestamp is when that data was sent to the FIO server. For manually entered data, it's when that data was added to the bot.
+        If possible, it will also return the price associated with that user/planet/material, or a global price if it is available`;
 	args: boolean = false;
 	aliases: string[] = ['queryi', 'queryinv', 'qi'];
-	usage: string ='<planet> and/or <mat>. If left blank, will return all of your inventory';
+	usage: string ='<planet> and/or <mat> - can search for multiple values. If left blank, will return all of your inventory';
 	execute: Execute = async (message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null) => {
         const f = new Functions(connection);
         const fio = new FIO(connection);
@@ -100,6 +105,7 @@ export default class QueryInventory implements Command {
                                 catch(e) {
                                     console.log(e);
                                     FIOStatus = '🔸';
+                                    item.quantity = -item.quantity;
                                 }
                                 FIOQuantity = FIOQuantity ? FIOQuantity : 0;
                                 FIOTimestamp = FIOTimestamp ? FIOTimestamp : item.timestamp;

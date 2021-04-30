@@ -15,9 +15,14 @@ export default class RefreshFIO implements Command {
 
         try {
             // console.log(await connection.manager.getRepository(User).find({ where: { id: user.id }, relations: ['fioData']}));
-            await fio.fetchUserData(user);
+            // await fio.fetchUserData(user);
             // console.log(await connection.manager.getRepository(User).findOne(user));
-            console.log(await fio.refreshCorpData(corp));
+            fio.refreshCorpData(corp).then(() => {
+                message.channel.send('FIO data updated successfully');
+            }).catch(e => {
+                console.log(e);
+                message.channel.send('There was an issue updating FIO ' + e)
+            })
         }
         catch(e) {
             console.log (e);

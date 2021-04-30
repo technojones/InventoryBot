@@ -18,10 +18,10 @@ function FIOUserFilter(arr, query) {
 export default class QueryPrices implements Command {
     permissions: UserRole = UserRole.USER;
 	name: string= 'queryprices';
-	description: string = 'Use this Command to query prices';
+	description: string = 'Use this Command to query prices. You can provide any combination of materials, planets, and usernames, and multiple of each if desired. If nothing is specified, it will return all of your price listings.';
 	args: boolean = false;
 	aliases: string[] = ['queryp', 'queryprice', 'qp'];
-	usage: string ='<planet> and/or <mat>. If left blank, will return all of your price data';
+	usage: string ='<planet> and/or <mat> - can search for multiple values. If left blank, will return all of your price data';
 	execute: Execute = async (message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null) => {
         const f = new Functions(connection);
         const prc = new Prices();

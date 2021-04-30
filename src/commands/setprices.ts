@@ -12,7 +12,8 @@ import { queryValue } from "../types/queryValue";
 export default class SetInventory implements Command {
 	permissions: UserRole = UserRole.USER;
 	name = 'setprices';
-	description = 'Use this command to set prices for a material. To set a global price, use \'global\'';
+	description = `Use this command to set prices for a material. To set a global price, use 'global'. The arguments can be in any order on each line.
+		You can set multiple prices for a planet with a single command. Simply seperate each item on it's own line (ctrl + enter creates a linebreak)`;
 	args = true;
 	aliases = ['setp', 'sp', 'setprice'];
 	usage = '<planet> <mat> <quantity>\n (optional) <mat> <quantity>';

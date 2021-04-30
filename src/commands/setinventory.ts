@@ -11,10 +11,12 @@ import { queryValue } from "../types/queryValue";
 export default class SetInventory implements Command {
 	permissions: UserRole = UserRole.USER;
 	name = 'setinventory';
-	description = 'Use this Command to set your inventory - or for FIO users, your buffer. For FIO users, any item with an entry will be advertised to the corp. Any value above 0 will be subtracted from your inventory as a buffer.';
+	description = `Use this Command to set your inventory - or for FIO users, your buffer. The arguments can be in any order on each line.
+		For FIO users, any item with an entry will be advertised to the corp. Any value above 0 will be subtracted from your inventory as a buffer.
+		You can set multiple items for a planet with a single command. Simply seperate each item on it's own line (ctrl + enter creates a linebreak)`;
 	args = true;
 	aliases = ['seti', 'setinv', 'si', 'setinventories', 'setbuffer', 'sb', 'setb', 'setbuf'];
-	usage = '<planet> <mat> <quantity>\n (optional) <mat> <quantity>';
+	usage = '`<planet> <mat> <quantity>\n (optional) <mat> <quantity>`';
 	execute: Execute = async function(message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null): Promise<any> {
 		const functions = new Functions(connection);
 

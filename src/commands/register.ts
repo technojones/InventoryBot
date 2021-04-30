@@ -5,51 +5,36 @@ import { Corp } from "../entity/Corp";
 import { User, UserRole } from "../entity/User";
 import { Command, Execute } from "../classes/Command";
 
-export default class UpdateUser implements Command {
-	public name: string = 'updateuser';
-	description: string = 'Command to update a user';
+export default class Register implements Command {
+	public name: string = 'register';
+	description: string = 'After a user has been added by a corp lead, they can use this command to complete registration';
 	args: boolean= false;
-	usage: string = `Discord mention of the user you want to update, or blank to update yourself.
-		If you are a corp lead, you may designate another corp lead by adding the 'lead' keyword`;
+	usage: string = 'No arguments required';
 	permissions: UserRole = UserRole.USER;
 	execute: Execute = async function(message: Message, args: string[][], con: Connection, user:User, corp?:Corp) {
 
 		const fio = new FIO(con);
 		// Check to make sure a user was mentioned
-        let messageUser: User;
-		let discordUser = message.mentions.users.first();
-        if(!discordUser) {
-            messageUser = user;
-            discordUser = message.author;
-        }
-        else {
-            messageUser = await con.manager.getRepository(User).findOne({where: {id: discordUser.id}});
-        }
-        if(!messageUser) {
-            return message.channel.send('I did not find a user to update');
-        }
+		const messageUser = message.author;
 		if (messageUser) {
-
-			// Check to see if the 'lead' keyword was used. If so, and the requester was also a lead or greater, assign the lead role to the new user.
-			if(args[0].includes('lead') && user.role >= UserRole.LEAD) {
-				messageUser.role = UserRole.LEAD;
+			// check to make sure the user has been entered.
+			const newUser =  await con.manager.getRepository(User).findOne({where: {id: messageUser.id}});
+			if(newUser) {
+				if(newUser.name && newUser.corp) {
+					return message.channel.send('You seem to already be setup with me. To update your information, use the updateuser command.');
+				}
 			}
 
-            if(message.channel.type !== 'dm') {
-                // send the confirmation to the requester that the command has finished successfully and that the user will be contacted.
-                message.channel.send('I am sending a message to ' + messageUser.name  + ' to get more information');
-            }
-
-			const filter = m => m.author.id === messageUser.id;
+			const filter = m => m.author.id === newUser.id;
 			const stepOne = function() {
 				const messageContents = [];
-				messageContents.push('Let\'s update your info!');
-				messageContents.push('First, please reply with your Prosperous Universe username. Current value: ' + messageUser.name);
+				messageContents.push('Hello! Thank you for registering with me.');
+				messageContents.push('First, please reply with your Prosperous Universe username');
 				return new Promise<void>((resolve, reject) => {
-					discordUser.send(messageContents).then(dmMessage => {
+					messageUser.send(messageContents).then(dmMessage => {
 						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
-								messageUser.name = collected.first().content;
+								newUser.name = collected.first().content;
 								await dmMessage.channel.send(`Great! I've recorded your username as ${collected.first().content} (you can change this later)`);
 								resolve();
 							})
@@ -60,14 +45,14 @@ export default class UpdateUser implements Command {
 					});
 				});
 			}
-            const stepTwo = function() {
+			const stepTwo = function() {
 				const messageContents = [];
-				messageContents.push('Now, reply with your company code. Current Value: ' + messageUser.companyCode);
+				messageContents.push('Next, please reply with your company code.');
 				return new Promise<void>((resolve, reject) => {
-					discordUser.send(messageContents).then(dmMessage => {
+					messageUser.send(messageContents).then(dmMessage => {
 						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
-								messageUser.companyCode = collected.first().content;
+								newUser.companyCode = collected.first().content;
 								await dmMessage.channel.send(`Great! I've recorded your company code as ${collected.first().content} (you can change this later)`);
 								resolve();
 							})
@@ -81,16 +66,16 @@ export default class UpdateUser implements Command {
 
 			const askFIO = async function() {
 				return new Promise<void>((resolve, reject) => {
-					discordUser.send('Are you a FIO user? Respond with (Y/N). Currently set as: ' + (messageUser.hasFIO ? 'Y' : 'N')).then(dmMessage => {
+					messageUser.send('Are you a FIO user? Respond with (Y/N).').then(dmMessage => {
 						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								if(collected.first().content.toLowerCase() === 'y') {
-									messageUser.hasFIO = true;
+									newUser.hasFIO = true;
 									await dmMessage.channel.send(`Great! I've recorded that you have FIO (you can change this later)`);
 									resolve();
 								}
 								else if(collected.first().content.toLowerCase() === 'n') {
-									messageUser.hasFIO = false;
+									newUser.hasFIO = false;
 									await dmMessage.channel.send(`Great! I've recorded that you do not have FIO (you can change this later)`);
 									resolve();
 								}
@@ -114,26 +99,18 @@ export default class UpdateUser implements Command {
 					messageContents.push('If you would like to create your own API key for me to use, please see https://doc.fnar.net/#/auth/post_auth_createapikey');
 					messageContents.push('If you would like me to make an API key for you, please provide your password. Note, your password is never stored.');
 
-                    if(messageUser.FIOAPIKey !== null) {
-                        messageContents.push('**If you would like to keep using your current API key, just respond with a single character like \'-\'**');
-                    }
-
-					discordUser.send(messageContents).then(dmMessage => {
+					messageUser.send(messageContents).then(dmMessage => {
 						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								const regex = collected.first().content.match(/[a-f\d]{32}|[-a-f\d]{36}/gm);
 								if(regex) {
-									messageUser.FIOAPIKey = regex[0];
+									newUser.FIOAPIKey = regex[0];
 									await dmMessage.channel.send('Thank you for providing your FIO API key. Proceeding to FIO testing');
 									resolve();
 								}
-                                else if(collected.first().content.length === 1) {
-                                    await dmMessage.channel.send('Reusing previous API key');
-									resolve();
-                                }
 								else {
-									fio.getAPIKey(messageUser.name, collected.first().content).then(async apiKey => {
-										messageUser.FIOAPIKey = apiKey;
+									fio.getAPIKey(newUser.name, collected.first().content).then(async apiKey => {
+										newUser.FIOAPIKey = apiKey;
 										await dmMessage.channel.send('Thank you for providing your password, I was able to generate an API Key. Proceeding to FIO testing');
 										console.log(apiKey);
 										resolve();
@@ -153,12 +130,12 @@ export default class UpdateUser implements Command {
 			}
 			const checkFIO = function() {
 				return new Promise<boolean>(async (resolve, reject) => {
-					fio.updateUserData([messageUser]).then(async () => {
-						await discordUser.send('I was able to verify your FIO connection. Your registration is complete!');
+					fio.queryUser(newUser.name, newUser.FIOAPIKey).then(async () => {
+						await messageUser.send('I was able to verify your FIO connection. Your registration is complete!');
 						resolve(true);
 					}).catch(async err => {
 						console.log(err);
-						await discordUser.send('I was unable to verify your FIO connection. Your Username or API key may be incorrect. Please restart registration and make sure your username and API key are correct.');
+						await messageUser.send('I was unable to verify your FIO connection. Your Username or API key may be incorrect. Please restart registration and make sure your username and API key are correct.');
 						reject();
 					});
 				});
@@ -170,16 +147,16 @@ export default class UpdateUser implements Command {
 					await stepTwo();
 					// await stepThree();
 					await askFIO();
-					if(messageUser.hasFIO) {
+					if(newUser.hasFIO) {
 						await getFIOKey();
 						result = await checkFIO();
 						if(result === true) {
-							await con.manager.getRepository(User).save(messageUser);
+							await con.manager.getRepository(User).save(newUser);
 						}
 					}
 					else {
-						await con.manager.getRepository(User).save(messageUser);
-						discordUser.send('You have been successfully updated!')
+						await con.manager.getRepository(User).save(newUser);
+						messageUser.send('You have been successfully registered! If you ever need to update any of your information please use the !updateuser command')
 						result = true;
 					}
 				}
@@ -187,11 +164,11 @@ export default class UpdateUser implements Command {
 					console.log(e);
 					const errorHandle = function() {
 						return new Promise<boolean>(async (resolve) => {
-							discordUser.send('There was an issue updating your info. If you would like to retry, please respond with "retry". No action is required to cancel.').then(dmMessage => {
+							messageUser.send('There was an issue with your registration. If you would like to retry the registration, please respond with "retry". No action is required to cancel.').then(dmMessage => {
 								dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
 									.then(async collected => {
 										if(collected.first().content.toLowerCase() !== 'retry') {
-											await discordUser.send('Sorry the update was unsuccessful. Please retry!');
+											await messageUser.send('Sorry registration was unsuccessful! Please contact ' + message.author.username + ' to re-register.');
 											resolve(true);
 										} else {
 											resolve(false);

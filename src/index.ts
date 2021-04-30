@@ -69,6 +69,9 @@ client.on('message', async message => {
 		userSearch.id = message.author.id;
 		userSearch.role = UserRole.PUBLIC;
 	}
+	else if(command.name !== 'register'  && userSearch.name === null) {
+		return message.channel.send('You don\'t seem to be completely registered. Please use the register command to finish registration');
+	}
 	let corpSearch:Corp = null;
 
 	if(message.channel.type === 'dm')

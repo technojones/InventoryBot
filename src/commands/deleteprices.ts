@@ -13,8 +13,8 @@ export default class DeletePrices implements Command {
     aliases: string[] = ['deletep', 'deleteprice', 'dp'];
     args: boolean = true;
     permissions: UserRole.USER;
-    description: string = 'Delete some/all of your pricing values';
-    usage: string = 'Parameters to search your pricing data. Leave blank if you want to delete all of your inventory';
+    description: string = 'Delete some/all of your pricing values. It will ask for confirmation before deleting.';
+    usage: string = 'Parameters to search your pricing data (planets and/or materials). Leave blank if you want to delete all of your inventory';
     execute: Execute = async function(message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null) {
         const f = new Functions(connection);
 
