@@ -7,6 +7,7 @@ import { User, UserRole } from "../entity/User";
 export default class RefreshFIO implements Command {
     name: string = 'refreshfio';
     args: boolean = false;
+    needCorp: boolean = true;
     permissions: UserRole = UserRole.USER;
     description: string = 'Refreshes FIO data for your corporation';
     usage: string = 'No arguments are taken for this command. It uses the corporation data of the current server or the user if it\'s a DM channel';

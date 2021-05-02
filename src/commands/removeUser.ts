@@ -7,6 +7,7 @@ import { User, UserRole } from "../entity/User";
 export default class RemoveUser implements Command {
     name: string = 'removeuser';
     args: boolean = true;
+    needCorp: boolean = true;
     permissions: UserRole = UserRole.LEAD;
     description: string = 'Removes a user from the corporation. Will prompt for confirmation.';
     usage: string = '<username or partial username to remove>';
@@ -39,15 +40,17 @@ export default class RemoveUser implements Command {
                     message.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] }).then(async collected => {
                         if(collected.first().content.toLowerCase().includes('y')) {
                             try {
-                                await connection.manager.getRepository(User).delete(result[0]);
-                                message.channel.send('User deleted');
+                                result[0].corp = null;
+                                result[0].role = UserRole.USER;
+                                await connection.manager.getRepository(User).save(result[0]);
+                                message.channel.send('User removed from Corporation');
                             }
                             catch (e) {
-                                message.channel.send('Error deleting user');
+                                message.channel.send('Error removing user from corporation');
                             }
                         }
                         else {
-                            message.channel.send('User not deleted.')
+                            message.channel.send('User not removed.')
                         }
                     }).catch(()=> {
                         message.channel.send('Timeout reached. Please try your command again');

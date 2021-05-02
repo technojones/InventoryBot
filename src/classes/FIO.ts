@@ -21,15 +21,6 @@ function roundOff(num: number, places?: number): number {
 	return Math.round(num * x) / x;
 };
 
-function getDatabase(connection) {
-	return new Promise((resolve, reject) => {
-		connection.query('SELECT * FROM storage',
-			function(err, result) {
-				if(err) return reject(err);
-				else resolve(result);
-			});
-	});
-}
 function filterAge(value) {
 	const ts = Date.now();
 	return value.timestamp > (ts - 3600000);

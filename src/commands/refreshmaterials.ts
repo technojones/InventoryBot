@@ -10,6 +10,7 @@ import { MaterialPayload } from "../types/material";
 export default class RefreshMaterials implements Command {
     name: string = 'refreshmaterials';
     args: boolean = false;
+    needCorp: boolean = false;
     permissions: UserRole = UserRole.ADMIN;
     description: string = 'Refresh the bot\'s definition of materials from FIO';
     usage: string = 'no arguments needed';

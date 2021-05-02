@@ -10,6 +10,7 @@ import { AllPlanetsPayload } from "../types/planet";
 export default class RefreshPlanets implements Command {
     name: string = 'refreshplanets';
     args: boolean = false;
+    needCorp: boolean = false;
     permissions: UserRole = UserRole.ADMIN;
     description: string = 'Refresh the bot\'s list of planets from FIO';
     usage: string = 'no arguments needed';

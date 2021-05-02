@@ -12,7 +12,11 @@ import { User, UserRole } from "./entity/User";
 import { Corp } from "./entity/Corp";
 import { Command, Execute } from "./classes/Command";
 
-const client: YFDiscordClient = new YFDiscordClient();
+
+const myIntents = new Discord.Intents(Discord.Intents.ALL);
+// myIntents.add( 'GUILD_MEMBERS');
+
+const client: YFDiscordClient = new YFDiscordClient({ ws: { intents: myIntents } });
 client.commands = new Discord.Collection();
 // read in command files
 const commandFiles = fs.readdirSync('./dist/commands').filter(file => file.endsWith('.js'));
@@ -74,21 +78,31 @@ client.on('message', async message => {
 	}
 	let corpSearch:Corp = null;
 
+	if(command.needCorp === true) {
+		if(userSearch.corp === null) {
+			return message.channel.send('Use of this command requires registration with a corp');
+		}
+	}
+
 	if(message.channel.type === 'dm')
 	{
 		corpSearch = userSearch.corp;
 	}
-	else {
+	else if (userSearch.role !== UserRole.ADMIN) {
 		corpSearch = await connection.manager.getRepository(Corp).findOne({where: {id: message.guild.id}});
-		if(!corpSearch || userSearch.corp.id !== corpSearch.id) {
-			if((corpSearch && command.name !== 'addcorp') && (userSearch.role !== UserRole.ADMIN)) {
-				userSearch.role = UserRole.PUBLIC;
-				console.log('corp mismatch, applying public role');
-			}
+		if(!userSearch.corp && command.name === 'addcorp') {
+			console.log('adding corp');
+		}
+		if(!corpSearch || !userSearch.corp || userSearch.corp.id !== corpSearch.id) {
+			userSearch.role = UserRole.PUBLIC;
+			console.log('corp mismatch, applying public role');
 		}
 	}
+	else {
+		corpSearch = await connection.manager.getRepository(Corp).findOne({where: {id: message.guild.id}});
+	}
 
-	if(command.permissions > userSearch.role) return message.channel.send('Insufficient permissions');
+	if(command.permissions > userSearch.role) return message.channel.send('You have insufficient permissions for that command');
 
 	// Double check command arguments
 	if (command.args && !args.length) {
@@ -107,7 +121,7 @@ client.on('message', async message => {
 	}
 	catch (error) {
 		console.error(error);
-		message.reply('there was an error trying to execute that command!');
+		message.reply('There was an error trying to execute that command!');
 	}
 });
 

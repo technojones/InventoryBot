@@ -9,6 +9,7 @@ export default class UpdateUser implements Command {
 	public name: string = 'updateuser';
 	description: string = 'Command to update a user';
 	args: boolean= false;
+	needCorp: boolean = false;
 	usage: string = `Discord mention of the user you want to update, or blank to update yourself.
 		If you are a corp lead, you may designate another corp lead by adding the 'lead' keyword`;
 	permissions: UserRole = UserRole.USER;
@@ -124,17 +125,17 @@ export default class UpdateUser implements Command {
 								const regex = collected.first().content.match(/[a-f\d]{32}|[-a-f\d]{36}/gm);
 								if(regex) {
 									messageUser.FIOAPIKey = regex[0];
-									await dmMessage.channel.send('Thank you for providing your FIO API key. Proceeding to FIO testing');
+									await dmMessage.channel.send('Thank you for providing your FIO API key. Proceeding to FIO testing. Please standby while I connect with FIO.');
 									resolve();
 								}
                                 else if(collected.first().content.length === 1) {
-                                    await dmMessage.channel.send('Reusing previous API key');
+                                    await dmMessage.channel.send('Reusing previous API key. Please standby while I connect with FIO.');
 									resolve();
                                 }
 								else {
 									fio.getAPIKey(messageUser.name, collected.first().content).then(async apiKey => {
 										messageUser.FIOAPIKey = apiKey;
-										await dmMessage.channel.send('Thank you for providing your password, I was able to generate an API Key. Proceeding to FIO testing');
+										await dmMessage.channel.send('Thank you for providing your password, I was able to generate an API Key. Proceeding to FIO testing. Please standby while I connect with FIO.');
 										console.log(apiKey);
 										resolve();
 									}).catch(async (err) => {
@@ -154,7 +155,10 @@ export default class UpdateUser implements Command {
 			const checkFIO = function() {
 				return new Promise<boolean>(async (resolve, reject) => {
 					fio.updateUserData([messageUser]).then(async () => {
-						await discordUser.send('I was able to verify your FIO connection. Your registration is complete!');
+						await discordUser.send(`I was able to verify your FIO connection. Your registration is complete!
+Please note! As a FIO user, your inventory is automatically updated. The !setinventory command now works differently! It now is used to specify what you are offering for corp sale.
+To add all of your FIO stock of an item for Corp sale, simple use !setinventory with the planet and material and leave the quantity blank or set it to 0.
+To reserve some of your stock, use the amount you want to reserve as the quantity. Any amount above that in your FIO data will be made available.`);
 						resolve(true);
 					}).catch(async err => {
 						console.log(err);

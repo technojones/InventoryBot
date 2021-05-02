@@ -13,8 +13,9 @@ export default class SetInventory implements Command {
 	name = 'setinventory';
 	description = `Use this Command to set your inventory - or for FIO users, your buffer. The arguments can be in any order on each line.
 		For FIO users, any item with an entry will be advertised to the corp. Any value above 0 will be subtracted from your inventory as a buffer.
-		You can set multiple items for a planet with a single command. Simply seperate each item on it's own line (ctrl + enter creates a linebreak)`;
+		You can set multiple items for a planet with a single command. Simply seperate each item on it's own line (shift + enter creates a linebreak)`;
 	args = true;
+	needCorp: boolean = false;
 	aliases = ['seti', 'setinv', 'si', 'setinventories', 'setbuffer', 'sb', 'setb', 'setbuf'];
 	usage = '`<planet> <mat> <quantity>\n (optional) <mat> <quantity>`';
 	execute: Execute = async function(message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null): Promise<any> {

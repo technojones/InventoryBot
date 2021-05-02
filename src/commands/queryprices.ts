@@ -20,6 +20,7 @@ export default class QueryPrices implements Command {
 	name: string= 'queryprices';
 	description: string = 'Use this Command to query prices. You can provide any combination of materials, planets, and usernames, and multiple of each if desired. If nothing is specified, it will return all of your price listings.';
 	args: boolean = false;
+    needCorp: boolean = true;
 	aliases: string[] = ['queryp', 'queryprice', 'qp'];
 	usage: string ='<planet> and/or <mat> - can search for multiple values. If left blank, will return all of your price data';
 	execute: Execute = async (message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null) => {
@@ -33,6 +34,10 @@ export default class QueryPrices implements Command {
 
 		if(args[0].length === 0) queryValues.user = [user];
         else if(queryValues.planet) queryValues.planet.push(globalPlanet);
+
+        if(!queryValues.material && !queryValues.planet && !queryValues.user) {
+            return message.channel.send('No queryable values found.');
+        }
 
         prc.queryPrices(queryValues, corp)
             .then((result) => {

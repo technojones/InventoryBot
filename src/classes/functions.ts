@@ -94,6 +94,16 @@ export default class Functions {
 				console.log(value);
 			}
 
+			if(value.match(/<@!*(\d{10,})>/) !== null) {
+				try{
+					searchUsers = await this.con.manager.getRepository(User).findOne({ where: { id: value.match(/\d{10,}/) }});
+				}
+				catch(e) {
+					console.log(e);
+					console.log(value);
+				}
+			}
+
 			if (searchPlanet) {
 				returned.type = 'planet';
 				returned.value = searchPlanet;
@@ -117,6 +127,41 @@ export default class Functions {
 			resolve(returned);
 		});
 	};
+	/**
+	 * queryPrint
+	 */
+	public queryPrint(qV: queryValue):  string {
+		let queryString: string = '';
+
+		if(qV.material) {
+			queryString += 'Materials:(';
+			queryString += `${qV.material.shift().ticker}`;
+			qV.material.forEach(material => {
+				queryString += `, ${material.ticker}`;
+			});
+			queryString += ') ';
+		}
+
+		if(qV.planet) {
+			queryString += 'Planets:(';
+			queryString += `${qV.planet.shift().name}`;
+			qV.planet.forEach(planet => {
+				queryString += `, ${planet.name}`;
+			});
+			queryString += ') ';
+		}
+
+		if(qV.user) {
+			queryString += 'Users:(';
+			queryString += `${qV.user.shift().name}`;
+			qV.user.forEach(u => {
+				queryString += `, ${u.name}`;
+			});
+			queryString += ') ';
+		}
+
+		return queryString;
+	}
 	/**
 	 * Swaps the key/value pairs of the array
 	 * @param {Array} json swaps the key/value pairs of the array

@@ -8,6 +8,7 @@ export type Execute = (message: Message, args: string[][], connection: Connectio
 export interface Command {
     name: string;
     args: boolean;
+    needCorp: boolean;
     aliases?: string[];
     permissions: UserRole;
     description: string;

@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Collection, Message } from "discord.js";
 import { Connection } from "typeorm";
 import { Command, Execute } from "../classes/Command";
 import Functions from "../classes/functions";
@@ -9,6 +9,7 @@ import { User, UserRole } from "../entity/User";
 export default class Help implements Command {
     name: string = 'help';
     args: boolean = false;
+	needCorp: boolean = false;
     permissions: UserRole.PUBLIC;
     description: string = 'Get help info for my commands';
     usage: string = 'blank to get a DM with all commmands, or a certian command to get more info on.';
@@ -16,14 +17,21 @@ export default class Help implements Command {
 		const { prefix } = require('../config.json');
 		const data = [];
 		const client: any = message.client;
-        const commands: Command[] = client.commands;
-		let filteredCommands;
-		filteredCommands = commands.filter((item => item.permissions <= user.role));
+        const commands: Collection<string, Command> = client.commands;
+		let filteredCommands = commands.filter((item => item.permissions <= user.role || !item.permissions));
 
 		if (!args[0].length) {
-			data.push('Here\'s a list of all my commands:');
-			data.push(filteredCommands.map(commandItem => commandItem.name).join(', '));
-			data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
+			if(corp !== null) {
+				data.push(`Here\'s a list of the commands you have permission for in ${corp.name}:`);
+				data.push(filteredCommands.map(commandItem => commandItem.name).join(', '));
+				data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
+			}
+			else {
+				filteredCommands = filteredCommands.filter(item => item.needCorp === false);
+				data.push(`You don't seem to be assigned to a corp. Here are the commands you have permissions for and don't require a corp (data may be limited):`);
+				data.push(filteredCommands.map(commandItem => commandItem.name).join(', '));
+				data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
+			}
 
 			return message.author.send(data, { split: true })
 				.then(() => {
@@ -39,7 +47,7 @@ export default class Help implements Command {
 		const command = filteredCommands.get(name) || filteredCommands.find(c => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
-			return message.reply('that\'s not a valid command!');
+			return message.reply('Either that isn\'t not a valid command, or you don\'t have the permissions for it');
 		}
 
 		data.push(`**Name:** ${command.name}`);

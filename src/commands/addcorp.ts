@@ -7,6 +7,7 @@ import { User, UserRole } from "../entity/User";
 export default class AddCorp implements Command {
     name: string = 'addcorp';
     args: boolean = false;
+    needCorp: boolean = false;
     permissions: UserRole = UserRole.LEAD;
     description: string = `Use this command on an unregistered Discord to add it to the corp database and enable adding users by lead users.
         If a user is not assigned a Corporation, then it will assign them to the new corporation as part of this process`;

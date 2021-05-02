@@ -8,7 +8,8 @@ import { Command, Execute } from "../classes/Command";
 export default class Register implements Command {
 	public name: string = 'register';
 	description: string = 'After a user has been added by a corp lead, they can use this command to complete registration';
-	args: boolean= false;
+	args: boolean = false;
+	needCorp: boolean = false;
 	usage: string = 'No arguments required';
 	permissions: UserRole = UserRole.USER;
 	execute: Execute = async function(message: Message, args: string[][], con: Connection, user:User, corp?:Corp) {
@@ -105,13 +106,13 @@ export default class Register implements Command {
 								const regex = collected.first().content.match(/[a-f\d]{32}|[-a-f\d]{36}/gm);
 								if(regex) {
 									newUser.FIOAPIKey = regex[0];
-									await dmMessage.channel.send('Thank you for providing your FIO API key. Proceeding to FIO testing');
+									await dmMessage.channel.send('Thank you for providing your FIO API key. Proceeding to FIO testing. Please standby while I connect with FIO.');
 									resolve();
 								}
 								else {
 									fio.getAPIKey(newUser.name, collected.first().content).then(async apiKey => {
 										newUser.FIOAPIKey = apiKey;
-										await dmMessage.channel.send('Thank you for providing your password, I was able to generate an API Key. Proceeding to FIO testing');
+										await dmMessage.channel.send('Thank you for providing your password, I was able to generate an API Key. Proceeding to FIO testing. Please standby while I connect with FIO.');
 										console.log(apiKey);
 										resolve();
 									}).catch(async (err) => {
@@ -131,7 +132,13 @@ export default class Register implements Command {
 			const checkFIO = function() {
 				return new Promise<boolean>(async (resolve, reject) => {
 					fio.queryUser(newUser.name, newUser.FIOAPIKey).then(async () => {
-						await messageUser.send('I was able to verify your FIO connection. Your registration is complete!');
+						await messageUser.send(`I was able to verify your FIO connection. Your registration is complete!
+Please note! As a FIO user, your inventory is automatically updated. The !setinventory command now works differently! It now is used to specify what you are offering for corp sale.
+To add all of your FIO stock of an item for Corp sale, simple use !setinventory with the planet and material and leave the quantity blank or set it to 0.
+To reserve some of your stock, use the amount you want to reserve as the quantity. Any amount above that in your FIO data will be made available.
+
+To get started, use the !help command to find out about the commmands available to you. A good place to start is the !setinventory, !deleteinventory, and !queryinventory commands.
+You'll find that all of the query commands behave similarly, all of the set commands behave similarly, and all of the delete commands behave similarly.`);
 						resolve(true);
 					}).catch(async err => {
 						console.log(err);
@@ -156,7 +163,9 @@ export default class Register implements Command {
 					}
 					else {
 						await con.manager.getRepository(User).save(newUser);
-						messageUser.send('You have been successfully registered! If you ever need to update any of your information please use the !updateuser command')
+						messageUser.send(`You have been successfully registered! If you ever need to update any of your information please use the !updateuser command.
+To get started, use the !help command to find out about the commmands available to you. A good place to start is the !setinventory, !deleteinventory, and !queryinventory commands.
+You'll find that all of the query commands behave similarly, all of the set commands behave similarly, and all of the delete commands behave similarly.`);
 						result = true;
 					}
 				}

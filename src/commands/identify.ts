@@ -8,6 +8,7 @@ import { User, UserRole } from "../entity/User";
 export default class Identify implements Command {
     name: string = 'identify';
     args: boolean = true;
+    needCorp: boolean = false;
     permissions: UserRole.PUBLIC;
     description: string = 'See how the bot views a certian value';
     usage: string = 'A string to be scanned by the bot';
@@ -15,8 +16,13 @@ export default class Identify implements Command {
         const functions = new Functions(connection);
         const identified = await functions.id(args[0][0]);
         // const messageContents = [];
-        console.log(identified);
-        message.channel.send(identified.type + ': ' + identified.value);
+        if(identified.type === 'user') {
+            const idUser: any = identified.value
+            message.channel.send(identified.type + ': ' + idUser.name);
+        }
+        else {
+            message.channel.send(identified.type + ': ' + JSON.stringify(identified.value));
+        }
 
         // message.channel.send(messageContents);
     };
