@@ -40,16 +40,65 @@ createConnection().then(con => {
 // Connect to Discord
 client.once('ready', () => {
 	console.log('Discord Connected');
+	client.user.setStatus('online');
+	client.user.setPresence({activity: {type: 'LISTENING', name: ' commands. DM !help for more info.'}});
 });
+
+process.on('uncaughtException', async err => {
+	console.log(`Uncaught Exception: ${err.message}`)
+	console.log(err.stack);
+	if(client.uptime > 0) {
+		await client.user.setPresence({activity: {type: 'PLAYING', name: 'dead'}});
+		const textChannel = await client.channels.cache.get('837490337156038656') as Discord.TextChannel
+		await textChannel.send('I\'ve encountered an error and am shutting down');
+		client.destroy();
+	}
+	setTimeout(() => {
+		process.exit(1)
+	  }, 1000)
+})
+
+process.on('SIGINT', async () => {
+	if(client.uptime > 0) {
+		console.log('Destroying Client');
+		await client.user.setPresence({activity: {type: 'PLAYING', name: 'dead'}});
+		await client.destroy();
+	}
+	setTimeout(() => {
+		process.exit(0)
+	  }, 1000)
+})
 
 // Discord Message handler
 client.on('message', async message => {
+	if (message.author.bot) return;
 	// if (message.content.startsWith('$')) market.getInfo(message, message.content.slice(1).trim());
+	let msgUser: User = null;
+	let msgCorp: Corp = null;
+	// search the database for the corp and user
+	try {
+		msgUser = await connection.manager.getRepository(User).findOne({where: {id: message.author.id}, relations: ["corp", "fioData"]});
 
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-	const splitString: string[] = message.content.slice(prefix.length).trim().split('\n');
+		// if it's a DM channel, then use the users corp.
+		if(message.channel.type === 'dm') msgCorp = msgUser.corp;
+		// otherwise search the database
+		else msgCorp = await connection.manager.getRepository(Corp).findOne({where: {id: message.guild.id}});
+	}
+	catch(e) {
+		console.log(e);
+		return message.channel.send('There was an issue retriving the corp data from the database.');
+	}
 
+	const msgPrefix = msgCorp.prefix ? msgCorp.prefix : prefix;
 
+	if (!message.content.startsWith(msgPrefix)) {
+		if(message.channel.type === 'dm' && message.content.startsWith(prefix)) return message.channel.send(`It looks like your corporation uses the "${msgPrefix}" prefix instead of the default "${prefix}".`);
+		else return;
+	}
+
+	// split the string into lines, taking out the prefix
+	const splitString: string[] = message.content.slice(msgPrefix.length).trim().split('\n');
+	// split each line into individual arguments
 	let args: string[][]= [];
 	let commandName;
 	if(splitString.length > 1) {
@@ -59,6 +108,7 @@ client.on('message', async message => {
 	else {
 		args[0] = splitString[0].trim().split(/ +/);
 	}
+	// the command name is the first argument in the list, so we remove it and store it seperately
 	commandName = args[0].shift().toLowerCase();
 
 	const command:Command = client.commands.get(commandName)
@@ -66,43 +116,39 @@ client.on('message', async message => {
 
 	if (!command) return;
 
-	let userSearch = await connection.manager.getRepository(User).findOne({where: {id: message.author.id}, relations: ["corp", "fioData"]});
-	// console.log(userSearch);
-	if(!userSearch) {
-		userSearch = new User();
-		userSearch.id = message.author.id;
-		userSearch.role = UserRole.PUBLIC;
+	if(!msgUser) {
+		// if the message user is not in the database, create a "dummy" user to represent them.
+		msgUser = new User();
+		msgUser.id = message.author.id;
+		msgUser.role = UserRole.PUBLIC;
 	}
-	else if(command.name !== 'register'  && userSearch.name === null) {
+	else if(command.name !== 'register'  && msgUser.name === null) {
+		// if they don't have a name set, they haven't completed registration. Stop the command and tell them to register.
 		return message.channel.send('You don\'t seem to be completely registered. Please use the register command to finish registration');
 	}
-	let corpSearch:Corp = null;
 
+	// if the command requires a corp, and the user doesn't have one, abort the command.
 	if(command.needCorp === true) {
-		if(userSearch.corp === null) {
+		if(msgUser.corp === null) {
 			return message.channel.send('Use of this command requires registration with a corp');
 		}
 	}
-
-	if(message.channel.type === 'dm')
-	{
-		corpSearch = userSearch.corp;
-	}
-	else if (userSearch.role !== UserRole.ADMIN) {
-		corpSearch = await connection.manager.getRepository(Corp).findOne({where: {id: message.guild.id}});
-		if(!userSearch.corp && command.name === 'addcorp') {
+	// If the message is not a DM, and the user is not an admin role, then make sure they are appropiatly permissioned.
+	if (message.channel.type !== 'dm' && msgUser.role !== UserRole.ADMIN) {
+		// if the user is not assigned a corp, and they are trying to add a corp, allow their current permissions
+		if(!msgUser.corp && command.name === 'addcorp' && message.guild.member(message.author.id).hasPermission('MANAGE_GUILD')) {
+			msgUser.role = UserRole.LEAD;
 			console.log('adding corp');
 		}
-		if(!corpSearch || !userSearch.corp || userSearch.corp.id !== corpSearch.id) {
-			userSearch.role = UserRole.PUBLIC;
+		// If there is no corp assigned to this channel, or the user doesn't have a corp, or there is a mismatch between the channel's corp and the user corp, then set the public role
+		else if(!msgCorp || !msgUser.corp || msgUser.corp.id !== msgCorp.id) {
+			msgUser.role = UserRole.PUBLIC;
 			console.log('corp mismatch, applying public role');
 		}
 	}
-	else {
-		corpSearch = await connection.manager.getRepository(Corp).findOne({where: {id: message.guild.id}});
-	}
 
-	if(command.permissions > userSearch.role) return message.channel.send('You have insufficient permissions for that command');
+	// after checking all of the permissions, kick them out if they don't have suffecient permissions.
+	if(command.permissions > msgUser.role) return message.channel.send('You have insufficient permissions for that command');
 
 	// Double check command arguments
 	if (command.args && !args.length) {
@@ -117,7 +163,7 @@ client.on('message', async message => {
 
 	// Execute the command
 	try {
-		command.execute(message, args, connection, userSearch, corpSearch);
+		command.execute(message, args, connection, msgUser, msgCorp);
 	}
 	catch (error) {
 		console.error(error);
