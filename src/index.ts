@@ -135,7 +135,7 @@ client.on('message', async message => {
 	}
 	// If the message is not a DM, and the user is not an admin role, then make sure they are appropiatly permissioned.
 	if (message.channel.type !== 'dm' && msgUser.role !== UserRole.ADMIN) {
-		// if the user is not assigned a corp, and they are trying to add a corp, allow their current permissions
+		// if the user is not assigned a corp, and they are trying to add a corp, give them temporary LEAD status.
 		if(!msgUser.corp && command.name === 'addcorp' && message.guild.member(message.author.id).hasPermission('MANAGE_GUILD')) {
 			msgUser.role = UserRole.LEAD;
 			console.log('adding corp');
