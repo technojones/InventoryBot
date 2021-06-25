@@ -9,6 +9,7 @@ import { queryValue } from "../types/queryValue";
 
 export default class SetDemand implements Command {
 	permissions: UserRole = UserRole.USER;
+	category = 'Inventory';
 	name = 'setdemand';
 	description = `Use this Command to set your demand (FIO users only) The arguments can be in any order on each line.
 		Items set with this command are your 'ideal' inventory levels. When someone queries the demand, your current inventory will be compared with your demand to see how many of that item you might be in the market for.

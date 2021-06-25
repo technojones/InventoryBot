@@ -7,6 +7,7 @@ import { User, UserRole } from "../entity/User";
 
 export default class Identify implements Command {
     name: string = 'identify';
+    category = 'Utility';
     args: boolean = true;
     needCorp: boolean = false;
     permissions: UserRole.PUBLIC;

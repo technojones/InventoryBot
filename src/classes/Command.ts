@@ -13,5 +13,6 @@ export interface Command {
     permissions: UserRole;
     description: string;
     usage: string;
+    category: string;
     execute: Execute;
 }

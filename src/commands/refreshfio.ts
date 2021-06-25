@@ -6,6 +6,7 @@ import { User, UserRole } from "../entity/User";
 
 export default class RefreshFIO implements Command {
     name: string = 'refreshfio';
+    category = 'Corp';
     args: boolean = false;
     needCorp: boolean = true;
     permissions: UserRole = UserRole.USER;

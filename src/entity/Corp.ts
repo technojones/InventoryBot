@@ -9,4 +9,7 @@ export class Corp {
     @Column()
     name: string;
 
+    @Column({type: "varchar", length: 3})
+    prefix: string;
+
 }

@@ -17,6 +17,7 @@ function FIOUserFilter(arr, query) {
 
 export default class QueryPrices implements Command {
     permissions: UserRole = UserRole.USER;
+    category = 'Pricing';
 	name: string= 'queryprices';
 	description: string = 'Use this Command to query prices. You can provide any combination of materials, planets, and usernames, and multiple of each if desired. If nothing is specified, it will return all of your price listings.';
 	args: boolean = false;

@@ -19,6 +19,7 @@ function FIOUserFilter(arr, query) {
 
 export default class QueryInventory implements Command {
     permissions: UserRole = UserRole.USER;
+    category = 'Inventory';
 	name: string= 'queryinventory';
 	description: string = `Use this Command to query inventory.
         You can provide any combination of materials, planets, and usernames, and multiple of each if desired. If nothing is specified, it will return all of your inventory listings.

@@ -19,8 +19,14 @@ export default class Prices {
         if(queryValues.planet) {
             queryObject.planet = In(queryValues.planet.map(p => p.id));
         }
-        const result: Price[] = await getConnection().getRepository(Price).find({where: queryObject, relations:['user', 'user.corp']});
-        console.log(result);
+        const result: Price[] = await getConnection().getRepository(Price).find({
+            where: queryObject,
+            relations:['user', 'user.corp'],
+            order: {
+                planet: 'ASC',
+                user: 'ASC',
+                material: 'ASC'
+            }});
         return result.filter(item => item.user.corp.id === corp.id);
     }
 }

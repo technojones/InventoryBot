@@ -7,10 +7,11 @@ import { Command, Execute } from "../classes/Command";
 
 export default class AddUser implements Command {
 	public name: string = 'adduser';
+	category = 'Users';
 	description: string = 'Command to add a user or group of users to your Corporation';
 	args: boolean= true;
 	needCorp: boolean = true;
-	usage: string = `Discord mention of the user you want to add, or a Discord role mention of a group of Discord users you want to add.
+	usage: string = `Provide a Discord mention of the user you want to add, or a Discord role mention of a group of Discord users you want to add.
 		You may add the 'lead' keyword to designate a corp lead`;
 	permissions: UserRole = UserRole.LEAD;
 	execute: Execute = async function(message: Message, args: string[][], con: Connection, user:User, corp?:Corp) {
@@ -113,7 +114,7 @@ export default class AddUser implements Command {
 							con.manager.getRepository(User).save(newUser).then(() =>{
 								try {
 									member.send(message.author.username + ' has added your to their corporation. To register, please respond with !register');
-									success.push(username + ' has been added');
+									success.push(username + ' has been messaged');
 								}
 								catch {
 									errors.push(username + ' could not be added');
@@ -133,10 +134,10 @@ export default class AddUser implements Command {
 				const messageContents = [];
 				if(errors.length !== 0) {
 					messageContents.push('**I encountered the following errors:**');
-					messageContents.push(errors.join(' '));
+					messageContents.push(errors.join(', '));
 				}
-				messageContents.push('**The following users were added successfully:**');
-				messageContents.push(success.join(' '));
+				messageContents.push('**The following users were added successfully and messaged:**');
+				messageContents.push(success.join(', '));
 				message.channel.send(messageContents, {split: true});
 			});
 		}

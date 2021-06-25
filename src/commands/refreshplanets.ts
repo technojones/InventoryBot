@@ -9,6 +9,7 @@ import { AllPlanetsPayload } from "../types/planet";
 
 export default class RefreshPlanets implements Command {
     name: string = 'refreshplanets';
+    category = 'Admin';
     args: boolean = false;
     needCorp: boolean = false;
     permissions: UserRole = UserRole.ADMIN;
@@ -33,6 +34,13 @@ export default class RefreshPlanets implements Command {
         planetList.push({name: 'Hortus Station', truncatedName: 'hortusstation', id: 'HRT'});
         planetList.push({name: 'Moria Station', truncatedName: 'moriastation', id: 'MOR'});
         planetList.push({name: 'Global', truncatedName: 'global', id: '*global'});
-        connection.manager.getRepository(Planet).save(planetList);
+        try {
+            await connection.manager.getRepository(Planet).save(planetList);
+        }
+        catch(e) {
+            console.log(e);
+            return message.channel.send('There was an issue refreshing the Planet data.')
+        }
+        message.channel.send('Planet information updated successfully');
     }
 }

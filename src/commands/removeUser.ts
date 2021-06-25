@@ -6,6 +6,7 @@ import { User, UserRole } from "../entity/User";
 
 export default class RemoveUser implements Command {
     name: string = 'removeuser';
+    category = 'Corp';
     args: boolean = true;
     needCorp: boolean = true;
     permissions: UserRole = UserRole.LEAD;

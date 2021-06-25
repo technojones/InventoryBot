@@ -7,6 +7,7 @@ import { Command, Execute } from "../classes/Command";
 
 export default class UpdateUser implements Command {
 	public name: string = 'updateuser';
+	category = 'Users';
 	description: string = 'Command to update a user';
 	args: boolean= false;
 	needCorp: boolean = false;

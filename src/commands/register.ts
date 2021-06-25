@@ -7,6 +7,7 @@ import { Command, Execute } from "../classes/Command";
 
 export default class Register implements Command {
 	public name: string = 'register';
+	category = 'Users';
 	description: string = 'After a user has been added by a corp lead, they can use this command to complete registration';
 	args: boolean = false;
 	needCorp: boolean = false;
@@ -138,7 +139,10 @@ To add all of your FIO stock of an item for Corp sale, simple use !setinventory 
 To reserve some of your stock, use the amount you want to reserve as the quantity. Any amount above that in your FIO data will be made available.
 
 To get started, use the !help command to find out about the commmands available to you. A good place to start is the !setinventory, !deleteinventory, and !queryinventory commands.
-You'll find that all of the query commands behave similarly, all of the set commands behave similarly, and all of the delete commands behave similarly.`);
+You'll find that all of the query commands behave similarly, all of the set commands behave similarly, and all of the delete commands behave similarly.
+You can DM me any commands you would like to run, or you can look for a bot channel provided by your corporation.
+You can run a limited set of commands on other corporations that have have also added me to query public data.
+For more information on what commands you can run on a particular server, use the !help command on that server.`);
 						resolve(true);
 					}).catch(async err => {
 						console.log(err);

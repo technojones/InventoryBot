@@ -10,12 +10,13 @@ import { queryValue } from "../types/queryValue";
 
 export default class DeleteDemand implements Command {
     name: string = 'deletedemand';
+    category = 'Inventory';
     aliases: string[] = ['deleted', 'dd'];
     args: boolean = true;
     needCorp: boolean = false;
     permissions = UserRole.USER;
     description: string = 'Delete some/all of your demand values. It will ask for confirmation before deleting.';
-    usage: string = 'Parameters to search your demand (planets and/or materials). Leave blank if you want to delete all of your demand';
+    usage: string = 'Provide parameters to search your demand (planets and/or materials). Leave blank if you want to delete all of your demand';
     execute: Execute = async function(message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null) {
         const f = new Functions(connection);
 

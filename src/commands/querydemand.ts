@@ -19,6 +19,7 @@ function FIOUserFilter(arr, query) {
 
 export default class QueryDemand implements Command {
     permissions: UserRole = UserRole.USER;
+    category = 'Inventory';
 	name: string= 'querydemand';
 	description: string = `Use this Command to query demand.
         You can provide any combination of materials, planets, and usernames, and multiple of each if desired. If nothing is specified, it will return all of your demand listings.
@@ -116,8 +117,8 @@ export default class QueryDemand implements Command {
                                     // if the user is different, add the header.
                                     messageContents.push('**' + item[groupBy].name + '**');
                                 }
-
-                                let thisLine = ('` ' + (item.quantity - FIOQuantity));
+                                const quantityNeeded = item.quantity - FIOQuantity;
+                                let thisLine = ('` ' + (quantityNeeded > 0 ? quantityNeeded : 0));
                                 thisLine += (' ' + item.material.ticker);
                                 // if the grouping is not by user, specify the user
                                 if(groupBy!=='user') thisLine += (' needed by ' + item.user.name);

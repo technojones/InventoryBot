@@ -284,25 +284,31 @@ export class FIO {
         });
 
         if(warAssembled) {
+            // iterate over each item in the warehouse and add any items in the base to it.
             Object.entries(warAssembled).forEach(([warPlanet, warStore]) => {
                 if(assembled[warPlanet]) {
-                    const result = {};
+                    const result: {'timestamp': ''} = {'timestamp': ''};
                     for (const [key, value] of Object.entries(assembled[warPlanet])) {
-                        if (result[key]) {
-                            result[key] += value;
-                        }
-                        else {
-                            result[key] = value;
+                        if(key !== 'timestamp') {
+                            if (result[key]) {
+                                result[key] += value;
+                            }
+                            else {
+                                result[key] = value;
+                            }
                         }
                     }
                     for (const [key, value] of Object.entries(warStore)) {
-                        if (result[key]) {
-                            result[key] += value;
-                        }
-                        else {
-                            result[key] = value;
+                        if(key !== 'timestamp') {
+                            if (result[key]) {
+                                result[key] += value;
+                            }
+                            else {
+                                result[key] = value;
+                            }
                         }
                     }
+                    result.timestamp = assembled[warPlanet].timestamp;
                     assembled[warPlanet] = result;
                 }
                 else {
