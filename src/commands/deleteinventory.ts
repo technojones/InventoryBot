@@ -32,11 +32,11 @@ export default class DeleteInventory implements Command {
                 message.channel.send(messageContents).then(msg => {
                     msg.react('✅').then(() => msg.react('❌'));
 
-                    const filter: CollectorFilter = (reaction: MessageReaction, discordUser: DiscordUser) => {
+                    const filter: CollectorFilter<[MessageReaction, DiscordUser]> = (reaction: MessageReaction, discordUser: DiscordUser) => {
                         return ['✅', '❌'].includes(reaction.emoji.name) && discordUser.id === message.author.id;
                     };
 
-                    msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+                    msg.awaitReactions({filter, max: 1, time: 60000, errors: ['time'] })
                     .then((collected) => {
                         const reaction = collected.first();
                         if (reaction.emoji.name === '✅') {

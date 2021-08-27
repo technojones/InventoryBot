@@ -14,7 +14,7 @@ export default class AddCorp implements Command {
         The user running this command must have the 'manage server' permission level, and will be added to the corporation.`;
     usage: string = 'No arguments needed.';
     execute: Execute = async function(message: Message, args: string[][], con: Connection, user: User, corp: Corp) {
-        if(message.channel.type === 'dm'){
+        if(message.channel.type === 'DM'){
             return message.channel.send('I can\'t create a corp from a DM channel, please try again in a discord server');
         }
 

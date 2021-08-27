@@ -38,7 +38,7 @@ export default class RemoveUser implements Command {
             if(result.length === 1) {
                 message.channel.send('I found ' + result[0].name + ' in your corp. Do you want to remove them? Respond with (Y/N)').then(() => {
                     const filter = m => m.author.id === user.id;
-                    message.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] }).then(async collected => {
+                    message.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] }).then(async collected => {
                         if(collected.first().content.toLowerCase().includes('y')) {
                             try {
                                 result[0].corp = null;
@@ -66,7 +66,7 @@ export default class RemoveUser implements Command {
                         messageContents.push(`[${r}] ${result[r]}`);
                     }
                 }
-                message.channel.send(messageContents);
+                message.channel.send(messageContents.join('\n'));
             }
             else {
                 message.channel.send('No results found. Please try again, or make sure the user doesn\'t have higher permissions than you.');

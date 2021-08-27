@@ -37,7 +37,7 @@ export default class UpdateUser implements Command {
 				messageUser.role = UserRole.LEAD;
 			}
 
-            if(message.channel.type !== 'dm') {
+            if(message.channel.type !== 'DM') {
                 // send the confirmation to the requester that the command has finished successfully and that the user will be contacted.
                 message.channel.send('I am sending a message to ' + messageUser.name  + ' to get more information');
             }
@@ -48,8 +48,8 @@ export default class UpdateUser implements Command {
 				messageContents.push('Let\'s update your info!');
 				messageContents.push('First, please reply with your Prosperous Universe username. Current value: ' + messageUser.name);
 				return new Promise<void>((resolve, reject) => {
-					discordUser.send(messageContents).then(dmMessage => {
-						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+					discordUser.send(messageContents.join('\n')).then(dmMessage => {
+						dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								messageUser.name = collected.first().content;
 								await dmMessage.channel.send(`Great! I've recorded your username as ${collected.first().content} (you can change this later)`);
@@ -66,8 +66,8 @@ export default class UpdateUser implements Command {
 				const messageContents = [];
 				messageContents.push('Now, reply with your company code. Current Value: ' + messageUser.companyCode);
 				return new Promise<void>((resolve, reject) => {
-					discordUser.send(messageContents).then(dmMessage => {
-						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+					discordUser.send(messageContents.join('\n')).then(dmMessage => {
+						dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								messageUser.companyCode = collected.first().content;
 								await dmMessage.channel.send(`Great! I've recorded your company code as ${collected.first().content} (you can change this later)`);
@@ -84,7 +84,7 @@ export default class UpdateUser implements Command {
 			const askFIO = async function() {
 				return new Promise<void>((resolve, reject) => {
 					discordUser.send('Are you a FIO user? Respond with (Y/N). Currently set as: ' + (messageUser.hasFIO ? 'Y' : 'N')).then(dmMessage => {
-						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+						dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								if(collected.first().content.toLowerCase() === 'y') {
 									messageUser.hasFIO = true;
@@ -120,8 +120,8 @@ export default class UpdateUser implements Command {
                         messageContents.push('**If you would like to keep using your current API key, just respond with a single character like \'-\'**');
                     }
 
-					discordUser.send(messageContents).then(dmMessage => {
-						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+					discordUser.send(messageContents.join('\n')).then(dmMessage => {
+						dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								const regex = collected.first().content.match(/[a-f\d]{32}|[-a-f\d]{36}/gm);
 								if(regex) {
@@ -193,7 +193,7 @@ To reserve some of your stock, use the amount you want to reserve as the quantit
 					const errorHandle = function() {
 						return new Promise<boolean>(async (resolve) => {
 							discordUser.send('There was an issue updating your info. If you would like to retry, please respond with "retry". No action is required to cancel.').then(dmMessage => {
-								dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+								dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 									.then(async collected => {
 										if(collected.first().content.toLowerCase() !== 'retry') {
 											await discordUser.send('Sorry the update was unsuccessful. Please retry!');

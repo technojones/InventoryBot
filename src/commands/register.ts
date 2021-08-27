@@ -33,8 +33,8 @@ export default class Register implements Command {
 				messageContents.push('Hello! Thank you for registering with me.');
 				messageContents.push('First, please reply with your Prosperous Universe username');
 				return new Promise<void>((resolve, reject) => {
-					messageUser.send(messageContents).then(dmMessage => {
-						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+					messageUser.send(messageContents.join('\n')).then(dmMessage => {
+						dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								newUser.name = collected.first().content;
 								await dmMessage.channel.send(`Great! I've recorded your username as ${collected.first().content} (you can change this later)`);
@@ -51,8 +51,8 @@ export default class Register implements Command {
 				const messageContents = [];
 				messageContents.push('Next, please reply with your company code.');
 				return new Promise<void>((resolve, reject) => {
-					messageUser.send(messageContents).then(dmMessage => {
-						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+					messageUser.send(messageContents.join('\n')).then(dmMessage => {
+						dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								newUser.companyCode = collected.first().content;
 								await dmMessage.channel.send(`Great! I've recorded your company code as ${collected.first().content} (you can change this later)`);
@@ -69,7 +69,7 @@ export default class Register implements Command {
 			const askFIO = async function() {
 				return new Promise<void>((resolve, reject) => {
 					messageUser.send('Are you a FIO user? Respond with (Y/N).').then(dmMessage => {
-						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+						dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								if(collected.first().content.toLowerCase() === 'y') {
 									newUser.hasFIO = true;
@@ -101,8 +101,8 @@ export default class Register implements Command {
 					messageContents.push('If you would like to create your own API key for me to use, please see https://doc.fnar.net/#/auth/post_auth_createapikey');
 					messageContents.push('If you would like me to make an API key for you, please provide your password. Note, your password is never stored.');
 
-					messageUser.send(messageContents).then(dmMessage => {
-						dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+					messageUser.send(messageContents.join('\n')).then(dmMessage => {
+						dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 							.then(async collected => {
 								const regex = collected.first().content.match(/[a-f\d]{32}|[-a-f\d]{36}/gm);
 								if(regex) {
@@ -178,7 +178,7 @@ You'll find that all of the query commands behave similarly, all of the set comm
 					const errorHandle = function() {
 						return new Promise<boolean>(async (resolve) => {
 							messageUser.send('There was an issue with your registration. If you would like to retry the registration, please respond with "retry". No action is required to cancel.').then(dmMessage => {
-								dmMessage.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] })
+								dmMessage.channel.awaitMessages({filter, max: 1, time: 300000, errors: ['time'] })
 									.then(async collected => {
 										if(collected.first().content.toLowerCase() !== 'retry') {
 											await messageUser.send('Sorry registration was unsuccessful! Please contact ' + message.author.username + ' to re-register.');

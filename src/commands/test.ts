@@ -16,7 +16,7 @@ export default class Test implements Command {
     description: string = 'test command';
     usage: string = '';
     execute: Execute = async (message:Message, args, connection, user, corp) => {
-       if(message.guild.member(message.author.id).hasPermission('MANAGE_GUILD')) {
+       if(message.guild.members.resolve(message.author.id).permissions.has('MANAGE_GUILD')) {
            message.channel.send('You have permissions!');
        }
        else {
