@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, Util } from "discord.js";
 import { Connection } from "typeorm";
 import { FIO } from "../classes/FIO";
 import { Corp } from "../entity/Corp";
@@ -138,7 +138,12 @@ export default class AddUser implements Command {
 				}
 				messageContents.push('**The following users were added successfully and messaged:**');
 				messageContents.push(success.join(', '));
-				message.channel.send(messageContents, {split: true});
+				
+				const splitMessage = Util.splitMessage(messageContents.join('\n'));
+
+				splitMessage.forEach(m => {
+					message.channel.send(m);
+				});
 			});
 		}
 		else {

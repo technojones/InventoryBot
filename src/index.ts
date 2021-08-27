@@ -12,11 +12,13 @@ import { User, UserRole } from "./entity/User";
 import { Corp } from "./entity/Corp";
 import { Command, Execute } from "./classes/Command";
 
+const myIntents = new Discord.Intents();
+myIntents.add(Discord.Intents.FLAGS.GUILD_PRESENCES, Discord.Intents.FLAGS.GUILD_MEMBERS,
+	Discord.Intents.FLAGS.DIRECT_MESSAGES, Discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+	Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+	Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_BANS);
 
-const myIntents = new Discord.Intents(Discord.Intents.ALL);
-// myIntents.add( 'GUILD_MEMBERS');
-
-const client: YFDiscordClient = new YFDiscordClient({ ws: { intents: myIntents } });
+const client: YFDiscordClient = new YFDiscordClient({ intents: myIntents });
 client.commands = new Discord.Collection();
 // read in command files
 const commandFiles = fs.readdirSync('./dist/commands').filter(file => file.endsWith('.js'));
@@ -41,14 +43,14 @@ createConnection().then(con => {
 client.once('ready', () => {
 	console.log('Discord Connected');
 	client.user.setStatus('online');
-	client.user.setPresence({activity: {type: 'LISTENING', name: ' commands. DM !help for more info.'}});
+	client.user.setPresence({activities: [{type: 'LISTENING', name: ' commands. DM !help for more info.'}]});
 });
 
 process.on('uncaughtException', async err => {
 	console.log(`Uncaught Exception: ${err.message}`)
 	console.log(err.stack);
 	if(client.uptime > 0) {
-		await client.user.setPresence({activity: {type: 'PLAYING', name: 'dead'}});
+		await client.user.setPresence({activities: [{type: 'PLAYING', name: 'dead'}]});
 		const textChannel = await client.channels.cache.get('837490337156038656') as Discord.TextChannel
 		await textChannel.send('I\'ve encountered an error and am shutting down');
 		client.destroy();
@@ -61,7 +63,7 @@ process.on('uncaughtException', async err => {
 process.on('SIGINT', async () => {
 	if(client.uptime > 0) {
 		console.log('Destroying Client');
-		await client.user.setPresence({activity: {type: 'PLAYING', name: 'dead'}});
+		await client.user.setPresence({activities: [{type: 'PLAYING', name: 'dead'}]});
 		await client.destroy();
 	}
 	setTimeout(() => {
@@ -70,7 +72,7 @@ process.on('SIGINT', async () => {
 })
 
 // Discord Message handler
-client.on('message', async message => {
+client.on('messageCreate', async message => {
 	if (message.author.bot) return;
 	// if (message.content.startsWith('$')) market.getInfo(message, message.content.slice(1).trim());
 	let msgUser: User = null;
@@ -80,19 +82,23 @@ client.on('message', async message => {
 		msgUser = await connection.manager.getRepository(User).findOne({where: {id: message.author.id}, relations: ["corp", "fioData"]});
 
 		// if it's a DM channel, then use the users corp.
-		if(message.channel.type === 'dm') msgCorp = msgUser.corp;
+		if(message.channel.type === 'DM') msgCorp = msgUser.corp;
 		// otherwise search the database
 		else msgCorp = await connection.manager.getRepository(Corp).findOne({where: {id: message.guild.id}});
 	}
 	catch(e) {
 		console.log(e);
-		return message.channel.send('There was an issue retriving the corp data from the database.');
+		await message.channel.send('There was an issue retriving the corp data from the database.');
+		return;
 	}
 
 	const msgPrefix = msgCorp.prefix ? msgCorp.prefix : prefix;
 
 	if (!message.content.startsWith(msgPrefix)) {
-		if(message.channel.type === 'dm' && message.content.startsWith(prefix)) return message.channel.send(`It looks like your corporation uses the "${msgPrefix}" prefix instead of the default "${prefix}".`);
+		if(message.channel.type === 'DM' && message.content.startsWith(prefix)) {
+			await message.channel.send(`It looks like your corporation uses the "${msgPrefix}" prefix instead of the default "${prefix}".`);
+			return;
+		}
 		else return;
 	}
 
@@ -124,19 +130,21 @@ client.on('message', async message => {
 	}
 	else if(command.name !== 'register'  && msgUser.name === null) {
 		// if they don't have a name set, they haven't completed registration. Stop the command and tell them to register.
-		return message.channel.send('You don\'t seem to be completely registered. Please use the register command to finish registration');
+		await message.channel.send('You don\'t seem to be completely registered. Please use the register command to finish registration');
+		return;
 	}
 
 	// if the command requires a corp, and the user doesn't have one, abort the command.
 	if(command.needCorp === true) {
 		if(msgUser.corp === null) {
-			return message.channel.send('Use of this command requires registration with a corp');
+			await message.channel.send('Use of this command requires registration with a corp');
+			return;
 		}
 	}
 	// If the message is not a DM, and the user is not an admin role, then make sure they are appropiatly permissioned.
-	if (message.channel.type !== 'dm' && msgUser.role !== UserRole.ADMIN) {
+	if (message.channel.type !== 'DM' && msgUser.role !== UserRole.ADMIN) {
 		// if the user is not assigned a corp, and they are trying to add a corp, give them temporary LEAD status.
-		if(!msgUser.corp && command.name === 'addcorp' && message.guild.member(message.author.id).hasPermission('MANAGE_GUILD')) {
+		if(!msgUser.corp && command.name === 'addcorp' && message.guild.members.resolve(message.author.id).permissions.has('MANAGE_GUILD')) {
 			msgUser.role = UserRole.LEAD;
 			console.log('adding corp');
 		}
@@ -148,7 +156,10 @@ client.on('message', async message => {
 	}
 
 	// after checking all of the permissions, kick them out if they don't have suffecient permissions.
-	if(command.permissions > msgUser.role) return message.channel.send('You have insufficient permissions for that command');
+	if(command.permissions > msgUser.role) {
+		await message.channel.send('You have insufficient permissions for that command');
+		return;
+	}
 
 	// Double check command arguments
 	if (command.args && !args.length) {
@@ -158,7 +169,8 @@ client.on('message', async message => {
 			reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
 		}
 
-		return message.channel.send(reply);
+		await message.channel.send(reply);
+		return;
 	}
 
 	// Execute the command

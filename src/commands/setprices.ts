@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, Util } from "discord.js";
 import { Connection } from "typeorm";
 import { Command, Execute } from "../classes/Command";
 import Functions from "../classes/functions";
@@ -99,7 +99,12 @@ export default class SetInventory implements Command {
 			Promise.allSettled(promise).then((result) => {
 				const rejected = result.map(r => { return (r.status === 'rejected') ? r.reason : '' });
 				const successful = result.map(r =>{ return (r.status === 'fulfilled') ? r.value : ''});
-				message.channel.send(rejected.concat(successful).filter(v => v !== ''), { split: true });
+				const messageContents = rejected.concat(successful).filter(v => v !== '')
+				const splitMessage = Util.splitMessage(messageContents.join('\n'));
+
+				splitMessage.forEach(m => {
+					message.channel.send(m);
+				});
 			}, function(err) {
 				message.channel.send(err);
 				console.log(err);

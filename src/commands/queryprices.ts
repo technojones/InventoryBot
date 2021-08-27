@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, Util } from "discord.js";
 import { Connection } from "typeorm";
 import { Command, Execute } from "../classes/Command";
 import Functions from "../classes/functions";
@@ -45,8 +45,8 @@ export default class QueryPrices implements Command {
                 databaseResults = result;
                 console.log('Inventory lines returned: ' + databaseResults.length);
                 // parse a new message with the results
-                return new Promise((resolve) => {
-                    const messageContents = [];
+                return new Promise<string[]>((resolve) => {
+                    const messageContents: string[] = [];
                     if (databaseResults.length === 0) {
                         // if no results in the database, return a message indicating as such.
                         messageContents.push('No results found for the given input');
@@ -93,7 +93,11 @@ export default class QueryPrices implements Command {
                 });
             }).then((result) => {
                 // send the message containing the results
-                message.channel.send(result, { split: true });
+                const splitMessage = Util.splitMessage(result.join('\n'));
+
+				splitMessage.forEach(m => {
+					message.channel.send(m);
+				});
             }).catch(function(error) {
                 // catch any errors that pop up.
                 message.channel.send('Error! ' + error);

@@ -1,4 +1,4 @@
-import { CategoryChannel, Collection, Message } from "discord.js";
+import { CategoryChannel, Collection, Message, Util } from "discord.js";
 import { Connection } from "typeorm";
 import { Command, Execute } from "../classes/Command";
 import Functions from "../classes/functions";
@@ -71,10 +71,15 @@ export default class Help implements Command {
 				data.push(catagoryCommands.join(', '));
 				data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
 			}
+			const splitMessage = Util.splitMessage(data.join('\n'));
 
-			return message.author.send(data, { split: true })
+			const messages = splitMessage.map(m => {
+				return message.channel.send(m);
+			})
+
+			return Promise.all(messages)
 				.then(() => {
-					if (message.channel.type === 'dm') return;
+					if (message.channel.type === 'DM') return;
 					message.reply('I\'ve sent you a DM with all my commands!');
 				})
 				.catch(error => {
@@ -96,7 +101,11 @@ export default class Help implements Command {
 					if (command.usage) data.push(`	**Usage/Arguments:** ${command.usage}`);
 					if (command.description) data.push(`	**Description:** ${command.description}`);
 				});
-				message.channel.send(data, { split: true });
+				const splitMessage = Util.splitMessage(data.join('\n'));
+
+				splitMessage.forEach(m => {
+					message.channel.send(m);
+				});
 			}
 			else {
 				return message.reply('Either that isn\'t not a valid command, or you don\'t have the permissions for it');
@@ -109,8 +118,11 @@ export default class Help implements Command {
        	 	if (foundCommand.usage) data.push(`**Usage/Arguments:** ${foundCommand.usage}`);
 			if (foundCommand.description) data.push(`**Description:** ${foundCommand.description}`);
 
-			message.channel.send(data, { split: true });
-		}
+			const splitMessage = Util.splitMessage(data.join('\n'));
 
+			splitMessage.forEach(m => {
+				message.channel.send(m);
+			});
+		}
 	};
 };
