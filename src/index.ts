@@ -18,7 +18,7 @@ myIntents.add(Discord.Intents.FLAGS.GUILD_PRESENCES, Discord.Intents.FLAGS.GUILD
 	Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
 	Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_BANS);
 
-const client: YFDiscordClient = new YFDiscordClient({ intents: myIntents });
+const client: YFDiscordClient = new YFDiscordClient({ intents: myIntents,  partials: ['CHANNEL'] });
 client.commands = new Discord.Collection();
 // read in command files
 const commandFiles = fs.readdirSync('./dist/commands').filter(file => file.endsWith('.js'));
