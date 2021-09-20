@@ -1,7 +1,9 @@
+import { userInfo } from "os";
 import { FindOperator, getConnection, In } from "typeorm";
 import { Corp } from "../entity/Corp";
 import { Inventory } from "../entity/Inventory";
 import { Price } from "../entity/Price";
+import { User } from "../entity/User";
 import { InvWithPrice } from "../nonDBEntity/InventoryWithPrice";
 import { queryValue } from "../types/queryValue";
 
@@ -12,6 +14,12 @@ export default class Inventories {
             user?: FindOperator<unknown>,
             planet?: FindOperator<unknown>
         } = {};
+
+        if(queryValues === {}) {
+            const users = await getConnection().getRepository(User).find({where: {corp}})
+            queryObject.user = In(users.map(u => u.id))
+        }
+
         if(queryValues.material) {
             queryObject.material = In(queryValues.material.map(mat => mat.ticker));
         }
@@ -25,12 +33,18 @@ export default class Inventories {
         return result.filter(item => item.user.corp.id === corp.id);
     }
     public async queryInvWithPrice(queryValues: queryValue, corp: Corp): Promise<InvWithPrice[]> {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const queryObject: {
                 material?: FindOperator<unknown>,
                 user?: FindOperator<unknown>,
                 planet?: FindOperator<unknown>
             } = {};
+
+            if(queryValues === {}) {
+                const users = await getConnection().getRepository(User).find({where: {corp}})
+                queryObject.user = In(users.map(u => u.id))
+            }
+
             if(queryValues.material) {
                 queryObject.material = In(queryValues.material.map(mat => mat.ticker));
             }
