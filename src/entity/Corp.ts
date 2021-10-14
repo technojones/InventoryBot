@@ -12,4 +12,8 @@ export class Corp {
     @Column({type: "varchar", length: 3})
     prefix: string;
 
+    @Column({ type: "json" })
+    boards: {inventory?: string[]
+        orders?: string[]};
+
 }

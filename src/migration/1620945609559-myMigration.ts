@@ -3,11 +3,11 @@ import {MigrationInterface, QueryRunner} from "typeorm";
 export class myMigration1620945609559 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query('ALTER TABLE `betaInventoryBot`.`corp` ADD COLUMN `prefix` VARCHAR(3) NULL AFTER `id`');
+        await queryRunner.query('ALTER TABLE `inventoryBot`.`corp` ADD COLUMN `prefix` VARCHAR(3) NULL AFTER `id`');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query('ALTER TABLE `betaInventoryBot`.`corp` DROP COLUMN `prefix`');
+        await queryRunner.query('ALTER TABLE `inventoryBot`.`corp` DROP COLUMN `prefix`');
     }
 
 }
