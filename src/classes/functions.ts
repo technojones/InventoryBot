@@ -116,7 +116,7 @@ export default class Functions {
 				returned.type = 'discord_mention';
 				returned.value = value;
 			}
-			else if(value.match(/^\d+$/) !== null) {
+			else if(value.match(/^\d+\.*\d*$/) !== null) {
 				returned.type = 'number';
 				returned.value = value;
 			}
