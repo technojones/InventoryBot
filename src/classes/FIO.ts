@@ -246,41 +246,47 @@ export class FIO {
             storage = [storage];
         }
        storage.forEach(storageItem =>{
-            if(siteData[storageItem.AddressableId]) {
-                const siteStorage = {};
-                storageItem.StorageItems.forEach(storageMaterial =>{
-                    siteStorage[storageMaterial.MaterialTicker] = storageMaterial.MaterialAmount;
-                });
-                // if the data hasn't already been found for a site, add it to the assembled data.
-                if(!assembled[siteData[storageItem.AddressableId]]) {
-                    assembled[siteData[storageItem.AddressableId]] = siteStorage;
-                    assembled[siteData[storageItem.AddressableId]].timestamp = storageItem.Timestamp;
-                }
-                // if it has been found, then make sure the new data is used.
-                else if(Date.parse(assembled[siteData[storageItem.AddressableId]].timestamp) < Date.parse(storageItem.Timestamp)) {
-                    assembled[siteData[storageItem.AddressableId]] = siteStorage;
-                    assembled[siteData[storageItem.AddressableId]].timestamp = storageItem.Timestamp;
-                }
-            }
-            // if it's a warehouse, add it to the warehouse list.
-            if(storageItem.Type === 'WAREHOUSE_STORE') {
-                if(warData[storageItem.StorageId]) {
-                    const warStorage = {};
-                    storageItem.StorageItems.forEach(storageMaterial => {
-                        warStorage[storageMaterial.MaterialTicker] = storageMaterial.MaterialAmount;
-                    });
-                    // if the data hasn't already been found for a site, add it to the assembled data.
-                    if(!warAssembled[warData[storageItem.StorageId]]) {
-                        warAssembled[warData[storageItem.StorageId]] = warStorage;
-                        warAssembled[warData[storageItem.StorageId]].timestamp = storageItem.Timestamp;
-                    }
-                    // if it has been found, then make sure the new data is used.
-                    else if(Date.parse(warAssembled[warData[storageItem.StorageId]].timestamp) < Date.parse(storageItem.Timestamp)) {
-                        warAssembled[warData[storageItem.StorageId]] = warStorage;
-                        warAssembled[warData[storageItem.StorageId]].timestamp = storageItem.Timestamp;
-                    }
-                }
-            }
+		   if(storageItem != undefined)
+		   {
+				if(siteData[storageItem.AddressableId]) {
+					const siteStorage = {};
+					storageItem.StorageItems.forEach(storageMaterial =>{
+						siteStorage[storageMaterial.MaterialTicker] = storageMaterial.MaterialAmount;
+					});
+					// if the data hasn't already been found for a site, add it to the assembled data.
+					if(!assembled[siteData[storageItem.AddressableId]]) {
+						assembled[siteData[storageItem.AddressableId]] = siteStorage;
+						assembled[siteData[storageItem.AddressableId]].timestamp = storageItem.Timestamp;
+					}
+					// if it has been found, then make sure the new data is used.
+					else if(Date.parse(assembled[siteData[storageItem.AddressableId]].timestamp) < Date.parse(storageItem.Timestamp)) {
+						assembled[siteData[storageItem.AddressableId]] = siteStorage;
+						assembled[siteData[storageItem.AddressableId]].timestamp = storageItem.Timestamp;
+					}
+				}
+				// if it's a warehouse, add it to the warehouse list.
+				if(storageItem.Type === 'WAREHOUSE_STORE') {
+					if(warData[storageItem.StorageId]) {
+						const warStorage = {};
+						storageItem.StorageItems.forEach(storageMaterial => {
+							warStorage[storageMaterial.MaterialTicker] = storageMaterial.MaterialAmount;
+						});
+						// if the data hasn't already been found for a site, add it to the assembled data.
+						if(!warAssembled[warData[storageItem.StorageId]]) {
+							warAssembled[warData[storageItem.StorageId]] = warStorage;
+							warAssembled[warData[storageItem.StorageId]].timestamp = storageItem.Timestamp;
+						}
+						// if it has been found, then make sure the new data is used.
+						else if(Date.parse(warAssembled[warData[storageItem.StorageId]].timestamp) < Date.parse(storageItem.Timestamp)) {
+							warAssembled[warData[storageItem.StorageId]] = warStorage;
+							warAssembled[warData[storageItem.StorageId]].timestamp = storageItem.Timestamp;
+						}
+					}
+				}
+			}
+			else {
+				throw("Storage Undefined")
+			}
         });
 
         if(warAssembled) {
@@ -367,8 +373,13 @@ export class FIO {
                         reject('Error retriving new site data', item);
                     });
                 }
-
-                assembled = this.assembleStorageData(storage, item.siteData, item.warData);
+				try {
+                	assembled = this.assembleStorageData(storage, item.siteData, item.warData);
+				}
+				catch(e)
+				{
+					reject(e, item);
+				}
 
                 item.storageData = assembled;
                 item.storageTS = new Date(Date.now());
