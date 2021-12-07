@@ -55,7 +55,7 @@ export default class QueryInventory implements Command {
             .then((result) => {
                 databaseResults = result;
                 console.log('Inventory lines returned: ' + databaseResults.length);
-                const distinctUsers = [...new Set(result.map(x => x.user))];
+                const distinctUsers = [...new Set(result.filter(x => x.user.hasFIO).map(x => x.user))];
                 return fio.updateUserData(distinctUsers);
             })
             .then((result) => {

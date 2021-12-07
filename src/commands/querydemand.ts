@@ -48,7 +48,7 @@ export default class QueryDemand implements Command {
             .then((result) => {
                 demandResults = result;
                 console.log('Inventory lines returned: ' + demandResults.length);
-                const distinctUsers = [...new Set(result.map(x => x.user))];
+                const distinctUsers = [...new Set(result.filter(x => x.user.hasFIO).map(x => x.user))];
                 return fio.updateUserData(distinctUsers);
             })
             .then((result) => {
