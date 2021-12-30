@@ -11,42 +11,22 @@ import * as https from 'https';
 
 
 export default class Test implements Command {
-    name: string = 'test';
+    name: string = 'csv';
     category = 'Utility';
     args: boolean = false;
     needCorp: boolean = false;
-    permissions: UserRole = UserRole.LEAD;
+    permissions: UserRole = UserRole.ADMIN;
     description: string = 'test command';
     usage: string = '';
     execute: Execute = async (message:Message, args, connection, user, corp) => {
        const attachments = message.attachments;
+	   const f = new Functions(connection);
 
-	   attachments.forEach(attachment => {
+	   attachments.forEach(async attachment =>  {
 		   console.log(attachment.name);
 		   console.log(attachment.contentType);
 		   console.log(attachment);
-			const req = https.request(attachment.attachment as string, res => {
-				console.log('statusCode:', res.statusCode);
-				console.log('headers:', res.headers);
-				let data = Buffer.alloc(0)
-				res.on('data', (d) => {
-					if(Buffer.isBuffer(d)) {
-						console.log(d);
-				  		data = Buffer.concat([data, d]);
-					}
-				});
-
-				res.on('close', () => {
-					parse(data, {}, (err, parsedData) => {
-						console.log('Parsed Data:')
-						console.log(parsedData);
-					});
-				})
-			});
-			  req.on('error', (e) => {
-				console.error(e);
-			  });
-			  req.end();
-		});
+			console.log(await f.CSVtoArgs(attachment));
+	   });
     };
 }

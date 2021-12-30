@@ -35,6 +35,16 @@ export default class UpdateUser implements Command {
 			// Check to see if the 'lead' keyword was used. If so, and the requester was also a lead or greater, assign the lead role to the new user.
 			if(args[0].includes('lead') && user.role >= UserRole.LEAD) {
 				messageUser.role = UserRole.LEAD;
+				// if a discord user was mentioned to update, then apply their role and return. No need to ask for more information
+				if(message.mentions.users.first()) {
+					try {
+						await con.manager.getRepository(User).save(messageUser);
+						return message.channel.send('I have updated ' + messageUser.name  + ' to lead status');
+					}
+					catch(e) {
+						return message.channel.send('There was an error updating ' + messageUser.name  + ' to lead status');
+					}
+				}
 			}
 
             if(message.channel.type !== 'DM') {
@@ -137,7 +147,6 @@ export default class UpdateUser implements Command {
 									fio.getAPIKey(messageUser.name, collected.first().content).then(async apiKey => {
 										messageUser.FIOAPIKey = apiKey;
 										await dmMessage.channel.send('Thank you for providing your password, I was able to generate an API Key. Proceeding to FIO testing. Please standby while I connect with FIO.');
-										console.log(apiKey);
 										resolve();
 									}).catch(async (err) => {
 										console.log(err);

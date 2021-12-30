@@ -368,7 +368,12 @@ export class FIO {
                     });
                 }
 
-                assembled = this.assembleStorageData(storage, item.siteData, item.warData);
+                try {
+                    assembled = this.assembleStorageData(storage, item.siteData, item.warData);
+                }
+                catch(e) {
+                    reject(e, item);
+                }
 
                 item.storageData = assembled;
                 item.storageTS = new Date(Date.now());

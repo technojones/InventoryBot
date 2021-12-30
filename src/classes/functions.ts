@@ -3,6 +3,9 @@ import { Material } from '../entity/Material';
 import { Planet } from '../entity/Planet';
 import { User } from '../entity/User';
 import { queryValue } from '../types/queryValue';
+import * as parse from 'csv-parse';
+import * as https from 'https';
+import { MessageAttachment } from 'discord.js';
 
 
 type identifiedType = "planet" | "user_id" | "number" | "material" | "user" | "user_id" | "discord_mention" | null;
@@ -116,7 +119,7 @@ export default class Functions {
 				returned.type = 'discord_mention';
 				returned.value = value;
 			}
-			else if(value.match(/^\d+$/) !== null) {
+			else if(value.match(/^\d+([.]?)(\d{0,2}?)$/) !== null) {
 				returned.type = 'number';
 				returned.value = value;
 			}
@@ -206,4 +209,39 @@ export default class Functions {
 				}
 			});
 	};
+	/**
+	 * CSVtoArgs
+	 */
+	async CSVtoArgs(attachment: MessageAttachment): Promise<string[][]> {
+		return new Promise((resolve, reject) => {
+			const req = https.request(attachment.attachment as string, res => {
+				let data = Buffer.alloc(0)
+				res.on('data', (d) => {
+					if(Buffer.isBuffer(d)) {
+						data = Buffer.concat([data, d]);
+					}
+				});
+
+				res.on('close', () => {
+					parse(data, {}, async (err, parsedData : string[][]) => {
+						if(err) {
+							reject(err);
+						}
+						else if((await this.id(parsedData[0][0])).type === null)
+						{
+							resolve(parsedData.slice(1));
+						}
+						else {
+							resolve(parsedData);
+						}
+					});
+				})
+			});
+
+			req.on('error', (e) => {
+				reject(e);
+			});
+			req.end();
+		})
+	}
 };

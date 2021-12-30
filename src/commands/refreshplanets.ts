@@ -6,6 +6,9 @@ import { Corp } from "../entity/Corp";
 import { Planet } from "../entity/Planet";
 import { User, UserRole } from "../entity/User";
 import { AllPlanetsPayload } from "../types/planet";
+import winston = require("winston");
+
+const logger = winston.loggers.get('logger');
 
 export default class RefreshPlanets implements Command {
     name: string = 'refreshplanets';
@@ -17,7 +20,14 @@ export default class RefreshPlanets implements Command {
     usage: string = 'no arguments needed';
     execute: Execute = async function(message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null): Promise<any> {
         const fio = new FIO(connection);
-        const allPlanets: AllPlanetsPayload = await fio.getAllPlanets();
+        let allPlanets: AllPlanetsPayload;
+        try {
+            allPlanets = await fio.getAllPlanets();
+        }
+        catch (e) {
+            logger.error('Planet refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
+            return message.channel.send('There was an error updating the planet list');
+        }
         const planetList: Planet[] = [];
         allPlanets.forEach(p => {
             const planet = new Planet();
@@ -28,7 +38,9 @@ export default class RefreshPlanets implements Command {
 
             planetList.push(planet);
 
-        })
+        });
+
+        // add a list of stations, plus the global identifier to the list of planets.
         planetList.push({name: 'Benten Station', truncatedName: 'bentenstation', id: 'BEN'});
         planetList.push({name: 'Antares Station', truncatedName: 'antaresstation', id: 'ANT'});
         planetList.push({name: 'Hortus Station', truncatedName: 'hortusstation', id: 'HRT'});
@@ -38,7 +50,7 @@ export default class RefreshPlanets implements Command {
             await connection.manager.getRepository(Planet).save(planetList);
         }
         catch(e) {
-            console.log(e);
+            logger.error('Planet refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
             return message.channel.send('There was an issue refreshing the Planet data.')
         }
         message.channel.send('Planet information updated successfully');

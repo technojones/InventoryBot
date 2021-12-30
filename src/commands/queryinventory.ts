@@ -1,5 +1,6 @@
 import { Message, Util } from "discord.js";
 import { Connection } from "typeorm";
+import winston = require("winston");
 import { Command, Execute } from "../classes/Command";
 import { FIO } from "../classes/FIO";
 import Functions from "../classes/functions";
@@ -10,6 +11,8 @@ import { Inventory } from "../entity/Inventory";
 import { User, UserRole } from "../entity/User";
 import { InvWithPrice } from "../nonDBEntity/InventoryWithPrice";
 import { queryValue } from "../types/queryValue";
+
+const logger = winston.loggers.get('logger')
 
 function FIOUserFilter(arr, query) {
 	return arr.filter(function(item) {
@@ -54,7 +57,6 @@ export default class QueryInventory implements Command {
         inv.queryInvWithPrice(queryValues, corp)
             .then((result) => {
                 databaseResults = result;
-                console.log('Inventory lines returned: ' + databaseResults.length);
                 const distinctUsers = [...new Set(result.map(x => x.user))];
                 return fio.updateUserData(distinctUsers);
             })
@@ -65,6 +67,7 @@ export default class QueryInventory implements Command {
                         FIOResults[item.value.id] = item.value;
                     }
                     else {
+                        logger.warn("Rejected item from FIO update", {messageID: message.id, messageGuild: message.guild, user, args, FIOitem: item});
                         errors.push(item.reason);
                     }
                 });
@@ -111,7 +114,7 @@ export default class QueryInventory implements Command {
                                     FIOTimestamp = Date.parse(fioData.storageData[item.planet.id].timestamp + 'Z');
                                 }
                                 catch(e) {
-                                    console.log(e);
+                                    logger.warn('FIO quantity issue', {messageID: message.id, messageGuild: message.guild, user, args, databaseItem: item});
                                     FIOStatus = '🔸';
                                     item.quantity = -item.quantity;
                                 }
@@ -169,7 +172,7 @@ export default class QueryInventory implements Command {
             }).catch(function(error) {
                 // catch any errors that pop up.
                 message.channel.send('Error! ' + error);
-                console.log(error);
+                logger.error('Inventory promise error', {messageID: message.id, messageGuild: message.guild, user, args, error});
             });
 	};
 };

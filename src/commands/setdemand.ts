@@ -20,25 +20,48 @@ export default class SetDemand implements Command {
 	usage = '`<planet> <mat> <quantity>\n (optional) <mat> <quantity>`';
 	execute: Execute = async function(message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null): Promise<any> {
 		const functions = new Functions(connection);
+		let firstPlanet;
+
+		// first off, determine if there is a planet in the first line of arguments. This will apply for both CSV and regular arguments.
+		if(args) {
+			// identify all the first line arguments
+			const firstLineArgs: queryValue = await functions.idArgs(args[0]);
+			// If planet is a friendly name, return the designation
+			if (firstLineArgs.planet) {
+				firstPlanet = firstLineArgs.planet[0];
+			}
+		}
+
+		// if the message has an attachment, assign the CSV arguments to process.
+		if(message.attachments.size > 0) {
+			try {
+				// assign the CSV arguments to the args variable
+				args = await functions.CSVtoArgs(message.attachments.first());
+
+				// seperate the first line to check for a planet and if it exists set that planet as the target.
+				const firstLineArgs: queryValue = await functions.idArgs(args[0]);
+
+				if (firstLineArgs.planet) {
+					firstPlanet = firstLineArgs.planet[0];
+				}
+			}
+			catch(e) {
+				console.log(e);
+				return message.channel.send('**ERROR!** could not process the attachment. Please make sure a valid CSV file is attached.');
+			}
+
+		}
 
 		if (args) {
 			// get the current time for a timestamp
 			const ts = new Date(Date.now());
 
-			// identify all the first line arguments
-			const firstLineArgs: queryValue = await functions.idArgs(args[0]);
-			let planet;
-			// If planet is a friendly name, return the designation
-			if (firstLineArgs.planet) {
-				planet = firstLineArgs.planet[0];
-			}
-			else {
-				// if no planet was found, return an error
+			if(!firstPlanet) {
+				// A planet should have been found in one/both of the previous steps. If no planet was found, return an error
 				return message.channel.send('**ERROR!** could not find a planet in the given arguments.');
 			}
 
 			// iterate over each line.
-			const messageContents = [];
 			const promise = args.map((item, index) => {
 				return new Promise(async (resolve: (messageLine: string) => void, reject: (errorMessage: string) => void) => {
 					// identify the values that have been passed. Will return objects for Planets and Materials.
@@ -47,6 +70,9 @@ export default class SetDemand implements Command {
 					if(!queryValues.number && user.hasFIO) {
 						queryValues.number = [0];
 					}
+
+					// each line of arguments can specifiy a planet that may be different then the first line. If it doesn't, use the first line planet.
+					const planet = queryValues.planet ? queryValues.planet[0] : firstPlanet;
 
 					if (!queryValues.material) {
 						reject(`**ERROR!** in line ${index + 1}: improperly formatted or missing material (${item})`);
@@ -108,7 +134,7 @@ export default class SetDemand implements Command {
 			Promise.allSettled(promise).then((result) => {
 				const rejected = result.map(r => { return (r.status === 'rejected') ? r.reason : '' });
 				const successful = result.map(r =>{ return (r.status === 'fulfilled') ? r.value : ''});
-				
+
 				const messageContents = rejected.concat(successful).filter(v => v !== '')
 				const splitMessage = Util.splitMessage(messageContents.join('\n'));
 

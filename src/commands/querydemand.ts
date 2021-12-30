@@ -10,6 +10,9 @@ import { Inventory } from "../entity/Inventory";
 import { User, UserRole } from "../entity/User";
 import { InvWithPrice } from "../nonDBEntity/InventoryWithPrice";
 import { queryValue } from "../types/queryValue";
+import winston = require("winston");
+
+const logger = winston.loggers.get('logger')
 
 function FIOUserFilter(arr, query) {
 	return arr.filter(function(item) {
@@ -47,7 +50,6 @@ export default class QueryDemand implements Command {
         demands.queryDemand(queryValues, corp)
             .then((result) => {
                 demandResults = result;
-                console.log('Inventory lines returned: ' + demandResults.length);
                 const distinctUsers = [...new Set(result.map(x => x.user))];
                 return fio.updateUserData(distinctUsers);
             })
@@ -58,13 +60,13 @@ export default class QueryDemand implements Command {
                         FIOResults[item.value.id] = item.value;
                     }
                     else {
+                        logger.warn("Rejected item from FIO update", {messageID: message.id, messageGuild: message.guild, user, args, FIOitem: item});
                         errors.push(item.reason);
                     }
                 });
                 if(errors.length > 0) {
                     message.channel.send(errors.join('\n'));
                 }
-                console.log(FIOResults);
                 // parse a new message with the results
                 return new Promise<string[]>((resolve) => {
                     const messageContents: string[] = [];
@@ -106,7 +108,7 @@ export default class QueryDemand implements Command {
                                     FIOTimestamp = Date.parse(fioData.storageData[item.planet.id].timestamp + 'Z');
                                 }
                                 catch(e) {
-                                    console.log(e);
+                                    logger.warn('FIO quantity issue', {messageID: message.id, messageGuild: message.guild, user, args, databaseItem: item});
                                     FIOStatus = '🔸';
                                     item.quantity = -item.quantity;
                                 }
@@ -149,7 +151,7 @@ export default class QueryDemand implements Command {
             }).catch(function(error) {
                 // catch any errors that pop up.
                 message.channel.send('Error! ' + error);
-                console.log(error);
+                logger.error('Demand promise error', {messageID: message.id, messageGuild: message.guild, user, args, error});
             });
 	};
 };

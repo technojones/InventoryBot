@@ -3,6 +3,9 @@ import { Command, Execute } from "../classes/Command";
 import { FIO } from "../classes/FIO";
 import { Material } from "../entity/Material";
 import { User, UserRole } from "../entity/User";
+import winston = require("winston");
+
+const logger = winston.loggers.get('logger')
 
 export default class RefreshFIO implements Command {
     name: string = 'refreshfio';
@@ -22,13 +25,13 @@ export default class RefreshFIO implements Command {
             fio.refreshCorpData(corp).then(() => {
                 message.channel.send('FIO data updated successfully');
             }).catch(e => {
-                console.log(e);
-                message.channel.send('There was an issue updating FIO ' + e)
+                logger.error('FIO refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
+                message.channel.send('There was an issue updating FIO');
             })
         }
         catch(e) {
-            console.log (e);
+            logger.error('FIO refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
+            message.channel.send('There was an issue updating FIO');
         }
-
     };
 }

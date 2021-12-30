@@ -9,6 +9,10 @@ import { Price } from "../entity/Price";
 import { User, UserRole } from "../entity/User";
 import { queryValue } from "../types/queryValue";
 
+import winston = require("winston");
+
+const logger = winston.loggers.get('logger')
+
 function FIOUserFilter(arr, query) {
 	return arr.filter(function(item) {
 		return item.userid === query;
@@ -43,7 +47,6 @@ export default class QueryPrices implements Command {
         prc.queryPrices(queryValues, corp)
             .then((result) => {
                 databaseResults = result;
-                console.log('Inventory lines returned: ' + databaseResults.length);
                 // parse a new message with the results
                 return new Promise<string[]>((resolve) => {
                     const messageContents: string[] = [];
@@ -101,7 +104,7 @@ export default class QueryPrices implements Command {
             }).catch(function(error) {
                 // catch any errors that pop up.
                 message.channel.send('Error! ' + error);
-                console.log(error);
+                logger.error('Prices promise error', {messageID: message.id, messageGuild: message.guild, user, args, error});
             });
 	};
 };
