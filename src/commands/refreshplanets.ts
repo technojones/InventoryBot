@@ -25,7 +25,7 @@ export default class RefreshPlanets implements Command {
             allPlanets = await fio.getAllPlanets();
         }
         catch (e) {
-            logger.error('Planet refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
+            logger.error('Planet refresh error', {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, e});
             return message.channel.send('There was an error updating the planet list');
         }
         const planetList: Planet[] = [];
@@ -50,7 +50,7 @@ export default class RefreshPlanets implements Command {
             await connection.manager.getRepository(Planet).save(planetList);
         }
         catch(e) {
-            logger.error('Planet refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
+            logger.error('Planet refresh error', {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, e});
             return message.channel.send('There was an issue refreshing the Planet data.')
         }
         message.channel.send('Planet information updated successfully');

@@ -8,6 +8,7 @@ import Inventories from "../classes/inventories";
 import { Corp } from "../entity/Corp";
 import { FIOData } from "../entity/FIOData";
 import { Inventory } from "../entity/Inventory";
+import { PlanetNickname } from "../entity/PlanetNickname";
 import { User, UserRole } from "../entity/User";
 import { InvWithPrice } from "../nonDBEntity/InventoryWithPrice";
 import { queryValue } from "../types/queryValue";
@@ -43,7 +44,7 @@ export default class QueryInventory implements Command {
         }
 
 
-		const queryValues:queryValue = await f.idArgs(args[0]);
+		const queryValues:queryValue = await f.idArgs(args[0], corp);
 		let databaseResults: InvWithPrice[];
 		const FIOResults: User[] = [];
 
@@ -54,6 +55,7 @@ export default class QueryInventory implements Command {
         }
 
         const inv = new Inventories();
+		const nicknames = connection.manager.getRepository(PlanetNickname).find({where: {corp}});
         inv.queryInvWithPrice(queryValues, corp)
             .then((result) => {
                 databaseResults = result;
@@ -68,7 +70,7 @@ export default class QueryInventory implements Command {
                         FIOResults[item.value.id] = item.value;
                     }
                     else {
-                        logger.warn("Rejected item from FIO update", {messageID: message.id, messageGuild: message.guild, user, args, FIOitem: item});
+                        logger.warn("Rejected item from FIO update", {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, FIOitem: item});
                         errors.push(item.reason);
                     }
                 });
@@ -76,7 +78,7 @@ export default class QueryInventory implements Command {
                     message.channel.send(errors.join('\n'));
                 }
                 // parse a new message with the results
-                return new Promise<string[]>((resolve) => {
+                return new Promise<string[]>(async (resolve) => {
                     const messageContents:string[] = [];
                     if (databaseResults.length === 0) {
                         // if no results in the database, return a message indicating as such.
@@ -87,9 +89,20 @@ export default class QueryInventory implements Command {
                         // if there are results, sort through them
                         let lastGroup;
                         const length = databaseResults.length;
+						const resolvedNicknames = await nicknames;
                         databaseResults.forEach(async (item, index) => {
                             // for every item, get the price and terms. This also catagorizes the results by user, adding a header at each new user encountered.
-                            const planet = item.planet.name;
+                            let planet = item.planet.name;
+							// find nicknames for planets that are not named
+							if(planet.match(/^\w{2}[-]\d{3}\w/)) {
+								const foundNickname = resolvedNicknames.find(i => i.planet.id === planet);
+								if(foundNickname) {
+									planet = foundNickname.nickname;
+									planet += `(${item.planet.id})`;
+									item.planet.name = planet;
+								}
+							}
+
                             let groupBy;
                             if(queryValues.planet) {
                                 groupBy = 'user';
@@ -115,7 +128,6 @@ export default class QueryInventory implements Command {
                                     FIOTimestamp = Date.parse(fioData.storageData[item.planet.id].timestamp + 'Z');
                                 }
                                 catch(e) {
-                                    logger.warn('FIO quantity issue', {messageID: message.id, messageGuild: message.guild, user, args, databaseItem: item});
                                     FIOStatus = '🔸';
                                     item.quantity = -item.quantity;
                                 }
@@ -127,9 +139,9 @@ export default class QueryInventory implements Command {
                                     messageContents.push('**' + item[groupBy].name + '**');
                                 }
                                 // Form the line starting with quantity
-                                let thisLine = ('` ' + (FIOQuantity - item.quantity));
+                                let thisLine = ('`' + String(FIOQuantity - item.quantity).padStart(5, ' '));
                                 // then material name
-                                thisLine += (' ' + item.material.ticker);
+                                thisLine += (' ' + item.material.ticker.padEnd(3, ' '));
                                 // if the grouping is not by planet, specify the planet.
                                 if(groupBy!=='planet') thisLine += (' on ' + planet);
                                 // if the grouping is not by user, specify the user
@@ -143,9 +155,9 @@ export default class QueryInventory implements Command {
                                     // if the user is different, add the header.
                                     messageContents.push('**' + item[groupBy].name + '**');
                                 }
-                                let thisLine = ('` ' + item.quantity);
+                                let thisLine = ('`' + String(item.quantity).padStart(5, ' '));
                                 // then material name
-                                thisLine += (' ' + item.material.ticker);
+                                thisLine += (' ' + item.material.ticker.padEnd(3, ' '));
                                 // if the grouping is not by planet, specify the planet.
                                 if(groupBy!=='planet') thisLine += (' on ' + planet);
                                 // if the grouping is not by user, specify the user
@@ -173,7 +185,7 @@ export default class QueryInventory implements Command {
             }).catch(function(error) {
                 // catch any errors that pop up.
                 message.channel.send('Error! ' + error);
-                logger.error('Inventory promise error', {messageID: message.id, messageGuild: message.guild, user, args, error});
+                logger.error('Inventory promise error', {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, error});
             });
 	};
 };

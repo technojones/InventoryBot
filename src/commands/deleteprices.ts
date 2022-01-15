@@ -20,7 +20,7 @@ export default class DeletePrices implements Command {
     execute: Execute = async function(message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null) {
         const f = new Functions(connection);
 
-		const queryValues:queryValue = await f.idArgs(args[0]);
+		const queryValues:queryValue = await f.idArgs(args[0], corp);
 
 		queryValues.user = [user];
 

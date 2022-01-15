@@ -25,12 +25,12 @@ export default class RefreshFIO implements Command {
             fio.refreshCorpData(corp).then(() => {
                 message.channel.send('FIO data updated successfully');
             }).catch(e => {
-                logger.error('FIO refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
+                logger.error('FIO refresh error', {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, e});
                 message.channel.send('There was an issue updating FIO');
             })
         }
         catch(e) {
-            logger.error('FIO refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
+            logger.error('FIO refresh error', {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, e});
             message.channel.send('There was an issue updating FIO');
         }
     };

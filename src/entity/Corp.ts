@@ -9,10 +9,10 @@ export class Corp {
     @Column()
     name: string;
 
-    @Column({type: "varchar", length: 3})
+    @Column({type: "varchar", length: 3, nullable: true })
     prefix: string;
 
-    @Column({ type: "json" })
+    @Column({ type: "json", nullable: true })
     boards: {inventory?: string[]
         orders?: string[]};
 

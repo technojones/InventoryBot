@@ -69,11 +69,16 @@ process.on('uncaughtException', async err => {
 	console.log(`Uncaught Exception: ${err.message}`)
 	console.log(err.stack);
 	logger.error("Uncaught Exception", {error: err.message, stack: err.stack});
-	if(client.uptime > 0) {
-		await client.user.setPresence({activities: [{type: 'PLAYING', name: 'dead'}]});
-		const textChannel = await client.channels.cache.get('837490337156038656') as Discord.TextChannel
-		await textChannel.send('I\'ve encountered an error and am shutting down');
-		client.destroy();
+	try {
+		if(client.uptime > 0) {
+			await client.user.setPresence({activities: [{type: 'PLAYING', name: 'dead'}]});
+			const textChannel = await client.channels.cache.get('837490337156038656') as Discord.TextChannel
+			await textChannel.send('I\'ve encountered an error and am shutting down');
+			client.destroy();
+		}
+	}
+	catch {
+		console.log('Did not shut down cleanly');
 	}
 	setTimeout(() => {
 		process.exit(1)
@@ -107,7 +112,7 @@ client.on('messageCreate', async message => {
 		else msgCorp = await connection.manager.getRepository(Corp).findOne({where: {id: message.guild.id}});
 	}
 	catch(e) {
-		logger.error("Error retreiving corp data", {messageID: message.id, messageGuild: message.guild, user: msgUser.name});
+		logger.error("Error retreiving corp data", {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user: msgUser.name});
 		await message.channel.send('There was an issue retriving the corp data from the database.');
 		return;
 	}
@@ -166,12 +171,12 @@ client.on('messageCreate', async message => {
 		// if the user is not assigned a corp, and they are trying to add a corp, give them temporary LEAD status.
 		if(!msgUser.corp && command.name === 'addcorp' && message.guild.members.resolve(message.author.id).permissions.has('MANAGE_GUILD')) {
 			msgUser.role = UserRole.LEAD;
-			logger.info("adding corp", {messageID: message.id, messageGuild: message.guild, command: command.name, user: msgUser.name, args});
+			logger.info("adding corp", {messageID: message.id, messageGuild: message.guild.id, command: command.name, user: msgUser.name, args});
 		}
 		// If there is no corp assigned to this channel, or the user doesn't have a corp, or there is a mismatch between the channel's corp and the user corp, then set the public role
 		else if(!msgCorp || !msgUser.corp || msgUser.corp.id !== msgCorp.id) {
 			msgUser.role = UserRole.PUBLIC;
-			logger.info("corp mismatch, applying public role", {messageID: message.id, messageGuild: message.guild, command: command.name, user: msgUser.name, args});
+			logger.info("corp mismatch, applying public role", {messageID: message.id, messageGuild:  message.guild.id, command: command.name, user: msgUser.name, args});
 		}
 	}
 
@@ -195,11 +200,11 @@ client.on('messageCreate', async message => {
 
 	// Execute the command
 	try {
-		logger.http("Executing Command", {messageID: message.id, messageGuild: message.guild, command: command.name, user: msgUser.name, args});
+		logger.http("Executing Command", {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", messageCorp: msgCorp.id, command: command.name, user: msgUser.name, args});
 		command.execute(message, args, connection, msgUser, msgCorp);
 	}
 	catch (error) {
-		logger.error("Error executing command", {messageID: message.id, messageGuild: message.guild, command: command.name, user: msgUser.name, args});
+		logger.error("Error executing command", {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", messageCorp: msgCorp.id, command: command.name, user: msgUser.name, args});
 		message.reply('There was an error trying to execute that command!');
 	}
 });

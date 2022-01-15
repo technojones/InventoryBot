@@ -6,9 +6,11 @@ import { queryValue } from '../types/queryValue';
 import * as parse from 'csv-parse';
 import * as https from 'https';
 import { MessageAttachment } from 'discord.js';
+import { Corp } from '../entity/Corp';
+import { PlanetNickname } from '../entity/PlanetNickname';
 
 
-type identifiedType = "planet" | "user_id" | "number" | "material" | "user" | "user_id" | "discord_mention" | null;
+type identifiedType = "planet" | "user_id" | "number" | "material" | "user" | "user_id" | "discord_mention" | "uncatagorized" | null;
 
 type idReturn = {
 	type: identifiedType | null
@@ -53,10 +55,10 @@ export default class Functions {
 		]});
 		return planetQuery.name;
 	};
-	async idArgs(args: string []):Promise<queryValue> {
+	async idArgs(args: string [], corp?: Corp):Promise<queryValue> {
 		const queryValues: queryValue = {};
 		await this.asyncForEach(args, async value => {
-			const identified = await this.id(value);
+			const identified = await this.id(value, corp);
 			if(identified) {
 				if(queryValues[identified.type]) {
 					queryValues[identified.type].push(identified.value);
@@ -68,7 +70,7 @@ export default class Functions {
 		});
 		return queryValues;
 	}
-	async id(value: string): Promise<idReturn> {
+	async id(value: string, corp?: Corp): Promise<idReturn> {
 		const returned: idReturn = {
 			"type": null,
 			"value": null
@@ -86,6 +88,12 @@ export default class Functions {
 					{ truncatedName: value.toLowerCase() },
 					{ id: this.uppercasePlanetID(value) }
 				]});
+				if(!searchPlanet && corp) {
+					const planetNickname = await this.con.manager.getRepository(PlanetNickname).findOne({where: {nickname: Like(value.toLowerCase()), corp}});
+					if(planetNickname) {
+						searchPlanet = planetNickname.planet;
+					}
+				}
 				searchMat = await this.con.manager.getRepository(Material).findOne({where: {ticker: value.toLowerCase()}});
 				searchUsers = await this.con.manager.getRepository(User).findOne({ where: [
 					{ name: Like(value) },
@@ -126,6 +134,10 @@ export default class Functions {
 			else if (searchMat) {
 				returned.type = 'material';
 				returned.value = searchMat;
+			}
+			else {
+				returned.type = 'uncatagorized';
+				returned.value = value;
 			}
 			resolve(returned);
 		});

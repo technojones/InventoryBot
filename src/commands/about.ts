@@ -6,6 +6,7 @@ import Functions from "../classes/functions";
 import Inventories from "../classes/inventories";
 import Prices from "../classes/prices";
 import { Corp } from "../entity/Corp";
+import { PlanetNickname } from "../entity/PlanetNickname";
 import { User, UserRole } from "../entity/User";
 
 
@@ -26,14 +27,19 @@ export default class About implements Command {
         if(args[0].includes('corp')) {
             if(user.corp.id === corp.id) {
                 const corpUsers = await connection.manager.getRepository(User).find({where:{ corp }});
-                messageContents.push('**Showing information for ' + corp.name + '**');
-                messageContents.push('Prefix: ' + (corp.prefix ? corp.prefix : '! (default)'));
-                messageContents.push('The following users are registered as part of your corp:');
+                messageContents.push('**Showing information for "' + corp.name + '"**');
+                messageContents.push('**Prefix:** ' + (corp.prefix ? corp.prefix : '! (default)'));
+                messageContents.push('**The following users are registered as part of your corp:**');
                 corpUsers.forEach(u => {
                     if(u.name) {
-                        messageContents.push('  ' + u.name + (u.role >= UserRole.LEAD ? ' (lead)' : ''));
+                        messageContents.push('  ' + u.name + (u.role >= UserRole.LEAD ? ' *(lead)*' : ''));
                     }
                 })
+				messageContents.push('**You have registered the following nicknames for planets:**');
+				let nicknames = await connection.manager.getRepository(PlanetNickname).find({where: {corp}});
+				nicknames.forEach(n => {
+					messageContents.push(`  ${n.planet.name}: ${n.nickname}`)
+				});
             }
             else {
                 messageContents.push('**Showing public information for ' + corp.name + '**');

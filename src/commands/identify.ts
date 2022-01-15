@@ -15,7 +15,7 @@ export default class Identify implements Command {
     usage: string = 'A string to be scanned by the bot';
     execute: Execute = async function(message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null) {
         const functions = new Functions(connection);
-        const identified = await functions.id(args[0][0]);
+        const identified = await functions.id(args[0][0], corp);
         // const messageContents = [];
         if(identified.type === 'user') {
             const idUser: any = identified.value

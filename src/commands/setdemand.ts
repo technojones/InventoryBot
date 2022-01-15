@@ -25,7 +25,7 @@ export default class SetDemand implements Command {
 		// first off, determine if there is a planet in the first line of arguments. This will apply for both CSV and regular arguments.
 		if(args) {
 			// identify all the first line arguments
-			const firstLineArgs: queryValue = await functions.idArgs(args[0]);
+			const firstLineArgs: queryValue = await functions.idArgs(args[0], corp);
 			// If planet is a friendly name, return the designation
 			if (firstLineArgs.planet) {
 				firstPlanet = firstLineArgs.planet[0];
@@ -39,7 +39,7 @@ export default class SetDemand implements Command {
 				args = await functions.CSVtoArgs(message.attachments.first());
 
 				// seperate the first line to check for a planet and if it exists set that planet as the target.
-				const firstLineArgs: queryValue = await functions.idArgs(args[0]);
+				const firstLineArgs: queryValue = await functions.idArgs(args[0], corp);
 
 				if (firstLineArgs.planet) {
 					firstPlanet = firstLineArgs.planet[0];
@@ -65,7 +65,7 @@ export default class SetDemand implements Command {
 			const promise = args.map((item, index) => {
 				return new Promise(async (resolve: (messageLine: string) => void, reject: (errorMessage: string) => void) => {
 					// identify the values that have been passed. Will return objects for Planets and Materials.
-					const queryValues:queryValue = await functions.idArgs(item);
+					const queryValues:queryValue = await functions.idArgs(item, corp);
 
 					if(!queryValues.number && user.hasFIO) {
 						queryValues.number = [0];

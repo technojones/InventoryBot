@@ -11,6 +11,7 @@ import { User, UserRole } from "../entity/User";
 import { InvWithPrice } from "../nonDBEntity/InventoryWithPrice";
 import { queryValue } from "../types/queryValue";
 import winston = require("winston");
+import { PlanetNickname } from "../entity/PlanetNickname";
 
 const logger = winston.loggers.get('logger')
 
@@ -36,7 +37,7 @@ export default class QueryDemand implements Command {
         const fio = new FIO(connection);
 
 
-		const queryValues:queryValue = await f.idArgs(args[0]);
+		const queryValues:queryValue = await f.idArgs(args[0], corp);
 		let demandResults: InvWithPrice[];
 		const FIOResults: User[] = [];
 
@@ -47,6 +48,7 @@ export default class QueryDemand implements Command {
         }
 
         const demands = new Demands();
+		const nicknames = connection.manager.getRepository(PlanetNickname).find({where: {corp}});
         demands.queryDemand(queryValues, corp)
             .then((result) => {
                 demandResults = result;
@@ -61,7 +63,7 @@ export default class QueryDemand implements Command {
                         FIOResults[item.value.id] = item.value;
                     }
                     else {
-                        logger.warn("Rejected item from FIO update", {messageID: message.id, messageGuild: message.guild, user, args, FIOitem: item});
+                        logger.warn("Rejected item from FIO update", {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, FIOitem: item});
                         errors.push(item.reason);
                     }
                 });
@@ -69,7 +71,7 @@ export default class QueryDemand implements Command {
                     message.channel.send(errors.join('\n'));
                 }
                 // parse a new message with the results
-                return new Promise<string[]>((resolve) => {
+                return new Promise<string[]>(async (resolve) => {
                     const messageContents: string[] = [];
                     if (demandResults.length === 0) {
                         // if no results in the database, return a message indicating as such.
@@ -80,9 +82,22 @@ export default class QueryDemand implements Command {
                         // if there are results, sort through them
                         let lastGroup;
                         const length = demandResults.length;
+						const resolvedNicknames = await nicknames;
                         demandResults.forEach(async (item, index) => {
                             // for every item, get the price and terms. This also catagorizes the results by user, adding a header at each new user encountered.
-                            const planet = item.planet.name;
+                            let planet = item.planet.name;
+
+							// find nicknames for planets that are not named
+							if(planet.match(/^\w{2}[-]\d{3}\w/)) {
+								const foundNickname = resolvedNicknames.find(i => i.planet.id === planet);
+								if(foundNickname) {
+									planet = foundNickname.nickname;
+									planet += `(${item.planet.id})`;
+									item.planet.name = planet;
+								}
+							}
+
+
                             let groupBy;
                             if(queryValues.planet) {
                                 groupBy = 'user';
@@ -109,7 +124,6 @@ export default class QueryDemand implements Command {
                                     FIOTimestamp = Date.parse(fioData.storageData[item.planet.id].timestamp + 'Z');
                                 }
                                 catch(e) {
-                                    logger.warn('FIO quantity issue', {messageID: message.id, messageGuild: message.guild, user, args, databaseItem: item});
                                     FIOStatus = '🔸';
                                     item.quantity = -item.quantity;
                                 }
@@ -121,8 +135,8 @@ export default class QueryDemand implements Command {
                                     messageContents.push('**' + item[groupBy].name + '**');
                                 }
                                 const quantityNeeded = item.quantity - FIOQuantity;
-                                let thisLine = ('` ' + (quantityNeeded > 0 ? quantityNeeded : 0));
-                                thisLine += (' ' + item.material.ticker);
+                                let thisLine = ('`' + String(quantityNeeded > 0 ? quantityNeeded : 0).padStart(5, ' '));
+                                thisLine += (' ' + item.material.ticker.padEnd(3, ' '));
                                 // if the grouping is not by user, specify the user
                                 if(groupBy!=='user') thisLine += (' needed by ' + item.user.name);
                                 else {
@@ -152,7 +166,7 @@ export default class QueryDemand implements Command {
             }).catch(function(error) {
                 // catch any errors that pop up.
                 message.channel.send('Error! ' + error);
-                logger.error('Demand promise error', {messageID: message.id, messageGuild: message.guild, user, args, error});
+                logger.error('Demand promise error', {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, error});
             });
 	};
 };

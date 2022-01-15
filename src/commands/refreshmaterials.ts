@@ -25,7 +25,7 @@ export default class RefreshMaterials implements Command {
             materials = await fio.getMaterials();
         }
         catch (e) {
-            logger.error('Material refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
+            logger.error('Material refresh error', {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, e});
             return message.channel.send('There was an error updating the material list');
         }
         const materialList: Material[] = [];
@@ -47,7 +47,7 @@ export default class RefreshMaterials implements Command {
         }
         catch (e) {
             message.channel.send('There was an error updating the material list');
-            logger.error('Material Database refresh error', {messageID: message.id, messageGuild: message.guild, user, args, e});
+            logger.error('Material Database refresh error', {messageID: message.id, messageGuild: message.channel.type !== "DM" ? message.guild.id : "DM", user, args, e});
         }
     }
 }
