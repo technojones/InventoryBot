@@ -13,7 +13,7 @@ type building = {
     BuildingTicker: string,
     Condition: number
 }
-type siteData = {
+export type siteData = {
     Buildings: building[],
     SiteId: string,
     PlanetId: string,

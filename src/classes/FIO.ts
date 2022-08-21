@@ -4,7 +4,7 @@ import { Connection } from 'typeorm';
 import { FIOData } from '../entity/FIOData';
 import { User } from '../entity/User';
 
-import { sitesPayload } from '../types/sites';
+import { siteData, sitesPayload } from '../types/sites';
 import { warehousePayload } from '../types/warehouses';
 import { storagePayload } from '../types/storage';
 import { Corp } from '../entity/Corp';
@@ -340,7 +340,7 @@ export class FIO {
                 let assembled = {};
 
                 let storage: storagePayload;
-                let siteResult: sitesPayload;
+                let siteResult: siteData[];
                 let warResult: warehousePayload;
 
                 // get storage data
@@ -359,9 +359,9 @@ export class FIO {
                     siteAndWarRequests.then(siteAndWarResult => {
                         siteResult = siteAndWarResult[0];
                         warResult = siteAndWarResult[1];
-
+                        console.log(siteAndWarResult);
                         // now that we have the site results, we can process the data.
-                        siteResult.Sites.forEach(siteItem => {
+                        siteResult.forEach(siteItem => {
                             item.siteData[siteItem.SiteId] = siteItem.PlanetIdentifier;
                         });
                         warResult.forEach(function(warItem) {
@@ -420,7 +420,7 @@ export class FIO {
                 let assembled = {};
 
                 let storage: storagePayload;
-                let siteResult: sitesPayload;
+                let siteResult: siteData[];
                 let warResult: warehousePayload;
 
                 // get storage data
@@ -439,9 +439,9 @@ export class FIO {
                     await siteAndWarRequests.then(siteAndWarResult => {
                         siteResult = siteAndWarResult[0];
                         warResult = siteAndWarResult[1];
-
+                        console.log(siteAndWarResult[0]);
                         // now that we have the site results, we can process the data.
-                        siteResult.Sites.forEach(siteItem => {
+                        siteResult.forEach(siteItem => {
                             item.siteData[siteItem.SiteId] = siteItem.PlanetIdentifier;
                         });
                         warResult.forEach(warItem => {
@@ -508,7 +508,7 @@ export class FIO {
                 let assembled = {};
 
                 let storage: storagePayload;
-                let siteResult: sitesPayload;
+                let siteResult: siteData[];
                 let warResult: warehousePayload;
 
                 // if the site data is out of date, get new site data as well
@@ -522,7 +522,7 @@ export class FIO {
                     storage = siteAndWarResult[2];
 
                     // now that we have the site results, we can process the data.
-                    siteResult.Sites.forEach(siteItem => {
+                    siteResult.forEach(siteItem => {
                         item.siteData[siteItem.SiteId] = siteItem.PlanetIdentifier;
                     });
                     warResult.forEach(warItem => {
@@ -569,7 +569,7 @@ export class FIO {
                 let assembled = {};
 
                 let storage: storagePayload;
-                let siteResult: sitesPayload;
+                let siteResult: siteData[];
                 let warResult: warehousePayload;
 
                 // if the site data is out of date, get new site data as well
@@ -582,7 +582,7 @@ export class FIO {
                     warResult = siteAndWarResult[1];
                     storage = siteAndWarResult[2];
                     // now that we have the site results, we can process the data.
-                    siteResult.Sites.forEach(siteItem => {
+                    siteResult.forEach(siteItem => {
                         item.siteData[siteItem.SiteId] = siteItem.PlanetIdentifier;
                     });
                     warResult.forEach(function(warItem) {

@@ -6,7 +6,7 @@
    "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
       "build": "tsc --build",
-      "start": "nvm run 16 dist/index"
+      "start": "node ./dist/."
    },
    "author": "",
    "license": "ISC",
