@@ -31,20 +31,28 @@ export default class UpdateUser implements Command {
             return message.channel.send('I did not find a user to update');
         }
 		if (messageUser) {
-
 			// Check to see if the 'lead' keyword was used. If so, and the requester was also a lead or greater, assign the lead role to the new user.
-			if(args[0].includes('lead') && user.role >= UserRole.LEAD) {
-				messageUser.role = UserRole.LEAD;
-				// if a discord user was mentioned to update, then apply their role and return. No need to ask for more information
-				if(message.mentions.users.first()) {
-					try {
-						await con.manager.getRepository(User).save(messageUser);
-						return message.channel.send('I have updated ' + messageUser.name  + ' to lead status');
-					}
-					catch(e) {
-						return message.channel.send('There was an error updating ' + messageUser.name  + ' to lead status');
+			// .toLowerCase doesn't work on an array, so check for common capitalization variences. There's probably a better way to do this.
+			if(args[0].includes('lead') || args[0].includes('Lead') || args[0].includes('LEAD')) {
+				if(user.role >= UserRole.LEAD)
+				{
+					messageUser.role = UserRole.LEAD;
+					// if a discord user was mentioned to update, then apply their role and return. No need to ask for more information
+					if(message.mentions.users.first()) {
+						try {
+							await con.manager.getRepository(User).save(messageUser);
+							return message.channel.send('I have updated ' + messageUser.name  + ' to lead status');
+						}
+						catch(e) {
+							return message.channel.send('There was an error updating ' + messageUser.name  + ' to lead status');
+						}
 					}
 				}
+				else
+				{
+					return message.channel.send('You don\'t have permission to promote another user to the lead role.');
+				}
+
 			}
 
             if(message.channel.type !== 'DM') {
