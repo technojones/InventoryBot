@@ -22,6 +22,10 @@ export default class RemoveUser implements Command {
                 if(Array.isArray(arg))
                 {
                     for(const a of arg) {
+                        if(u.name === null) {
+                            break;
+                        }
+
                         if(u.name.toLowerCase().includes(a.toLowerCase()) && u.role <= user.role) {
                             result.push(u);
                             break;
