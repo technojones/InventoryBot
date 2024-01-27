@@ -3,6 +3,7 @@ import * as https from 'https';
 import { Connection } from 'typeorm';
 import { FIOData } from '../entity/FIOData';
 import { User } from '../entity/User';
+import winston = require("winston");
 
 import { siteData, sitesPayload } from '../types/sites';
 import { warehousePayload } from '../types/warehouses';
@@ -93,9 +94,11 @@ export class FIO {
 
     }
     private requestOptions(options: object) {
+        const logger = winston.loggers.get('logger')
         return new Promise((resolve: (value: any) => void, reject: (error: string) => void,) => {
-
+            logger.http("FIO: requestOptions Request", {options});
             const req = https.request(options, (res) => {
+                logger.http("FIO: requestOptions Response", res.statusCode, res.headers);
                 let str = '';
                 // console.log(`STATUS: ${res.statusCode}`);
                 // console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
@@ -131,6 +134,9 @@ export class FIO {
 					else if(res.statusCode === 401) {
 						return reject('401: Authentication error. Please double check that storage and site permissions are set');
 					}
+                    else {
+                        return reject('FIO error: ' + res.statusCode);
+                    }
                 });
             });
 
