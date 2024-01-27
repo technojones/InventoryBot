@@ -13,7 +13,7 @@ import { User, UserRole } from "../entity/User";
 import { InvWithPrice } from "../nonDBEntity/InventoryWithPrice";
 import { queryValue } from "../types/queryValue";
 
-const logger = winston.loggers.get('logger')
+
 
 function FIOUserFilter(arr, query) {
 	return arr.filter(function(item) {
@@ -36,6 +36,7 @@ export default class QueryInventory implements Command {
 	aliases: string[] = ['queryi', 'queryinv', 'qi'];
 	usage: string ='<planet> and/or <mat> - can search for multiple values. If left blank, will return all of your inventory';
 	execute: Execute = async (message: Message, args: string[][], connection: Connection, user: User, corp: Corp | null) => {
+        const logger = winston.loggers.get('logger')
         const f = new Functions(connection);
         const fio = new FIO(connection);
 
@@ -60,7 +61,10 @@ export default class QueryInventory implements Command {
             .then((result) => {
                 databaseResults = result;
                 console.log('Inventory lines returned: ' + databaseResults.length);
-                const distinctUsers = [...new Set(result.filter(x => x.user.hasFIO).map(x => x.user))];
+                logger.http("Query Inventory database result", {messageID: message.id, result});
+                const key = "id"
+                const distinctUsers = [...new Map(result.filter(x => x.user.hasFIO).map(x => [x.user[key], x.user])).values()];
+                logger.http("QI: Distinct FIO users", {messageID: message.id, distinctUsers});
                 return fio.updateUserData(distinctUsers);
             })
             .then((result) => {
@@ -77,6 +81,7 @@ export default class QueryInventory implements Command {
                 if(errors.length > 0) {
                     message.channel.send(errors.join('\n'));
                 }
+                logger.http("Query Inventory FIO Results", {messageID: message.id, FIOResults});
                 // parse a new message with the results
                 return new Promise<string[]>(async (resolve) => {
                     const messageContents:string[] = [];
@@ -90,6 +95,7 @@ export default class QueryInventory implements Command {
                         let lastGroup;
                         const length = databaseResults.length;
 						const resolvedNicknames = await nicknames;
+                        logger.http("Resolved Nicknames", {messageID: message.id, resolvedNicknames});
                         databaseResults.forEach(async (item, index) => {
                             // for every item, get the price and terms. This also catagorizes the results by user, adding a header at each new user encountered.
                             let planet = item.planet.name;
@@ -176,6 +182,8 @@ export default class QueryInventory implements Command {
                     }
                 });
             }).then((result) => {
+                logger.http("Query Inventory result", {messageID: message.id, result});
+
                 // send the message containing the results
                 const splitMessage = Util.splitMessage(result.join('\n'));
 
