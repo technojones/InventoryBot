@@ -5,8 +5,6 @@ import { Material } from "../entity/Material";
 import { User, UserRole } from "../entity/User";
 import winston = require("winston");
 
-const logger = winston.loggers.get('logger')
-
 export default class RefreshFIO implements Command {
     name: string = 'refreshfio';
     category = 'Corp';
@@ -16,6 +14,7 @@ export default class RefreshFIO implements Command {
     description: string = 'Refreshes FIO data for your corporation';
     usage: string = 'No arguments are taken for this command. It uses the corporation data of the current server or the user if it\'s a DM channel';
     execute: Execute = async (message:Message, args, connection, user, corp) => {
+        const logger = winston.loggers.get('logger')
         const fio = new FIO(connection);
 
         try {
