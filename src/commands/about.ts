@@ -24,6 +24,7 @@ export default class About implements Command {
         const demand = new Demands();
         const f = new Functions(connection);
         const messageContents: string[] = [];
+        let sendDM = false;
         if(args[0].includes('corp')) {
             if(user.corp.id === corp.id) {
                 const corpUsers = await connection.manager.getRepository(User).find({where:{ corp }});
@@ -47,6 +48,7 @@ export default class About implements Command {
             }
         }
         else {
+            sendDM = true; // Send a DM if it is retreiving user information, as the output is long.
             messageContents.push('**User:** ' + user.name);
             messageContents.push('**Company Code:** ' + user.companyCode);
 
@@ -124,7 +126,13 @@ export default class About implements Command {
 		const splitMessage = Util.splitMessage(messageContents.join('\n'));
 
 		splitMessage.forEach(m => {
-			message.channel.send(m);
+            if(sendDM) {
+                // Send a DM to the original author of the message if the sendDM flag is set
+                message.author.send(m);
+            }
+            else {
+			    message.channel.send(m);
+            }
 		});
     };
 }
