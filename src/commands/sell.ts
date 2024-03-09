@@ -90,6 +90,7 @@ export default class Sell implements Command {
                     resolve(messageContents);
                 }
                 else {
+                    messageContents.push('Here is a list of items you may be able to sell:');
                     // Process out the demand items, only leaving the items that have a positive demand
                     databaseResults.demand.map((demandItem) => {
                         let fioData: FIOData;
