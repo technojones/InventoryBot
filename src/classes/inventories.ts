@@ -15,11 +15,6 @@ export default class Inventories {
             planet?: FindOperator<unknown>
         } = {};
 
-        if(queryValues === {}) {
-            const users = await getConnection().getRepository(User).find({where: {corp}})
-            queryObject.user = In(users.map(u => u.id))
-        }
-
         if(queryValues.material) {
             queryObject.material = In(queryValues.material.map(mat => mat.ticker));
         }
@@ -41,26 +36,32 @@ export default class Inventories {
     }
     public async queryInvWithPrice(queryValues: queryValue, corp: Corp): Promise<InvWithPrice[]> {
         return new Promise(async (resolve, reject) => {
+            // Construct a query object that will be used to query the database
             const queryObject: {
                 material?: FindOperator<unknown>,
                 user?: FindOperator<unknown>,
                 planet?: FindOperator<unknown>
             } = {};
-			const users = await getConnection().getRepository(User).find({where: {corp}})
 
             if(queryValues.material) {
+                // Ensure materials are searched for by their ticker
                 queryObject.material = In(queryValues.material.map(mat => mat.ticker));
             }
             if(queryValues.user) {
+                // Ensure users are searched for by their ID
                 queryObject.user = In(queryValues.user.map(u => u.id));
             }
 			else {
+                // if no users are specified, include all of the corp users
+                const users = await getConnection().getRepository(User).find({where: {corp}})
 				queryObject.user = In(users.map(u => u.id))
 			}
             if(queryValues.planet) {
+                // Ensure Planets are searched for by their ID
                 queryObject.planet = In(queryValues.planet.map(p => p.id));
             }
 
+            // Query for both inventory and prices simultaneously 
             const results: Promise<[Inventory[], Price[]]> = Promise.all([getConnection().getRepository(Inventory).find({where: queryObject,
                 relations: ['user', 'user.corp'],
                 order: {
