@@ -10,8 +10,6 @@ import { FIO } from "../classes/FIO";
 import Inventories from "../classes/inventories";
 import { PlanetNickname } from "../entity/PlanetNickname";
 import { InvWithPrice } from "../nonDBEntity/InventoryWithPrice";
-import { Inventory } from "../entity/Inventory";
-import { Price } from "../entity/Price";
 import Demands from "../classes/demands";
 import { Demand } from "../entity/Demand";
 import { FIOData } from "../entity/FIOData";
@@ -19,7 +17,7 @@ import { FIOData } from "../entity/FIOData";
 
 export default class Sell implements Command {
     name: string = 'sell';
-    category = 'Utility';
+    category = 'Inventory';
     args: boolean = false;
     needCorp: boolean = true;
     permissions: UserRole = UserRole.USER;
