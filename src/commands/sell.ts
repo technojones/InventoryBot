@@ -23,8 +23,9 @@ export default class Sell implements Command {
     args: boolean = false;
     needCorp: boolean = true;
     permissions: UserRole = UserRole.USER;
-    description: string = 'This command will return a list of selling suggestions based on your current inventory and your Corp\'s demand';
-    usage: string = 'How the syntax is supposed to look';
+    description: string = `This command will return a list of selling suggestions based on your current inventory and your Corp\'s demand.
+    You can pass in materials, planets, and/or users to filter down the list of results, or leave it blank to return all available opportunities`;
+    usage: string = '<planet>, <mat>, and/or <user> - can search for multiple of each value. If left blank, will return matches for all of your inventory';
     execute: Execute = async (message:Message, args: string[][], connection: Connection, user: User, corp: Corp | null) => {
         const logger = winston.loggers.get('logger')
         const f = new Functions(connection);
@@ -37,16 +38,15 @@ export default class Sell implements Command {
         // Determine what was passed in on the first line
         const invQueryValues: queryValue = await f.idArgs(args[0], corp);
         const demandQueryValues:queryValue = invQueryValues;
-        let databaseResults: {demand: Demand[], inventory: InvWithPrice[]};
+        let databaseResults: {demand: Demand[], inventory: InvWithPrice[]} = {demand: [], inventory: []};
 		const FIOResults: User[] = [];
         
         const inv = new Inventories();
+        const demands = new Demands();
 		const nicknames = connection.manager.getRepository(PlanetNickname).find({where: {corp}});
 
         // We only want to return the inventory values of the user sending us the command
         invQueryValues.user = [user];
-        
-        const demands = new Demands();
 
         const results: Promise<[InvWithPrice[], Demand[]]> = Promise.all([inv.queryInvWithPrice(invQueryValues, corp), demands.queryDemand(demandQueryValues, corp)])
 
@@ -91,7 +91,7 @@ export default class Sell implements Command {
                 }
                 else {
                     // Process out the demand items, only leaving the items that have a positive demand
-                    databaseResults.demand.map((demandItem) => {
+                    let updatedDemand = databaseResults.demand.map((demandItem) => {
                         let fioData: FIOData;
                         // If user is FIO user, process the data that way
                         if(FIOResults[demandItem.user.id]) {
@@ -150,29 +150,37 @@ export default class Sell implements Command {
                         }
                         
                         if(invItem.quantity > 0) {
-                            var sellOppurtunities = databaseResults.demand.filter(demandItem => {
+                            var sellOppurtunities = updatedDemand.filter(demandItem => {
                                 // Filter the demand results to this planet and this material
                                 return demandItem.planet.id == invItem.planet.id && demandItem.material.ticker == invItem.material.ticker;
-                            })
-                            messageContents.push('**' + invItem.material.name + ' on ' + invItem.planet.name + '**');
-                            sellOppurtunities.forEach(oppurtunity => {
-                                let thisLine: string;
-                                if(oppurtunity.quantity > invItem.quantity) {
-                                    thisLine = `Sell all ${invItem.quantity} to ${oppurtunity.user.name}`;
-                                    if (invItem.price) {
-                                        thisLine += `  for ₡${invItem.price * invItem.quantity}`;
+                            });
+
+                            if(sellOppurtunities.length > 0) {
+                                messageContents.push('**' + invItem.material.ticker.toLocaleUpperCase() + ' on ' + invItem.planet.name + '**');
+
+                                sellOppurtunities.forEach(oppurtunity => {
+                                    let thisLine: string;
+                                    if(oppurtunity.quantity > invItem.quantity) {
+                                        thisLine = `Sell all ${invItem.quantity} to ${oppurtunity.user.name}`;
+                                        if (invItem.price) {
+                                            thisLine += `  for ₡${invItem.price * invItem.quantity}`;
+                                        }
                                     }
-                                }
-                                else {
-                                    thisLine = `Sell ${oppurtunity.quantity} to ${oppurtunity.user.name}`;
-                                    if (invItem.price) {
-                                        thisLine += `  for ₡${invItem.price * invItem.quantity}`;
+                                    else {
+                                        thisLine = `Sell ${oppurtunity.quantity} to ${oppurtunity.user.name}`;
+                                        if (invItem.price) {
+                                            thisLine += `  for ₡${invItem.price * oppurtunity.quantity}`;
+                                        }
                                     }
-                                }
-                                messageContents.push(thisLine);
-                            })
+                                    messageContents.push(thisLine);
+                                    });
+                            }
                         }
                     });
+
+                    if(messageContents.length === 0) {
+                        messageContents.push('I couldn\'t find any sale opportunities');
+                    }
 
                     resolve(messageContents);
                 }
